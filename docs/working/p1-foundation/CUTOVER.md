@@ -49,8 +49,12 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
   so the Worker could claim the apex.
 - [x] **Claude:** `routes` → `seanrusselldev.com`; `site`/`url`, robots.txt
   and `_headers` follow.
-- [ ] **Sean:** Worker → **Settings → Domains & Routes** → remove
-  `www.seanrusselldev.com` if the deploy left it. Then DNS → `www` A
+- [x] **Claude:** apex live with build `3bf52a5`: Let's Encrypt cert, all
+  pages 200, `/about` → `/about/` (307), 404 page, `http` → `https` (301),
+  canonical links on the bare domain, `workers.dev` now 404. The deploy also
+  removed the `www` custom domain and its record, so there was nothing to
+  clean up by hand.
+- [ ] **Sean:** DNS → `www` A
   `192.0.2.0`, **Proxied**; **Rules → Redirect Rules** → template "Redirect
   from WWW to root" (301, keep path and query).
 - [ ] **Claude:** check every combination of `http`/`https` and bare/`www`
