@@ -1,15 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
-import EntryCard from '../../components/EntryCard.astro';
+import IndexList from '../../components/IndexList.astro';
 import { published } from '../../lib/content';
 
 const entries = await published('work');
 ---
 
 <Base title="Work" description="Case studies: the problem, the decisions, and what came of them.">
-  <h1>Work</h1>
-  <p class="prose muted">Case studies: the problem, the constraints, the decisions, and what came of them.</p>
-  <ul class="cards">
-    {entries.map((e) => <EntryCard href={`/work/${e.id}/`} title={e.data.title} summary={e.data.summary} tags={e.data.stack.slice(0, 4)} badge={e.data.draft ? 'draft' : undefined} />)}
-  </ul>
+  <div class="page">
+    <header class="stack">
+      <h1>Work</h1>
+      <p class="muted intro">Case studies: the problem, the constraints, the decisions, and what came of them.</p>
+    </header>
+    <IndexList rows={entries.map((e) => ({ href: `/work/${e.id}/`, title: e.data.title, summary: e.data.summary, meta: e.data.area, draft: e.data.draft }))} />
+  </div>
 </Base>
+
+<style>
+  .intro { max-width: 52ch; }
+</style>

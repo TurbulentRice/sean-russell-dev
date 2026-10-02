@@ -1,66 +1,178 @@
-/* Placeholder design system: tokens first, so the real one (P1 slice 2)
-   changes values, not structure. */
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
+/* Signal, in Verdigris (docs/working/p1-foundation/PLAN.md, slice 2).
+   The site reads like a well-instrumented system: quiet type, generous space,
+   work as an index. Interest lives in the details. The accent (patina green)
+   is rationed: links, the current nav item, live readouts, status. Neutrals
+   lean slightly green so the page has a temperature before any colour shows. */
+@import '@fontsource-variable/schibsted-grotesk';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
 
 :root {
-  color-scheme: light dark;
-  --bg: #fafaf9;
-  --fg: #1c1917;
-  --muted: #78716c;
-  --line: #e7e5e4;
-  --accent: #0e7490;
-  --surface: #ffffff;
-  --sans: 'Inter Variable', system-ui, sans-serif;
-  --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
-  --measure: 68ch;
+  color-scheme: light;
+  --bg: #eceeea;
+  --surface: #f4f5f2;
+  --fg: #152019;
+  --muted: #5d6a64;
+  --line: #d4dad5;
+  --accent: #22695a;
+  --accent-soft: color-mix(in oklab, var(--accent) 14%, transparent);
+
+  --sans: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale, ~1.2 ratio from a 17px base; the top step flexes with the viewport. */
+  --step--2: 0.72rem;
+  --step--1: 0.85rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.55rem;
+  --step-3: clamp(1.75rem, 1.2rem + 2.2vw, 2.4rem);
+
+  /* Space scale. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.5rem;
+  --space-7: 4rem;
+  --space-8: 6rem;
+
+  --measure: 66ch;
+  --page: 64rem;
   --gutter: clamp(1rem, 4vw, 2rem);
+  --radius: 6px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0c0a09;
-    --fg: #f5f5f4;
-    --muted: #a8a29e;
-    --line: #292524;
-    --accent: #22d3ee;
-    --surface: #1c1917;
+    color-scheme: dark;
+    --bg: #0d1412;
+    --surface: #121b18;
+    --fg: #e2e9e5;
+    --muted: #88968f;
+    --line: #1e2925;
+    --accent: #6cc3ad;
   }
 }
 
+/* ---------- Base ---------- */
+
 *, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 400 1.0625rem/1.65 var(--sans);
+  font: 400 var(--step-0)/1.65 var(--sans);
+  font-feature-settings: 'ss01';
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-a { color: var(--accent); text-underline-offset: 0.2em; }
-a:hover { text-decoration-thickness: 2px; }
-code, pre, .mono { font-family: var(--mono); font-size: 0.9em; }
-h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
-h1 { font-size: clamp(2rem, 5vw, 2.75rem); }
+::selection { background: color-mix(in oklab, var(--accent) 28%, transparent); }
 
-.wrap { max-width: 72rem; margin-inline: auto; padding-inline: var(--gutter); }
-.prose { max-width: var(--measure); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+h1, h2, h3, h4 { font-weight: 500; line-height: 1.15; letter-spacing: -0.025em; text-wrap: balance; margin: 0; }
+h1 { font-size: var(--step-3); letter-spacing: -0.035em; }
+h2 { font-size: var(--step-2); }
+h3 { font-size: var(--step-1); letter-spacing: -0.015em; }
+p { margin: 0; text-wrap: pretty; }
+
+a { color: var(--accent); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent); text-decoration-thickness: 1px; text-underline-offset: 0.22em; transition: text-decoration-color 0.15s; }
+a:hover { text-decoration-color: currentColor; }
+
+code, kbd, samp, pre { font-family: var(--mono); font-size: 0.875em; }
+img, svg, video { max-width: 100%; height: auto; }
+hr { border: 0; border-top: 1px solid var(--line); margin: var(--space-6) 0; }
+
+/* ---------- Layout ---------- */
+
+.wrap { max-width: var(--page); margin-inline: auto; padding-inline: var(--gutter); }
+.stack { display: grid; gap: var(--space-4); align-content: start; }
+.section { display: grid; gap: var(--space-3); }
+.page { display: grid; gap: var(--space-7); padding-block: var(--space-6) 0; }
+
+/* ---------- Utilities ---------- */
+
 .muted { color: var(--muted); }
+.mono { font-family: var(--mono); }
+.num { font-variant-numeric: tabular-nums; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-.tag {
-  display: inline-block;
-  font: 500 0.75rem/1 var(--mono);
-  padding: 0.3em 0.55em;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+/* The instrument label: small mono caps, used for section heads and metadata keys. */
+.label {
+  font: 500 var(--step--2)/1 var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
-.cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); padding: 0; list-style: none; }
-.card { display: block; padding: 1.25rem; border: 1px solid var(--line); border-radius: 0.75rem; background: var(--surface); color: inherit; text-decoration: none; }
-.card:hover { border-color: var(--accent); }
-.card h3 { margin: 0 0 0.4rem; }
-.card p { margin: 0 0 0.75rem; color: var(--muted); }
+.tag { font: 400 var(--step--2)/1 var(--mono); color: var(--accent); letter-spacing: 0.02em; }
 
-.banner { padding: 0.75rem 1rem; border: 1px dashed var(--accent); border-radius: 0.5rem; font-size: 0.9rem; }
+.banner {
+  font: 400 var(--step--1)/1.4 var(--mono);
+  padding: var(--space-2) var(--space-3);
+  border: 1px dashed color-mix(in oklab, var(--accent) 55%, transparent);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+/* ---------- Prose (case studies, lab write-ups, notes) ---------- */
+
+.prose { max-width: var(--measure); display: grid; gap: var(--space-4); counter-reset: fig; }
+.prose > h2 { margin-top: var(--space-5); }
+.prose > h3 { margin-top: var(--space-3); }
+.prose ul, .prose ol { margin: 0; padding-left: 1.25em; display: grid; gap: var(--space-2); }
+.prose ul { list-style: none; padding-left: 1.1em; }
+.prose ul > li::before { content: '–'; color: var(--muted); display: inline-block; width: 1.1em; margin-left: -1.1em; }
+.prose ol > li::marker { font: 400 var(--step--1) var(--mono); color: var(--muted); }
+.prose blockquote { margin: 0; padding-left: var(--space-4); border-left: 2px solid var(--line); color: var(--muted); }
+.prose :not(pre) > code { background: var(--accent-soft); padding: 0.1em 0.35em; border-radius: 4px; }
+.prose pre { margin: 0; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius); overflow-x: auto; line-height: 1.55; }
+.prose table { border-collapse: collapse; width: 100%; font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+.prose th { text-align: left; font: 500 var(--step--2) var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.prose th, .prose td { padding: var(--space-2) var(--space-3) var(--space-2) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+
+/* Figures number themselves: Fig. 01, Fig. 02… per article. */
+.prose figure { margin: var(--space-3) 0; display: grid; gap: var(--space-2); }
+.prose figure img, .prose figure svg { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.prose figcaption { font-size: var(--step--1); color: var(--muted); }
+.prose figcaption::before {
+  counter-increment: fig;
+  content: 'Fig. ' counter(fig, decimal-leading-zero);
+  font: 500 var(--step--2) var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--fg);
+  margin-right: var(--space-2);
+}
+
+/* Shiki dual themes (astro.config.mjs): light by default, dark when the system is. */
+.astro-code { background-color: var(--surface) !important; }
+@media (prefers-color-scheme: dark) {
+  .astro-code, .astro-code span { color: var(--shiki-dark) !important; font-style: var(--shiki-dark-font-style) !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---------- Controls ---------- */
+
+button, .button {
+  font: 500 var(--step--1)/1 var(--sans);
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.6em 0.9em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+button:hover, .button:hover { border-color: var(--accent); color: var(--accent); }
+
+/* A framed area for an interactive piece inside prose. */
+.island-demo { display: grid; gap: var(--space-3); justify-items: start; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }

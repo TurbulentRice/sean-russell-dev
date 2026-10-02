@@ -1,0 +1,20 @@
+---
+// A lab entry's state, encoded in shape as well as words: a filled dot is
+// live, a ring is in progress, a dash is archived.
+interface Props {
+  status: 'live' | 'wip' | 'archived';
+}
+const { status } = Astro.props;
+const label = { live: 'live', wip: 'in progress', archived: 'archived' }[status];
+---
+
+<span class={`status ${status}`}><span class="mark" aria-hidden="true"></span>{label}</span>
+
+<style>
+  .status { display: inline-flex; align-items: center; gap: 0.45em; font: 400 var(--step--2)/1 var(--mono); color: var(--muted); letter-spacing: 0.02em; }
+  .mark { width: 7px; height: 7px; border-radius: 50%; }
+  .live { color: var(--accent); }
+  .live .mark { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .wip .mark { border: 1.5px solid var(--muted); }
+  .archived .mark { width: 8px; height: 1.5px; border-radius: 0; background: var(--muted); }
+</style>

@@ -4,17 +4,19 @@ import { site } from '../site.config';
 ---
 
 <Base title="About">
-  <article class="prose">
-    <h1>About</h1>
-    <!-- Placeholder copy until P1 slice 3. -->
-    <p>
-      I'm a full-stack engineer. I started in application frontend, moved through backend and data
-      engineering, and lately spend a lot of time on reliability, CI/CD and the systems that keep a
-      development team shipping.
-    </p>
-    <p>
-      I'm also a photographer: <a href={site.photo}>seanrussellphoto.com</a>.
-    </p>
-    <p><a href="/resume/">Résumé</a> · <a href={site.github}>GitHub</a></p>
+  <article class="page">
+    <header class="stack head">
+      <h1>About</h1>
+    </header>
+    <div class="prose">
+      <!-- Placeholder copy until P1 slice 3. -->
+      <p>
+        I'm a full-stack engineer. I started in application frontend, moved through backend and data
+        engineering, and lately spend much of my time on reliability, CI/CD, and the systems that keep a
+        development team shipping.
+      </p>
+      <p>I'm also a photographer: <a href={site.photo}>seanrussellphoto.com</a>.</p>
+      <p><a href="/resume/">Résumé</a> · <a href={site.github}>GitHub</a></p>
+    </div>
   </article>
 </Base>

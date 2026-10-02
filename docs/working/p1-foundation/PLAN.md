@@ -1,6 +1,6 @@
 # P1: Foundation
 
-**Status: in progress.** Slices 1 and 4 done 2026-10-02.
+**Status: in progress.** Slices 1, 2 and 4 done 2026-10-02.
 
 Goal: a small, polished site live at www.seanrusselldev.com, with the
 structure every later epic fills in.
@@ -26,7 +26,7 @@ dev. ✅ Verified in the browser.
 - Vite prints `MODULE_LEVEL_DIRECTIVE` warnings for every MDX file at build.
   Known Astro/MDX noise; harmless.
 
-### 2. Design system
+### 2. Design system ✅ (2026-10-02)
 
 **Direction decided 2026-10-02: "Signal".** The site reads like a
 well-instrumented system: quiet type, generous space, work as an index (lists,
@@ -36,19 +36,37 @@ it's omitted or static. Sean's words: understated, "showing off a bit", never
 on the nose. Considered and set aside: "Contact sheet" (monochrome, film-edge
 metadata) and "Schematic" (dot grid, node graph). Borrow from them: frame
 numbering for case-study screenshots, the diagram style for architecture
-figures. Type: Schibsted Grotesk + IBM Plex Mono. **Palette: open**, choosing
-among Verdigris, Oxblood, Phosphor and International orange.
+figures. Type: Schibsted Grotesk + IBM Plex Mono (self-hosted via Fontsource).
+**Palette: Verdigris** (oxidised-copper green; neutrals tinted toward it),
+chosen over Oxblood, Phosphor and International orange.
 
 Type scale, colour tokens (light/dark), spacing, components (card, tag,
 banner, code blocks), a view-transition treatment, generated OG images. The
 tokens in `src/styles/global.css` are placeholders shaped for this.
 
 *Done when:* every placeholder page looks finished at phone and desktop
-widths, in both themes, with no CLS.
+widths, in both themes, with no CLS. ✅ Checked in the browser: light, dark,
+375px (no horizontal scroll on any page).
+
+What exists: tokens and prose styles (`global.css`), `IndexList` (numbered
+rows, the site's main list form), `Status` (live / wip / archived as shape and
+word), `SpecSheet`, `Trace` (the live readout, waiting on P4), self-numbering
+figures (CSS counters), Vitesse code themes following the system theme, and a
+footer build stamp linking to the deployed commit. The draft lab entry
+`/lab/design-system/` shows every piece (dev only).
+
+**Where the code disagreed with the plan:**
+- Generated OG images moved to slice 3: they need final copy to be worth
+  generating.
+- No theme toggle: the site follows the system setting. Revisit only if asked.
+- Work entries gained an `area` field (reliability / data / product) for the
+  list tag; the first stack item read badly (".net").
 
 ### 3. Positioning and copy
 
 Workshop the headline and the About page with Sean. Home page structure final.
+
+Also: generated OG images per page (moved from slice 2).
 
 *Done when:* Sean signs off on the home and About copy.
 

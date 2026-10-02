@@ -21,6 +21,9 @@ export default defineConfig({
     react(),
     sitemap({ filter: (page) => !unlisted.some((p) => new URL(page).pathname.startsWith(p)) }),
   ],
+  // Code blocks follow the system theme; colours are swapped in global.css.
+  // Vitesse's muted greens sit well with Verdigris.
+  markdown: { shikiConfig: { themes: { light: 'vitesse-light', dark: 'vitesse-dark' } } },
   // Small CSS, inlined: one less render-blocking request. Revisit if it grows.
   build: { inlineStylesheets: 'always' },
 });

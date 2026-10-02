@@ -68,7 +68,10 @@ src/lib/resume.ts            résumé schema, shared by the collection and the i
 src/lib/content.ts           published(): drafts filtered (except in dev) and sorted
 src/site.config.ts           site metadata + nav
 src/layouts/Base.astro       every page's <head>, header and footer
-src/styles/global.css        design tokens (placeholders until P1 slice 2)
+src/styles/global.css        Signal/Verdigris tokens, base, prose, controls
+src/components/              IndexList (rows), Status, SpecSheet, Trace (live readout)
+src/lib/build.ts             commit + date for the footer stamp
+src/lab/design-system/       the design-system specimen (lab entry `design-system`, draft)
 scripts/import-resume.ts     .docx → YAML via Claude structured outputs
 public/_headers              cache + security headers; workers.dev kept out of search
 wrangler.jsonc               assets-only Worker
@@ -95,6 +98,15 @@ docs/                        STATUS, BRIEF, working/
   component under `src/lab/<slug>/` and use `client:visible` by default;
   `client:only="react"` for things that can't render on the server (canvas,
   WebGL, `window`).
+- **Design rules (Signal, Verdigris).** Lists are `IndexList` rows, not cards.
+  The accent is rationed: links, current nav, live readouts, status. Labels
+  and numbers are mono (`.label`, `.num`). Colours come from tokens in
+  `global.css` only; check both themes. `/lab/design-system/` in dev shows
+  everything.
+- **`Trace` never shows invented numbers on the front of the site.** It waits
+  for real `/status` data (P4); the specimen passes `example`.
+- **The footer stamp** reads `WORKERS_CI_COMMIT_SHA` (Workers Builds) or
+  `git rev-parse HEAD` locally (`src/lib/build.ts`).
 - **Vite warns `MODULE_LEVEL_DIRECTIVE` for each MDX file** at build. That's
   known Astro/MDX noise and harmless.
 - **Hosting is an assets-only Cloudflare Worker** (`wrangler.jsonc`, no

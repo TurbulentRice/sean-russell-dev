@@ -1,6 +1,8 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import SpecSheet from '../../components/SpecSheet.astro';
+import Status from '../../components/Status.astro';
 import { published } from '../../lib/content';
 
 export async function getStaticPaths() {
@@ -13,14 +15,28 @@ const { title, summary, status, date, stack, draft } = entry.data;
 ---
 
 <Base title={title} description={summary} noindex={draft}>
-  <article>
-    {draft && <p class="banner">Draft: visible in dev only.</p>}
-    <header class="prose">
+  <article class="page">
+    <header class="stack head">
+      {draft && <p class="banner">Draft · visible in dev only</p>}
+      <a href="/lab/" class="label back">← Lab</a>
       <h1>{title}</h1>
-      <p class="muted">
-        <span class="tag">{status}</span> · {date.toISOString().slice(0, 10)} · {stack.join(', ')}
-      </p>
+      <p class="lede muted">{summary}</p>
+      <div class="meta"><Status status={status} /><span class="label num">{date.toISOString().slice(0, 10)}</span></div>
+      <SpecSheet items={[['Stack', stack.join(', ')]]} />
     </header>
-    <Content />
+    <!-- Lab entries may break out of the text measure: the experiment is the point. -->
+    <div class="prose lab">
+      <Content />
+    </div>
   </article>
 </Base>
+
+<style>
+  .head { max-width: var(--measure); }
+  .back { text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  .lede { font-size: var(--step-1); line-height: 1.5; }
+  .meta { display: flex; gap: var(--space-4); align-items: center; }
+  .lab { max-width: none; }
+  .lab > :global(:not(.wide)) { max-width: var(--measure); }
+</style>

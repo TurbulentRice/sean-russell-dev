@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import SpecSheet from '../../components/SpecSheet.astro';
 import { published } from '../../lib/content';
 
 export async function getStaticPaths() {
@@ -13,16 +14,30 @@ const { title, summary, role, period, stack, links, draft } = entry.data;
 ---
 
 <Base title={title} description={summary} noindex={draft}>
-  <article class="prose">
-    {draft && <p class="banner">Draft: visible in dev only.</p>}
-    <h1>{title}</h1>
-    <p class="muted">{role} · {period}</p>
-    <p>{stack.map((s) => <span class="tag">{s}</span>)}</p>
-    {(links.live || links.repo) && (
-      <p>
-        {links.live && <a href={links.live}>Live</a>} {links.repo && <a href={links.repo}>Source</a>}
-      </p>
-    )}
-    <Content />
+  <article class="page">
+    <header class="stack head">
+      {draft && <p class="banner">Draft · visible in dev only</p>}
+      <a href="/work/" class="label back">← Work</a>
+      <h1>{title}</h1>
+      <p class="lede muted">{summary}</p>
+      <SpecSheet items={[['Role', role], ['Period', period], ['Stack', stack.join(', ')]]} />
+      {(links.live || links.repo) && (
+        <p class="links">
+          {links.live && <a href={links.live}>{new URL(links.live).host} ↗</a>}
+          {links.repo && <a href={links.repo}>Source ↗</a>}
+        </p>
+      )}
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
   </article>
 </Base>
+
+<style>
+  .head { max-width: var(--measure); }
+  .back { text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  .lede { font-size: var(--step-1); line-height: 1.5; }
+  .links { display: flex; gap: var(--space-5); font-size: var(--step--1); }
+</style>

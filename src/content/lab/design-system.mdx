@@ -1,0 +1,94 @@
+---
+title: Signal
+summary: The design system for this site, every piece in one place.
+status: wip
+date: 2026-10-02
+stack: [CSS, Astro components]
+draft: true
+---
+
+import Swatches from '../../lab/design-system/Swatches.astro';
+import Trace from '../../components/Trace.astro';
+import IndexList from '../../components/IndexList.astro';
+import SpecSheet from '../../components/SpecSheet.astro';
+import Status from '../../components/Status.astro';
+
+The site reads like a well-instrumented system: quiet type, generous space, work as an index. The
+accent, a patina green called verdigris, is rationed to links, the current page, live readouts and
+status.
+
+## Colour
+
+<Swatches />
+
+## Type
+
+Schibsted Grotesk for everything you read; IBM Plex Mono for labels, numbers and readouts.
+
+<p class="label">Section label · instrument caps</p>
+
+### A third-level heading
+
+Body text sits near 66 characters a line. Links look like [this](#), and inline code like
+`WORKERS_CI_COMMIT_SHA`.
+
+## Readout
+
+The hero's live trace, once the `/status` probe exists. Until then it never appears on the front
+of the site.
+
+<Trace samples={[184, 181, 186, 179, 183, 178, 185, 180, 182, 214, 176, 183, 181, 179, 182, 177]} uptime={99.98} p50={182} window="30d" example />
+
+## Status
+
+<p class="label"><Status status="live" /> &nbsp; <Status status="wip" /> &nbsp; <Status status="archived" /></p>
+
+## Index
+
+<IndexList rows={[
+  { href: '#', title: 'Synthetic monitoring', summary: 'A probe that found ~20 silent, user-facing defects in its first month.', meta: 'reliability' },
+  { href: '#', title: 'Signals, not payloads', summary: 'A lossy ingest pipeline, made cheap and recoverable.', meta: 'data' },
+]} />
+
+## Spec sheet
+
+<SpecSheet items={[['Role', 'Designer and sole engineer'], ['Period', '2026'], ['Stack', 'Playwright, TypeScript, CI/CD']]} />
+
+## Prose
+
+- Lists use an en dash
+- and stay compact
+
+1. Ordered lists number in mono
+2. like this
+
+> A blockquote, for the occasional quotation or aside from a postmortem.
+
+| Metric | Before | After |
+| --- | --- | --- |
+| Message size | 48 KB | 0.3 KB |
+| Recovery | none | replay from source |
+
+{/* Example figures above are illustrative, not real measurements. */}
+
+```ts
+// Code follows the system theme.
+export async function probe(url: string): Promise<number> {
+  const t0 = performance.now();
+  await fetch(url, { cache: 'no-store' });
+  return performance.now() - t0;
+}
+```
+
+<figure>
+  <svg viewBox="0 0 640 160" role="img" aria-label="Placeholder diagram">
+    <rect x="40" y="50" width="140" height="60" rx="6" fill="none" stroke="currentColor" opacity="0.35" />
+    <rect x="250" y="50" width="140" height="60" rx="6" fill="none" stroke="currentColor" opacity="0.35" />
+    <rect x="460" y="50" width="140" height="60" rx="6" fill="none" stroke="var(--accent)" />
+    <path d="M180 80 H250 M390 80 H460" stroke="var(--accent)" fill="none" />
+    <text x="110" y="85" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="currentColor">source</text>
+    <text x="320" y="85" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="currentColor">signal</text>
+    <text x="530" y="85" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="currentColor">consumer</text>
+  </svg>
+  <figcaption>Figures number themselves, and diagrams draw in the page's own colours.</figcaption>
+</figure>

@@ -9,12 +9,25 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const { title, summary, date, draft } = entry.data;
 ---
 
-<Base title={entry.data.title} description={entry.data.summary} noindex={entry.data.draft}>
-  <article class="prose">
-    <h1>{entry.data.title}</h1>
-    <p class="muted">{entry.data.date.toISOString().slice(0, 10)}</p>
-    <Content />
+<Base title={title} description={summary} noindex={draft}>
+  <article class="page">
+    <header class="stack head">
+      {draft && <p class="banner">Draft · visible in dev only</p>}
+      <a href="/notes/" class="label back">← Notes</a>
+      <h1>{title}</h1>
+      <p class="label num">{date.toISOString().slice(0, 10)}</p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
   </article>
 </Base>
+
+<style>
+  .head { max-width: var(--measure); }
+  .back { text-decoration: none; }
+  .back:hover { color: var(--accent); }
+</style>

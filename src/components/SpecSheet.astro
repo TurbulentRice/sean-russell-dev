@@ -1,0 +1,22 @@
+---
+// Key/value metadata in instrument-label style: a case study's role, period, stack.
+interface Props {
+  items: [label: string, value: string][];
+}
+const { items } = Astro.props;
+---
+
+<dl class="spec">
+  {items.map(([label, value]) => (
+    <div>
+      <dt class="label">{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .spec { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-6); margin: 0; padding-block: var(--space-4); border-block: 1px solid var(--line); }
+  .spec div { display: grid; gap: var(--space-2); min-width: 0; }
+  dd { margin: 0; font-size: var(--step--1); }
+</style>

@@ -7,9 +7,11 @@ export default function Counter() {
   useEffect(() => setHydrated(new Date().toLocaleTimeString()), []);
 
   return (
-    <div className="card" style={{ maxWidth: '24rem' }}>
-      <p>{hydrated ? `Hydrated at ${hydrated}` : 'Static HTML (not hydrated yet)'}</p>
-      <button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</button>
+    <div className="island-demo">
+      <p className="label">{hydrated ? `Hydrated at ${hydrated}` : 'Static HTML, not hydrated yet'}</p>
+      <button type="button" onClick={() => setCount((c) => c + 1)}>
+        Clicked {count} {count === 1 ? 'time' : 'times'}
+      </button>
     </div>
   );
 }

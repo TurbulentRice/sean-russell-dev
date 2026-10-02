@@ -11,67 +11,99 @@ const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z
 ---
 
 <Base title="Résumé" description={r.summary} noindex={r.draft}>
-  <article class="resume prose">
-    {r.draft && <p class="banner">Draft résumé: imported, not yet reviewed.</p>}
-    <header>
+  <article class="page resume">
+    <header class="stack head">
+      {r.draft && <p class="banner">Draft résumé · imported, not yet reviewed</p>}
       <h1>{r.name}</h1>
-      <p class="muted">{r.headline}{r.location && ` · ${r.location}`}</p>
+      <p class="lede muted">{r.headline}{r.location && ` · ${r.location}`}</p>
       <p class="links">
         {r.links.email && <a href={`mailto:${r.links.email}`}>{r.links.email}</a>}
         {r.links.github && <a href={`https://${r.links.github.replace(/^https?:\/\//, '')}`}>GitHub</a>}
         {r.links.linkedin && <a href={`https://${r.links.linkedin.replace(/^https?:\/\//, '')}`}>LinkedIn</a>}
       </p>
+      <p>{r.summary}</p>
     </header>
 
-    <p>{r.summary}</p>
+    <section class="section">
+      <h2 class="label">Experience</h2>
+      <ol class="entries">
+        {r.experience.map((job) => (
+          <li class="entry">
+            <p class="when label num">{month(job.start)} – {month(job.end)}</p>
+            <div class="stack what">
+              <div>
+                <h3>{job.role}</h3>
+                <p class="muted">{job.org}{job.location && ` · ${job.location}`}</p>
+              </div>
+              {job.summary && <p>{job.summary}</p>}
+              {job.highlights.length > 0 && (
+                <ul class="highlights">
+                  {job.highlights.map((h) => (
+                    <li>{h.title && <strong>{h.title}. </strong>}{h.text}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
 
-    <h2>Experience</h2>
-    {r.experience.map((job) => (
-      <section class="job">
-        <h3>{job.role} · {job.org}</h3>
-        <p class="muted">{month(job.start)} – {month(job.end)}{job.location && ` · ${job.location}`}</p>
-        {job.summary && <p>{job.summary}</p>}
-        <ul>
-          {job.highlights.map((h) => (
-            <li>{h.title && <strong>{h.title}: </strong>}{h.text}</li>
-          ))}
-        </ul>
-      </section>
-    ))}
+    <section class="section">
+      <h2 class="label">Skills</h2>
+      <dl class="skills">
+        {r.skills.map((s) => (
+          <div>
+            <dt>{s.group}</dt>
+            <dd class="muted">{s.items.join(', ')}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
 
-    <h2>Skills</h2>
-    <dl class="skills">
-      {r.skills.map((s) => (
-        <>
-          <dt>{s.group}</dt>
-          <dd>{s.items.join(', ')}</dd>
-        </>
-      ))}
-    </dl>
-
-    <h2>Education</h2>
-    {r.education.map((ed) => (
-      <section>
-        <h3>{ed.credential} · {ed.institution}</h3>
-        {(ed.start || ed.end) && <p class="muted">{ed.start && `${month(ed.start)} – `}{month(ed.end)}</p>}
-        {ed.notes.length > 0 && <ul>{ed.notes.map((n) => <li>{n}</li>)}</ul>}
-      </section>
-    ))}
+    <section class="section">
+      <h2 class="label">Education</h2>
+      <ol class="entries">
+        {r.education.map((ed) => (
+          <li class="entry">
+            <p class="when label num">{ed.start && `${month(ed.start)} – `}{ed.end && month(ed.end)}</p>
+            <div class="stack what">
+              <div>
+                <h3>{ed.credential}</h3>
+                <p class="muted">{ed.institution}{ed.location && ` · ${ed.location}`}</p>
+              </div>
+              {ed.notes.length > 0 && <ul class="highlights">{ed.notes.map((n) => <li>{n}</li>)}</ul>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
   </article>
 </Base>
 
 <style>
-  .links { display: flex; flex-wrap: wrap; gap: 1rem; }
-  .job h3, section h3 { margin-bottom: 0; }
-  .skills { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 1rem; }
-  .skills dt { font-weight: 600; }
-  .skills dd { margin: 0; }
-  @media (max-width: 40rem) { .skills { grid-template-columns: 1fr; } .skills dd { margin-bottom: 0.5rem; } }
+  .head { max-width: var(--measure); }
+  .lede { font-size: var(--step-1); line-height: 1.4; }
+  .links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); font-size: var(--step--1); }
+  .entries { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+  .entry { display: grid; grid-template-columns: 11rem minmax(0, var(--measure)); gap: var(--space-2) var(--space-5); padding-block: var(--space-5); border-top: 1px solid var(--line); }
+  .when { padding-top: 0.45em; }
+  .what { gap: var(--space-3); }
+  .highlights { margin: 0; padding-left: 1.1em; list-style: none; display: grid; gap: var(--space-2); font-size: var(--step--1); }
+  .highlights li::before { content: '–'; color: var(--muted); display: inline-block; width: 1.1em; margin-left: -1.1em; }
+  .highlights strong { font-weight: 500; }
+  .skills { margin: 0; display: grid; gap: var(--space-3); border-top: 1px solid var(--line); padding-top: var(--space-4); }
+  .skills div { display: grid; grid-template-columns: 11rem minmax(0, var(--measure)); gap: var(--space-1) var(--space-5); }
+  .skills dt { font-weight: 500; font-size: var(--step--1); }
+  .skills dd { margin: 0; font-size: var(--step--1); }
+  @media (max-width: 40rem) {
+    .entry, .skills div { grid-template-columns: minmax(0, 1fr); }
+  }
 
-  /* The PDF is this page, printed (P3). */
+  /* The PDF is this page, printed (P2). */
   @media print {
     :global(.site-header), :global(.site-footer), .banner { display: none; }
-    :global(body) { background: white; color: black; font-size: 10.5pt; }
-    .resume { max-width: none; }
+    :global(body) { background: white; color: black; font-size: 10pt; }
+    .entry { break-inside: avoid; padding-block: var(--space-3); }
   }
 </style>

@@ -1,0 +1,21 @@
+---
+// Reads the live tokens, so it always shows what the CSS actually says.
+const tokens = ['bg', 'surface', 'fg', 'muted', 'line', 'accent'];
+---
+
+<ul class="swatches wide">
+  {tokens.map((t) => (
+    <li>
+      <span class="chip" style={`background: var(--${t})`}></span>
+      <span class="label">--{t}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .swatches { list-style: none; margin: 0; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: var(--space-4); }
+  .swatches li::before { display: none !important; }
+  li { display: grid; gap: var(--space-2); }
+  .label { text-transform: none; letter-spacing: 0.02em; }
+  .chip { height: 3rem; border-radius: var(--radius); border: 1px solid var(--line); }
+</style>

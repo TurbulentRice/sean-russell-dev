@@ -13,6 +13,8 @@ const work = defineCollection({
     title: z.string(),
     // One sentence: the outcome, not the technology.
     summary: z.string(),
+    // The one-word discipline shown beside it in lists: reliability, data, product…
+    area: z.string(),
     role: z.string(),
     period: z.string(),
     stack: z.array(z.string()),
