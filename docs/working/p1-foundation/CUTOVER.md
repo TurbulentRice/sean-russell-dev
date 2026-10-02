@@ -1,6 +1,6 @@
 # Cutover runbook: Route 53 → Cloudflare
 
-> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress** (phase 2). Tick steps as they
+> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress** (phase 3). Tick steps as they
 > happen and note anything that surprised us. Modelled on
 > sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md`.
 >
@@ -54,12 +54,21 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
   canonical links on the bare domain, `workers.dev` now 404. The deploy also
   removed the `www` custom domain and its record, so there was nothing to
   clean up by hand.
-- [ ] **Sean:** DNS → `www` A
+- [x] **Sean:** DNS → `www` A
   `192.0.2.0`, **Proxied**; **Rules → Redirect Rules** → template "Redirect
   from WWW to root" (301, keep path and query).
-- [ ] **Claude:** check every combination of `http`/`https` and bare/`www`
-  ends at `https://seanrusselldev.com` with 301s in at most 2 hops, valid cert,
-  sitemap, robots.txt, 404.
+- [x] **Claude:** every combination of `http`/`https` and bare/`www` ends at
+  `https://seanrusselldev.com` with 301s in at most 2 hops; path and query
+  kept (`/work/?x=1`). The certificate covers the apex and `*.` (so `www` and
+  future side-project subdomains). Sitemap, robots.txt and 404 fine.
+
+*Surprises, for next time:*
+- The dashboard warned the www → root rule "may not apply" because www might
+  not be proxied. It was proxied (DoH showed Cloudflare's addresses); the rule
+  works. A false alarm.
+- Between adding the proxied `www` placeholder and saving the rule, `https://www`
+  hung: Cloudflare forwarded to `192.0.2.0`, which never answers. Expected,
+  and over the moment the rule saved.
 
 ## Phase 3: email and analytics
 

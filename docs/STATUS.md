@@ -4,8 +4,8 @@
 > keep only notes that matter. The work lives in [working/](working/).
 
 **Epic:** [P1: Foundation](working/p1-foundation/PLAN.md) (in progress)
-**Next:** finish slice 5 phase 2 (apex redirect, then Claude verifies), phase 3
-(email, analytics). Then slice 3 (About copy, OG images).
+**Next:** slice 5 phase 3 (Email Routing for `hello@`, Web Analytics), then
+slice 3 (About copy, OG images).
 **Deployed:** `main` → https://seanrusselldev.com (Workers Builds). Public repo: TurbulentRice/sean-russell-dev.
 
 ## Notes

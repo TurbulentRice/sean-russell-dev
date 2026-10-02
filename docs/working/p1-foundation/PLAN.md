@@ -1,6 +1,7 @@
 # P1: Foundation
 
-**Status: in progress.** Slices 1, 2 and 4 done 2026-10-02.
+**Status: in progress.** Slices 1, 2 and 4 done 2026-10-02; slice 5 live,
+email and analytics left.
 
 Goal: a small, polished site live at seanrusselldev.com, with the
 structure every later epic fills in.
