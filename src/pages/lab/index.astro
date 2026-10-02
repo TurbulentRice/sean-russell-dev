@@ -18,6 +18,7 @@ const entries = await published('lab');
         <Status status="archived" /> kept for the record
       </p>
     </header>
+    {entries.length === 0 && <p class="muted">The first experiments are on the bench.</p>}
     <IndexList numbered={false} rows={entries.map((e) => ({ href: `/lab/${e.id}/`, title: e.data.title, summary: e.data.summary, status: e.data.status, meta: e.data.date.getFullYear().toString(), draft: e.data.draft }))} />
   </div>
 </Base>

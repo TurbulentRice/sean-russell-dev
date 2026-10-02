@@ -2,7 +2,7 @@ export const site = {
   name: 'Sean Russell',
   title: 'Sean Russell · Software Engineer',
   description:
-    'Full-stack engineer who owns systems end to end, from data pipelines to production reliability. Case studies, experiments and notes.',
+    'Full-stack engineer. I build things that work and fix things that break. Case studies, experiments and notes.',
   url: 'https://www.seanrusselldev.com',
   github: 'https://github.com/TurbulentRice',
   photo: 'https://www.seanrussellphoto.com',

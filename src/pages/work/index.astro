@@ -12,6 +12,7 @@ const entries = await published('work');
       <h1>Work</h1>
       <p class="muted intro">Case studies: the problem, the constraints, the decisions, and what came of them.</p>
     </header>
+    {entries.length === 0 && <p class="muted">Case studies are being written. Check back soon.</p>}
     <IndexList rows={entries.map((e) => ({ href: `/work/${e.id}/`, title: e.data.title, summary: e.data.summary, meta: e.data.area, draft: e.data.draft }))} />
   </div>
 </Base>

@@ -81,8 +81,9 @@ docs/                        STATUS, BRIEF, working/
 ## 6. Things the code knows that you don't
 
 - **`draft: true` means dev-only.** `published()` drops drafts from production
-  builds; dev shows them with a banner. The résumé is different: a draft
-  résumé *builds* (noindex, out of the sitemap) because there's only one.
+  builds; dev shows them with a banner. The résumé is one entry, so a draft
+  résumé is handled differently: in production `/resume/` redirects to About,
+  every Résumé link hides (`resumeIsPublic()`), and the sitemap skips it.
 - **Sitemap exclusions live in `astro.config.mjs`**: `/notes/` until it joins
   the nav, `/resume/` while `resume.yaml` says `draft: true` (read at config
   time).
@@ -103,6 +104,10 @@ docs/                        STATUS, BRIEF, working/
   and numbers are mono (`.label`, `.num`). Colours come from tokens in
   `global.css` only; check both themes. `/lab/design-system/` in dev shows
   everything.
+- **Theme:** auto by default. `ThemeToggle` sets `data-theme` on `<html>`
+  (stored in localStorage); an inline script in `Base.astro` applies it before
+  paint and after every view-transition swap. Dark tokens exist twice in
+  `global.css` (system-dark and chosen-dark); change both together.
 - **`Trace` never shows invented numbers on the front of the site.** It waits
   for real `/status` data (P4); the specimen passes `example`.
 - **The footer stamp** reads `WORKERS_CI_COMMIT_SHA` (Workers Builds) or

@@ -3,6 +3,8 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import { site, nav } from '../site.config';
 import { build } from '../lib/build';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { resumeIsPublic } from '../lib/content';
 
 interface Props {
   title?: string;
@@ -14,6 +16,7 @@ const { title, description = site.description, noindex = false } = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : site.title;
 const canonical = new URL(Astro.url.pathname, site.url);
 const path = Astro.url.pathname;
+const showResume = await resumeIsPublic();
 ---
 
 <!doctype html>
@@ -32,6 +35,20 @@ const path = Astro.url.pathname;
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
     {noindex && <meta name="robots" content="noindex" />}
+    <script is:inline>
+      // Before first paint: apply a stored theme choice (ThemeToggle.astro),
+      // and re-apply after each view-transition swap replaces <html>'s attributes.
+      (function () {
+        function apply() {
+          try {
+            var t = localStorage.getItem('theme');
+            if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+          } catch (e) {}
+        }
+        apply();
+        document.addEventListener('astro:after-swap', apply);
+      })();
+    </script>
     <ClientRouter />
   </head>
   <body>
@@ -52,9 +69,10 @@ const path = Astro.url.pathname;
     <footer class="wrap site-footer">
       <div class="links">
         <a href={site.github}>GitHub</a>
-        <a href="/resume/">Résumé</a>
+        {showResume && <a href="/resume/">Résumé</a>}
         <a href={site.photo}>Photography</a>
       </div>
+      <ThemeToggle />
       <p class="stamp num">
         © {new Date().getFullYear()} Sean Russell
         {build.short && (

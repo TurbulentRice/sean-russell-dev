@@ -5,6 +5,8 @@ import Base from '../layouts/Base.astro';
 const entry = await getEntry('resume', 'resume');
 if (!entry) throw new Error('src/content/resume/resume.yaml is missing (npm run import-resume).');
 const r = entry.data;
+// A draft résumé isn't published: production sends visitors to About instead.
+if (r.draft && !import.meta.env.DEV) return Astro.redirect('/about/');
 
 const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z`)) : 'Present');

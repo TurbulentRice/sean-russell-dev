@@ -4,10 +4,9 @@
 > keep only notes that matter. The work lives in [working/](working/).
 
 **Epic:** [P1: Foundation](working/p1-foundation/PLAN.md) (in progress)
-**Next:** slice 3 (positioning, copy, OG images) and slice 5 (cutover: waiting
-for the zone to go Active, runbook in [CUTOVER.md](working/p1-foundation/CUTOVER.md)).
-**Deployed:** `main` → https://sean-russell-dev.seanlawrencerussell.workers.dev
-(Workers Builds). Public repo: TurbulentRice/sean-russell-dev.
+**Next:** finish slice 5 phase 2 (apex redirect, then Claude verifies), phase 3
+(email, analytics). Then slice 3 (About copy, OG images).
+**Deployed:** `main` → https://www.seanrusselldev.com (Workers Builds). Public repo: TurbulentRice/sean-russell-dev.
 
 ## Notes
 

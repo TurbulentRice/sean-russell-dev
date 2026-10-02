@@ -32,23 +32,23 @@ The old site's failure was mixing them. Every lab entry carries a **status**
 frontend, backend, data engineering, and lately SRE / DevOps / CI/CD is **owning
 the whole lifecycle**, not a detour.
 
-Working headline (placeholder, to be workshopped):
-*"Full-stack engineer who owns systems end to end, from data pipelines to
-production reliability."*
+Headline (decided 2026-10-02): *"I build things that work and fix things that
+break."* Short and light, so the opening doesn't overcommit; the common thread
+of every role. The lede carries the specifics.
 
 Voice: the subtext is "gets things done", shown through outcomes and never said
 outright. Lead with outcomes and decisions, not technology lists.
 
 ## The three pillars
 
-Each case study covers the problem, constraints, decisions, result, and what
+Listed in this order. Each case study covers the problem, constraints, decisions, result, and what
 Sean would change. Together they span the whole lifecycle.
 
 | Case study | Proves | Draft |
 |---|---|---|
-| **Synthetic monitoring** for critical user journeys: probes, alerting, CI/CD + e2e integration, a debugging companion app. ~20 tickets in month one, ~90% user-facing, systemic, silent and unreproducible in dev. | Reliability, CI/CD, observability | `src/content/work/synthetic-monitoring.mdx` |
+| **Synthetic monitoring** for critical user journeys: probes, alerting, CI/CD + e2e integration, a debugging companion app. ~20 tickets in month one, ~90% user-facing, systemic, silent and unreproducible in dev. On the site: "dozens" (Sean's call). | Reliability, CI/CD, observability | `src/content/work/synthetic-monitoring.mdx` |
+| **AutoLight** ([autolight.ai](https://autolight.ai), linked): a Mac app that learns a photographer's editing style from Lightroom catalogs. Sean's largest solo work. | Product, ML, desktop + web, perseverance | `src/content/work/autolight.mdx` |
 | **Event-driven ingest rewrite** (internally "Blue Data Connector"): heavy, lossy content-carrying messages → lightweight signals, consumer-side coalescing for true FIFO, atomic fan-out, data pulled from the source. Cheaper, faster, recoverable; support can trigger updates themselves. | Backend + data architecture | `src/content/work/event-driven-ingest.mdx` |
-| **AutoLight** ([autolight.ai](https://autolight.ai)): a Mac app that learns a photographer's editing style from Lightroom catalogs. Sean's largest solo work. | Product, ML, desktop + web, perseverance | `src/content/work/autolight.mdx` |
 
 ### Rules for case studies
 
@@ -83,7 +83,7 @@ Two ideas that turn claims into evidence:
 | `/about/` | Bio, links, photography cross-link |
 | `/resume/` | Rendered from `src/content/resume/resume.yaml`; print stylesheet = the PDF |
 | `/status/` | Later: the live probe (above) |
-| `/colophon/` | Later: how the site is built, link to source |
+| `/inside/` (working name) | Later: **a look inside this site.** Its architecture and inner workings as an explorable page: the build pipeline, the islands, the résumé-as-data flow, the probe behind the uptime trace, live build metadata. Fun and informational; rewards the curious visitor, and shows the craft rather than claiming it. Replaces the plain colophon idea (Sean, 2026-10-02). |
 
 ## How, and why that way
 
@@ -127,4 +127,4 @@ Two ideas that turn claims into evidence:
 | **P2 Story** | The three case studies, and the résumé rewrite that comes out of writing them. Print-to-PDF. |
 | **P3 Lab** | Lab template polish, 2–3 experiments, the ingest simulation. |
 | **P4 Live** | The `/api` Worker and the `/status` synthetic probe. |
-| **Later** | Notes goes live; colophon; side-project subdomains. |
+| **Later** | Notes goes live; the `/inside/` page; side-project subdomains. |

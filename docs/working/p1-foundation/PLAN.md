@@ -58,13 +58,16 @@ footer build stamp linking to the deployed commit. The draft lab entry
 **Where the code disagreed with the plan:**
 - Generated OG images moved to slice 3: they need final copy to be worth
   generating.
-- No theme toggle: the site follows the system setting. Revisit only if asked.
+- Theme toggle added on request: auto (default, follows the system) → light →
+  dark, in the footer (`ThemeToggle.astro`).
 - Work entries gained an `area` field (reliability / data / product) for the
   list tag; the first stack item read badly (".net").
 
 ### 3. Positioning and copy
 
 Workshop the headline and the About page with Sean. Home page structure final.
+Headline decided 2026-10-02: "I build things that work and fix things that
+break." Work order: monitoring, AutoLight, ingest.
 
 Also: generated OG images per page (moved from slice 2).
 

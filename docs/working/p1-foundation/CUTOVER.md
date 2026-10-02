@@ -1,6 +1,6 @@
 # Cutover runbook: Route 53 → Cloudflare
 
-> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress** (phase 1). Tick steps as they
+> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress** (phase 2). Tick steps as they
 > happen and note anything that surprised us. Modelled on
 > sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md`.
 >
@@ -30,14 +30,16 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
   seanrusselldev.com → Actions → Edit name servers**. Replace the four
   `awsdns` servers with Cloudflare's two.
 - [x] **Sean:** while there, confirm **auto-renew is on**. (On.)
-- [ ] **Claude:** confirm the registry shows Cloudflare's nameservers (DoH
-  and whois) and Cloudflare reports the zone **Active**. 2026-10-02: registry
+- [x] **Claude:** confirm the registry shows Cloudflare's nameservers (DoH
+  and whois) and Cloudflare reports the zone **Active**. Active 2026-10-02
+  (Sean); Cloudflare's resolver caught up the same day. Earlier: registry
   (whois) and Google DNS show `coen` / `deborah.ns.cloudflare.com`; Cloudflare's
   resolver still had the cached `awsdns` set (Route 53's NS TTL is 2 days).
 
 ## Phase 2: go live
 
-- [ ] **Claude:** PR adding the custom domain to `wrangler.jsonc`:
+- [x] **Claude:** commit adding the custom domain to `wrangler.jsonc`
+  (pushed straight to `main`: nothing was live, so no PR):
   `"routes": [{ "pattern": "www.seanrusselldev.com", "custom_domain": true }]`.
   The deploy creates the DNS record and certificate. Wrangler then turns the
   `workers.dev` address off; PR previews stay on.

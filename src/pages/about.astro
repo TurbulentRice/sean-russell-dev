@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../site.config';
+import { resumeIsPublic } from '../lib/content';
+
+const showResume = await resumeIsPublic();
 ---
 
 <Base title="About">
@@ -16,7 +19,7 @@ import { site } from '../site.config';
         development team shipping.
       </p>
       <p>I'm also a photographer: <a href={site.photo}>seanrussellphoto.com</a>.</p>
-      <p><a href="/resume/">Résumé</a> · <a href={site.github}>GitHub</a></p>
+      <p>{showResume && <><a href="/resume/">Résumé</a> · </>}<a href={site.github}>GitHub</a></p>
     </div>
   </article>
 </Base>

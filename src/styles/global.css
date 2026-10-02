@@ -44,8 +44,10 @@
   --radius: 6px;
 }
 
+/* Dark follows the system unless the visitor chose (ThemeToggle sets
+   data-theme on <html>). Same values twice so the choice wins either way. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     color-scheme: dark;
     --bg: #0d1412;
     --surface: #121b18;
@@ -54,6 +56,15 @@
     --line: #1e2925;
     --accent: #6cc3ad;
   }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0d1412;
+  --surface: #121b18;
+  --fg: #e2e9e5;
+  --muted: #88968f;
+  --line: #1e2925;
+  --accent: #6cc3ad;
 }
 
 /* ---------- Base ---------- */
@@ -150,11 +161,12 @@ hr { border: 0; border-top: 1px solid var(--line); margin: var(--space-6) 0; }
   margin-right: var(--space-2);
 }
 
-/* Shiki dual themes (astro.config.mjs): light by default, dark when the system is. */
+/* Shiki dual themes (astro.config.mjs): light by default, dark with the page. */
 .astro-code { background-color: var(--surface) !important; }
 @media (prefers-color-scheme: dark) {
-  .astro-code, .astro-code span { color: var(--shiki-dark) !important; font-style: var(--shiki-dark-font-style) !important; }
+  :root:not([data-theme='light']) :is(.astro-code, .astro-code span) { color: var(--shiki-dark) !important; font-style: var(--shiki-dark-font-style) !important; }
 }
+:root[data-theme='dark'] :is(.astro-code, .astro-code span) { color: var(--shiki-dark) !important; font-style: var(--shiki-dark-font-style) !important; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

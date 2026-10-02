@@ -15,7 +15,10 @@
   // PR builds run `wrangler preview`, which needs this block (it can be
   // empty). Each PR gets a preview URL on workers.dev, kept out of search by
   // public/_headers.
-  "previews": {}
-  // Custom domain is added at cutover (P1 slice 5), once the zone is on
-  // Cloudflare: "routes": [{ "pattern": "www.seanrusselldev.com", "custom_domain": true }]
+  "previews": {},
+  // The site's real address. Deploying creates the DNS record and certificate,
+  // and turns the workers.dev address off (PR previews stay on). The bare
+  // domain redirects here via a Cloudflare Redirect Rule (dashboard; see
+  // docs/working/p1-foundation/CUTOVER.md, phase 2).
+  "routes": [{ "pattern": "www.seanrusselldev.com", "custom_domain": true }]
 }
