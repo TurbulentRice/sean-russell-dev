@@ -28,6 +28,17 @@ dev. ✅ Verified in the browser.
 
 ### 2. Design system
 
+**Direction decided 2026-10-02: "Signal".** The site reads like a
+well-instrumented system: quiet type, generous space, work as an index (lists,
+not cards). The interest is in the details, chief among them a small live
+latency/uptime trace in the hero fed by the `/status` probe (P4); until then
+it's omitted or static. Sean's words: understated, "showing off a bit", never
+on the nose. Considered and set aside: "Contact sheet" (monochrome, film-edge
+metadata) and "Schematic" (dot grid, node graph). Borrow from them: frame
+numbering for case-study screenshots, the diagram style for architecture
+figures. Type: Schibsted Grotesk + IBM Plex Mono. **Palette: open**, choosing
+among Verdigris, Oxblood, Phosphor and International orange.
+
 Type scale, colour tokens (light/dark), spacing, components (card, tag,
 banner, code blocks), a view-transition treatment, generated OG images. The
 tokens in `src/styles/global.css` are placeholders shaped for this.

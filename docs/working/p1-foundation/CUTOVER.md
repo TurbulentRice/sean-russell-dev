@@ -1,6 +1,6 @@
 # Cutover runbook: Route 53 → Cloudflare
 
-> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress.** Tick steps as they
+> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress** (phase 1). Tick steps as they
 > happen and note anything that surprised us. Modelled on
 > sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md`.
 >
@@ -23,15 +23,17 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
 
 ## Phase 1: move DNS to Cloudflare
 
-- [ ] **Sean:** Cloudflare dashboard → **Add a domain** → `seanrusselldev.com`
+- [x] **Sean:** Cloudflare dashboard → **Add a domain** → `seanrusselldev.com`
   → **Free**. Choose "Connect a domain", not Transfer. The quick scan should
   find nothing; that's expected.
-- [ ] **Sean:** AWS console → **Route 53 → Registered domains →
+- [x] **Sean:** AWS console → **Route 53 → Registered domains →
   seanrusselldev.com → Actions → Edit name servers**. Replace the four
   `awsdns` servers with Cloudflare's two.
-- [ ] **Sean:** while there, confirm **auto-renew is on**.
+- [x] **Sean:** while there, confirm **auto-renew is on**. (On.)
 - [ ] **Claude:** confirm the registry shows Cloudflare's nameservers (DoH
-  and whois) and Cloudflare reports the zone **Active**.
+  and whois) and Cloudflare reports the zone **Active**. 2026-10-02: registry
+  (whois) and Google DNS show `coen` / `deborah.ns.cloudflare.com`; Cloudflare's
+  resolver still had the cached `awsdns` set (Route 53's NS TTL is 2 days).
 
 ## Phase 2: go live
 
