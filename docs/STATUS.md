@@ -4,7 +4,9 @@
 > keep only notes that matter. The work lives in [working/](working/).
 
 **Epic:** [P1: Foundation](working/p1-foundation/PLAN.md) (in progress)
-**Next:** slice 2 (design system). Then 3 (copy) and 5 (cutover).
+**Next:** slice 2 (design system: Sean choosing among three directions) and
+slice 5 (cutover, runbook in [CUTOVER.md](working/p1-foundation/CUTOVER.md): Sean adds the zone to Cloudflare
+and switches nameservers at Route 53 Domains). Then 3 (copy).
 **Deployed:** `main` → https://sean-russell-dev.seanlawrencerussell.workers.dev
 (Workers Builds). Public repo: TurbulentRice/sean-russell-dev.
 
