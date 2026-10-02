@@ -1,6 +1,6 @@
 # P1: Foundation
 
-**Status: in progress.** Slice 1 done 2026-10-02.
+**Status: in progress.** Slices 1 and 4 done 2026-10-02.
 
 Goal: a small, polished site live at www.seanrusselldev.com, with the
 structure every later epic fills in.
@@ -41,12 +41,21 @@ Workshop the headline and the About page with Sean. Home page structure final.
 
 *Done when:* Sean signs off on the home and About copy.
 
-### 4. Repo and CI
+### 4. Repo and CI ✅ (2026-10-02)
 
 Push to GitHub (after the legacy repo is renamed, archived or deleted), connect
 Workers Builds, and set up PR previews.
 
-*Done when:* a PR gets a preview URL and `main` deploys.
+*Done when:* a PR gets a preview URL and `main` deploys. ✅ `main` deploys to
+https://sean-russell-dev.seanlawrencerussell.workers.dev; drafts 404 there,
+workers.dev sends `X-Robots-Tag: noindex`, `/about` → `/about/` (307).
+PR previews are configured but not yet exercised.
+
+**Where the code disagreed with the plan:**
+- The repo is public (TurbulentRice/sean-russell-dev). The old one is
+  archived as `sean-russell-dev-legacy`.
+- Workers Builds was connected in the dashboard by Sean; the local wrangler
+  isn't logged in, so check deploys in the dashboard or by curl.
 
 ### 5. Cutover
 
