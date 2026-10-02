@@ -1,0 +1,35 @@
+---
+title: Rebuilding a data ingest pipeline around signals
+summary: From heavy, lossy, opaque messages to lightweight event signals that pull data from the source, which made ingest cheaper, faster and recoverable.
+role: TBD
+period: TBD
+stack: [.NET, Event-driven architecture, Messaging, SQL]
+order: 2
+featured: true
+draft: true
+---
+
+{/* Outline (P2). Internally "Blue Data Connector": generalize the name before publishing. */}
+
+## Before
+
+A legacy message-based ingest pipeline. Messages were heavy and carried the data itself, passing
+through many layers of processing, validation and mapping. It was slow and opaque, and a lost
+message was unrecoverable. Fixing data meant asking the source owners to push again.
+
+## After
+
+- Messages are lightweight **signals**, coalesced by their consumers for true FIFO behaviour
+- Fan-out to atomic consumers keeps every message a signal
+- Data is fetched **directly from the source**, not carried in the message
+
+## Results
+
+- Messages went from heavy and costly to light and cheap, and process faster
+- Support staff can trigger updates on our side instead of waiting on source owners
+- More visibility into failures, and more agency over, and confidence in, the data behind the site
+
+## Decisions and trade-offs
+
+{/* Interactive island idea: legacy vs. signal simulation. Drop messages and watch one design
+    lose data and the other recover (BRIEF, "Show, don't tell"). */}

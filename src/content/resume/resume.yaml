@@ -1,0 +1,173 @@
+# Hand-converted from Sean_Russell_Resume_2025.docx on 2026-10-02 as a
+# starting point. Out of date: context only, not the final résumé (P3).
+# Schema: src/lib/resume.ts. Street address and phone are deliberately absent.
+draft: true
+name: Sean Russell
+headline: Full-Stack Software Engineer
+location: Schenectady, NY
+links:
+  # hello@ forwards to Gmail via Cloudflare Email Routing (set up at cutover).
+  email: hello@seanrusselldev.com
+  github: github.com/TurbulentRice
+summary: >-
+  Software engineer with five years of experience performing full-stack web development and site
+  reliability engineering tasks in an Agile environment. AI-enabled and ready for anything.
+skills:
+  - group: JavaScript
+    items: [React, Next, TypeScript, Node, Express, Angular, jQuery, Vite, Webpack]
+  - group: C#
+    items: [.NET, Entity Framework, Dapper, MassTransit, Polly, Prometheus]
+  - group: Python
+    items: [Flask, Boto3, Celery, Flower, EasySNMP, NumPy, Pandas]
+  - group: PHP
+    items: [Laravel, Eloquent, Slim, PDO]
+  - group: HTML and CSS
+    items: [HTML5, CSS3, Tailwind, styled-components, Sass, Bootstrap, UIKit, Razor, Blade]
+  - group: Databases
+    items: [PostgreSQL, MySQL, SQL Server, SQLite, MongoDB, Apache Solr]
+  - group: Infrastructure
+    items: [AWS, Git, Docker, Terraform, Kubernetes, ArgoCD, Cloudflare, Linux, Apache, Nginx, MS Azure, RabbitMQ, Grafana, Redis]
+  - group: Software and Tools
+    items: [Cursor, Claude Code, Codex, Adobe Creative Cloud]
+experience:
+  - org: Better Business Bureau
+    location: Arlington, VA
+    role: Full Stack Developer
+    start: 2024-01
+    end: null
+    summary: >-
+      Web developer with a wide range of proficiencies: designing systems, codifying infrastructure,
+      migrating data, building backend services and APIs, and developing responsive, accessible, and
+      SEO-friendly user interfaces.
+    highlights:
+      - title: Application Optimization
+        text: >-
+          Designed and implemented a thin request-scoped task memoization layer in front of a large
+          Valkey distributed cache, immediately reducing application cache calls by 70%, and decreasing
+          server request latency by 50% across bbb.org.
+      - title: Cache Invalidation
+        text: >-
+          Architected and led development on a distributed cache invalidation service responsible for
+          clearing relevant web data caches in response to events occurring in disconnected
+          applications. Implemented fan-out messaging pattern using AWS SNS and SQS, and codified
+          infrastructure using Terraform.
+      - title: DevOps
+        text: >-
+          Created a CI/CD release helper CLI tool, which is used across development teams to simplify
+          and standardize the release process, offering convenience features and helpful guardrails.
+          Responsible for updating, migrating, and reconciling 5 million+ rows of mission critical
+          business profile data from a cloud enterprise search platform to a PostgreSQL database.
+      - title: AI Sentiment Analysis
+        text: >-
+          Working enthusiastically with stakeholders to define areas of opportunity in the emerging
+          landscape of AI-driven tools and services. Built a containerized microservice to analyze
+          sentiment of customer complaint texts using .NET, Docker, Kubernetes, and Google Cloud
+          Natural Language API.
+  - org: Comcast
+    location: Troy, NY
+    role: Software Engineer
+    start: 2021-02
+    end: 2023-12
+    summary: >-
+      Full-stack engineer developing front-end web applications and back-end services to deliver
+      managed Wi-Fi solutions for hotels, arenas, and campuses around the world.
+    highlights:
+      - title: Xfinity NOW Wi-Fi Pass
+        text: >-
+          Lead front-end developer for a new Wi-Fi hotspot product, resulting in 33,459 passes sold in
+          the first month. Collaborated with product team to define requirements, monitor application
+          activity metrics, and troubleshoot software issues. Wrote secure APIs to manage an automated
+          email journey from pass purchase to expiration.
+      - title: Captive Portal Development
+        text: >-
+          Designed and built responsive landing pages for high-profile customers including Wyndham
+          Resorts, Four Seasons, Cedar Fair, San Francisco Giants, and University of Alabama.
+      - title: DevOps
+        text: >-
+          Supported the migration from on-premises servers to cloud infrastructure using AWS EC2, RDS,
+          CloudFront, S3, SecretsManager, and Microsoft Azure.
+      - title: Internal Tools
+        text: >-
+          Updated mission-critical business applications to mitigate SLA impact of third-party service
+          outages on customer networks using Python-Flask servers, EasySNMP, Celery, and Flower.
+          Integrated internal software with external vendor APIs including Zendesk, Cisco Meraki, and
+          Five9.
+      - title: Quality Assurance
+        text: >-
+          Perform functional, regression, and end-to-end testing, write unit tests, and maintain
+          detailed test plan documentation for multiple code bases.
+      - title: Leadership
+        text: >-
+          Enthusiastically collaborate across teams, create and manage user stories, and communicate
+          clearly with stakeholders. Mentored a junior developer in REST principles, API
+          authentication, and code deployment. Mentored an intern in UI/UX design and front-end web
+          development.
+      - title: Cybersecurity
+        text: >-
+          Remediate security vulnerabilities in code and infrastructure, including automating data
+          retention and disposal policies, and implementing user authentication (RADIUS, SSO, OAuth,
+          JWT).
+  - org: Sean Russell Photography
+    location: Troy, NY
+    role: Owner
+    start: 2015-07
+    end: null
+    summary: Professional portraiture, wedding, and event photography for diverse clientele across Northeastern US.
+    highlights:
+      - title: Communication
+        text: Communicating with clients to design unique product packages on a timeline.
+      - title: Customer Satisfaction
+        text: Achieving a 5-star customer satisfaction record and glowing word-of-mouth recommendations.
+      - title: Technical Expertise
+        text: >-
+          Employing advanced knowledge of lighting, composition, photo/video equipment, and
+          post-production software and workflows; editing and archiving tens of thousands of images.
+      - title: Marketing
+        text: >-
+          Managing a business portfolio website with third-party product, sales, and marketing tools
+          including SEO to boost engagement.
+  - org: New York State Assembly
+    location: Albany, NY
+    role: Senior Photographer
+    start: 2016-10
+    end: 2021-02
+    summary: >-
+      Principal photographer responsible for managing official portrait studio and documenting
+      legislative session, press conferences, and events for use in government media.
+    highlights:
+      - title: Organization
+        text: >-
+          Orchestrated the coverage, processing, and documentation of hundreds of photo jobs for a team
+          of staff photographers.
+      - title: Leadership
+        text: >-
+          Spearheaded the rearchitecting of official portrait system; researched and secured several
+          large equipment purchase orders.
+  - org: GCOM Software Inc.
+    location: Albany, NY
+    role: Computer Specialist
+    start: 2013-06
+    end: 2014-08
+    summary: >-
+      Technical support representative for the NYSDOH's Health Commerce System, providing call support
+      to physicians and nurse practitioners around NY during the rollout of the I-STOP Prescription
+      Monitoring Program software.
+    highlights: []
+education:
+  - institution: CanCode Communities
+    location: Albany, NY
+    credential: Continuing education
+    start: 2020-06
+    end: 2021-05
+    notes: [JavaScript Frameworks, JavaScript Fundamentals, Python for Data Analytics]
+  - institution: State University of New York at Geneseo
+    location: Geneseo, NY
+    credential: 'Bachelor of Arts: Communication, Journalism and Media'
+    end: 2015-05
+    notes: ["Graduated on the Dean's List with a GPA of 3.6."]
+  - institution: Rensselaer Polytechnic Institute
+    location: Troy, NY
+    credential: 'Undergraduate studies: Electronic Arts'
+    start: 2011-09
+    end: 2012-05
+    notes: [Studied digital media production under Pauline Oliveros, Igor Vamos, and Michael Century.]

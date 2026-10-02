@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { published } from '../../lib/content';
+
+const entries = await published('lab');
+---
+
+<Base title="Lab" description="Experiments. Some polished, some not, all labelled.">
+  <h1>Lab</h1>
+  <p class="prose muted">
+    Experiments, each labelled: <span class="tag">live</span> works and is maintained,
+    <span class="tag">wip</span> is in progress, <span class="tag">archived</span> is kept for the record.
+  </p>
+  <ul class="cards">
+    {entries.map((e) => <EntryCard href={`/lab/${e.id}/`} title={e.data.title} summary={e.data.summary} badge={e.data.draft ? 'draft' : e.data.status} tags={e.data.stack.slice(0, 3)} />)}
+  </ul>
+</Base>

@@ -1,0 +1,28 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { published } from '../../lib/content';
+
+export async function getStaticPaths() {
+  return (await published('work')).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, role, period, stack, links, draft } = entry.data;
+---
+
+<Base title={title} description={summary} noindex={draft}>
+  <article class="prose">
+    {draft && <p class="banner">Draft: visible in dev only.</p>}
+    <h1>{title}</h1>
+    <p class="muted">{role} · {period}</p>
+    <p>{stack.map((s) => <span class="tag">{s}</span>)}</p>
+    {(links.live || links.repo) && (
+      <p>
+        {links.live && <a href={links.live}>Live</a>} {links.repo && <a href={links.repo}>Source</a>}
+      </p>
+    )}
+    <Content />
+  </article>
+</Base>

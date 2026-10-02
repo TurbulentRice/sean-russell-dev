@@ -1,0 +1,16 @@
+---
+// Built but not in the nav until there are a few posts (site.config.ts).
+import Base from '../../layouts/Base.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { published } from '../../lib/content';
+
+const entries = await published('notes');
+---
+
+<Base title="Notes" description="Short technical write-ups." noindex={entries.length === 0}>
+  <h1>Notes</h1>
+  {entries.length === 0 && <p class="muted">Nothing here yet.</p>}
+  <ul class="cards">
+    {entries.map((e) => <EntryCard href={`/notes/${e.id}/`} title={e.data.title} summary={e.data.summary} badge={e.data.date.toISOString().slice(0, 10)} />)}
+  </ul>
+</Base>

@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import EntryCard from '../components/EntryCard.astro';
+import { published } from '../lib/content';
+
+const work = (await published('work')).filter((e) => e.data.featured).slice(0, 3);
+const lab = (await published('lab')).slice(0, 3);
+---
+
+<Base>
+  <section class="hero prose">
+    <h1>Sean Russell</h1>
+    <!-- Positioning copy is a placeholder until P1 slice 3 (BRIEF, "Positioning"). -->
+    <p class="lede">
+      Full-stack engineer who owns systems end to end, from data pipelines to production
+      reliability, with AI in the loop.
+    </p>
+  </section>
+
+  {work.length > 0 && (
+    <section>
+      <h2>Selected work</h2>
+      <ul class="cards">
+        {work.map((e) => <EntryCard href={`/work/${e.id}/`} title={e.data.title} summary={e.data.summary} tags={e.data.stack.slice(0, 3)} />)}
+      </ul>
+    </section>
+  )}
+
+  {lab.length > 0 && (
+    <section>
+      <h2>From the lab</h2>
+      <ul class="cards">
+        {lab.map((e) => <EntryCard href={`/lab/${e.id}/`} title={e.data.title} summary={e.data.summary} badge={e.data.status} />)}
+      </ul>
+    </section>
+  )}
+</Base>
+
+<style>
+  .hero { padding-block: 4rem 2rem; }
+  .lede { font-size: 1.25rem; color: var(--muted); }
+</style>

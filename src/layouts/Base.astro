@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { site, nav } from '../site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description = site.description, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : site.title;
+const canonical = new URL(Astro.url.pathname, site.url);
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <ClientRouter />
+  </head>
+  <body>
+    <header class="wrap site-header">
+      <a href="/" class="mono home">sean russell<span class="muted">.dev</span></a>
+      <nav>
+        {nav.map((item) => (
+          <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="wrap site-footer muted">
+      <span>© {new Date().getFullYear()} Sean Russell</span>
+      <a href={site.github}>GitHub</a>
+      <a href={site.photo}>Photography</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header, .site-footer { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; padding-block: 1.5rem; }
+  .site-header { justify-content: space-between; }
+  .site-header nav { display: flex; gap: 1.25rem; }
+  .site-header a { color: inherit; text-decoration: none; }
+  .site-header a[aria-current='page'] { color: var(--accent); }
+  .home { font-weight: 700; }
+  .site-footer { margin-top: 6rem; border-top: 1px solid var(--line); font-size: 0.9rem; }
+  .site-footer a { color: inherit; }
+  main { min-height: 60vh; }
+</style>

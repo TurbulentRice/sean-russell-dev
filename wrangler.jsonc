@@ -1,0 +1,21 @@
+// Cloudflare Worker serving the built site as static assets. No Worker code
+// yet, so requests never invoke (or bill) a script. When an experiment needs
+// an API, add `main` and route only /api/* to it (assets.run_worker_first).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sean-russell-dev",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // dist/404.html for anything that isn't a file.
+    "not_found_handling": "404-page",
+    // /about → /about/, matching Astro's trailingSlash: 'always'.
+    "html_handling": "auto-trailing-slash"
+  },
+  // PR builds run `wrangler preview`, which needs this block (it can be
+  // empty). Each PR gets a preview URL on workers.dev, kept out of search by
+  // public/_headers.
+  "previews": {}
+  // Custom domain is added at cutover (P1 slice 5), once the zone is on
+  // Cloudflare: "routes": [{ "pattern": "www.seanrusselldev.com", "custom_domain": true }]
+}

@@ -1,0 +1,33 @@
+---
+title: Synthetic monitoring for critical user journeys
+summary: A black-box probe that found ~20 silent, user-facing defects in its first month, the kind dev could never reproduce.
+role: TBD
+period: TBD
+stack: [Playwright, CI/CD, Alerting, TypeScript]
+order: 1
+featured: true
+draft: true
+---
+
+{/* Outline (P2). Generalize employer-internal names before publishing. */}
+
+## The problem
+
+## What I built
+
+- Black-box synthetic probes over the site's critical user journeys
+- Alerting, wired into CI/CD and the e2e test suite
+- An internal companion app for debugging failure reports
+
+## Results
+
+- ~20 tickets generated in the first month
+- ~90% attributed to user-facing, systemic, silent problems that couldn't be reproduced in dev:
+  races, infrastructure, 1-in-100 edge cases
+
+## Decisions and trade-offs
+
+## What I'd do differently
+
+{/* Live companion idea: a Cron Trigger Worker probing this site, autolight.ai and
+    seanrussellphoto.com, results in D1, rendered at /status (BRIEF, "Show, don't tell"). */}
