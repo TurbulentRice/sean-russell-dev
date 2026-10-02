@@ -9,9 +9,9 @@ legacy GitHub repo is out of the way.
 
 ## Notes
 
-- **Legacy loose ends** (old `.env`, never committed): revoke the old OpenAI
-  key if it's still live; check whether the S3 bucket in `S3_AI_BUCKET_ORIGIN`
-  still exists and costs anything. The Route 53 zone goes at cutover.
+- **Legacy loose ends:** Sean revokes the old OpenAI key (from the legacy
+  `.env`, never committed). S3 resources deleted 2026-10-02. Old repo renamed
+  to `sean-russell-dev-legacy`. The Route 53 zone goes at cutover.
 - **The résumé is a draft** (`draft: true`), hand-converted from the 2025 .docx
   as context only. The rewrite belongs to P2.
 - Case-study roles and periods are `TBD`: Sean to fill in.
