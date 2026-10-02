@@ -9,6 +9,6 @@
   Referrer-Policy: strict-origin-when-cross-origin
 
 # Keep the workers.dev addresses (production and version previews) out of
-# search results; the real site is www.seanrusselldev.com.
+# search results; the real site is seanrusselldev.com.
 https://:worker.:account.workers.dev/*
   X-Robots-Tag: noindex

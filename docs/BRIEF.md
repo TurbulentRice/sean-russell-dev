@@ -99,6 +99,7 @@ Two ideas that turn claims into evidence:
 | Résumé | YAML in the repo, schema in `src/lib/resume.ts`, bootstrapped from .docx by `npm run import-resume` (Claude, structured outputs) | One source of truth for site and PDF. Writing the case studies sharpens the bullets. |
 | Analytics | Cloudflare Web Analytics (edge-injected) | No cookies, no banner. |
 | DNS | Move seanrusselldev.com from Route 53 to Cloudflare | Workers custom domains need the zone on Cloudflare. |
+| Canonical host | **The bare domain**, `seanrusselldev.com`; `www` 301s to it (decided 2026-10-02) | No legacy URLs to keep (unlike the photo site), shorter on a résumé, matches autolight.ai. On Cloudflare the old reasons for www (apex CNAMEs, cookie scoping) don't apply. |
 
 ## Principles
 

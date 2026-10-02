@@ -16,9 +16,9 @@
   // empty). Each PR gets a preview URL on workers.dev, kept out of search by
   // public/_headers.
   "previews": {},
-  // The site's real address. Deploying creates the DNS record and certificate,
-  // and turns the workers.dev address off (PR previews stay on). The bare
-  // domain redirects here via a Cloudflare Redirect Rule (dashboard; see
-  // docs/working/p1-foundation/CUTOVER.md, phase 2).
-  "routes": [{ "pattern": "www.seanrusselldev.com", "custom_domain": true }]
+  // The site's real address: the bare domain (BRIEF, "How"). Deploying creates
+  // the DNS record and certificate, and turns the workers.dev address off (PR
+  // previews stay on). www redirects here via a Cloudflare Redirect Rule
+  // (dashboard; see docs/working/p1-foundation/CUTOVER.md, phase 2).
+  "routes": [{ "pattern": "seanrusselldev.com", "custom_domain": true }]
 }

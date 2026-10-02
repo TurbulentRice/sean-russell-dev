@@ -38,16 +38,24 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
 
 ## Phase 2: go live
 
-- [x] **Claude:** commit adding the custom domain to `wrangler.jsonc`
-  (pushed straight to `main`: nothing was live, so no PR):
-  `"routes": [{ "pattern": "www.seanrusselldev.com", "custom_domain": true }]`.
-  The deploy creates the DNS record and certificate. Wrangler then turns the
-  `workers.dev` address off; PR previews stay on.
-- [ ] **Sean:** DNS → `@` A `192.0.2.0`, **Proxied**; **Rules → Redirect
-  Rules** → root → `https://www.seanrusselldev.com` (301, keep path and
-  query). Check **Always Use HTTPS** is on.
+- [x] **Claude:** custom domain `www.seanrusselldev.com` in `wrangler.jsonc`,
+  pushed straight to `main` (nothing was live, so no PR). Served build
+  `793161b`. *Surprise:* this network's DNS cached the "doesn't exist" answer;
+  checked with DoH + `curl --resolve` instead.
+- [x] **Sean:** added `@` A `192.0.2.0` (Proxied) for a root → www redirect;
+  **Always Use HTTPS** on.
+- [x] **Decision (2026-10-02): the bare domain is canonical, not www.** No
+  legacy URLs, shorter, matches autolight.ai. Sean deleted the `@` A record
+  so the Worker could claim the apex.
+- [x] **Claude:** `routes` → `seanrusselldev.com`; `site`/`url`, robots.txt
+  and `_headers` follow.
+- [ ] **Sean:** Worker → **Settings → Domains & Routes** → remove
+  `www.seanrusselldev.com` if the deploy left it. Then DNS → `www` A
+  `192.0.2.0`, **Proxied**; **Rules → Redirect Rules** → template "Redirect
+  from WWW to root" (301, keep path and query).
 - [ ] **Claude:** check every combination of `http`/`https` and bare/`www`
-  ends at `https://www.…` with 301s, valid cert, sitemap, robots.txt, 404.
+  ends at `https://seanrusselldev.com` with 301s in at most 2 hops, valid cert,
+  sitemap, robots.txt, 404.
 
 ## Phase 3: email and analytics
 

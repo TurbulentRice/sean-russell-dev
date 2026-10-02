@@ -12,7 +12,7 @@ const resumeDraft = parse(readFileSync('src/content/resume/resume.yaml', 'utf8')
 const unlisted = ['/notes/', ...(resumeDraft ? ['/resume/'] : [])];
 
 export default defineConfig({
-  site: 'https://www.seanrusselldev.com',
+  site: 'https://seanrusselldev.com',
   trailingSlash: 'always',
   // React is for islands only: interactive pieces opt in with client:*.
   // Everything else ships as HTML with no framework runtime.

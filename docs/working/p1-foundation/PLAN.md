@@ -2,7 +2,7 @@
 
 **Status: in progress.** Slices 1, 2 and 4 done 2026-10-02.
 
-Goal: a small, polished site live at www.seanrusselldev.com, with the
+Goal: a small, polished site live at seanrusselldev.com, with the
 structure every later epic fills in.
 
 ## Slices
@@ -96,14 +96,14 @@ PR previews are configured but not yet exercised.
 2. Point the registrar's nameservers at Cloudflare. Check propagation with DNS
    over HTTPS, not `dig` (sean-russell-photo AGENTS.md: this network
    intercepts DNS).
-3. Add the `routes` custom domain in `wrangler.jsonc`; redirect the bare domain
-   to `www` with a Redirect Rule.
+3. Add the `routes` custom domain in `wrangler.jsonc`; redirect `www` to the
+   bare domain with a Redirect Rule (canonical host decided 2026-10-02).
 4. Email Routing: `hello@` → Gmail. Web Analytics on.
 5. Once stable, delete the Route 53 hosted zone.
 
 sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md` is the playbook.
 
-*Done when:* https://www.seanrusselldev.com serves this site and `hello@`
+*Done when:* https://seanrusselldev.com serves this site and `hello@`
 delivers.
 
 ## Not covered, on purpose

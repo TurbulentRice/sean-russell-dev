@@ -3,7 +3,7 @@ export const site = {
   title: 'Sean Russell · Software Engineer',
   description:
     'Full-stack engineer. I build things that work and fix things that break. Case studies, experiments and notes.',
-  url: 'https://www.seanrusselldev.com',
+  url: 'https://seanrusselldev.com',
   github: 'https://github.com/TurbulentRice',
   photo: 'https://www.seanrussellphoto.com',
 };
