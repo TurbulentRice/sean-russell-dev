@@ -4,11 +4,13 @@
 > keep only notes that matter. The work lives in [working/](working/).
 
 **Epic:** [P1: Foundation](working/p1-foundation/PLAN.md) (in progress)
-**Next:** slice 5 phase 3 (Email Routing for `hello@`, Web Analytics), then
-slice 3 (About copy, OG images).
+**Next:** P1 slice 3 (About copy, OG images). Then P2 (case studies + résumé).
 **Deployed:** `main` → https://seanrusselldev.com (Workers Builds). Public repo: TurbulentRice/sean-russell-dev.
 
 ## Notes
+
+- **Delete the Route 53 hosted zone** for seanrusselldev.com after a stable
+  week (≈2026-10-11). The registration stays in Route 53 Domains.
 
 - **Legacy loose ends:** Sean revokes the old OpenAI key (from the legacy
   `.env`, never committed). S3 resources deleted 2026-10-02. Old repo archived

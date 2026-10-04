@@ -117,6 +117,10 @@ docs/                        STATUS, BRIEF, working/
 - **Hosting is an assets-only Cloudflare Worker** (`wrangler.jsonc`, no
   `main`). When an API is needed, add `main` and route only `/api/*` to it
   with `assets.run_worker_first`, so static pages never invoke the script.
+- **Things that run outside the repo** (Cloudflare dashboard): the `www` →
+  apex Redirect Rule, Always Use HTTPS, Email Routing (`hello@` → Gmail), and
+  Web Analytics (beacon injected at the edge for browser-like requests, so
+  `curl` won't show it). See `docs/working/p1-foundation/CUTOVER.md`.
 - **This network intercepts DNS.** Check what the world sees with
   DNS-over-HTTPS (`curl -H 'accept: application/dns-json'
   'https://cloudflare-dns.com/dns-query?name=…&type=A'`), not `dig`.

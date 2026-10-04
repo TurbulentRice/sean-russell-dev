@@ -1,6 +1,6 @@
 # Cutover runbook: Route 53 → Cloudflare
 
-> Slice 5 of [PLAN.md](PLAN.md). Status: **in progress** (phase 3). Tick steps as they
+> Slice 5 of [PLAN.md](PLAN.md). Status: **live 2026-10-04.** Only phase 4 (retire Route 53) remains. Tick steps as they
 > happen and note anything that surprised us. Modelled on
 > sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md`.
 >
@@ -72,11 +72,12 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
 
 ## Phase 3: email and analytics
 
-- [ ] **Sean:** **Email Routing** → `hello@seanrusselldev.com` → Gmail.
-  Send a test, and check Gmail's Spam folder (the photo site's first tests
-  landed there).
-- [ ] **Sean:** **Web Analytics** → automatic setup. **Claude** confirms a
-  real browser visit reports.
+- [x] **Sean:** **Email Routing** → `hello@seanrusselldev.com` → Gmail.
+  **Claude** confirmed Cloudflare's MX ×3, SPF and DKIM (`cf2024-1`) in public
+  DNS. Test delivery: Sean to confirm (check Spam; the photo site's first
+  tests landed there).
+- [x] **Sean:** **Web Analytics** → automatic setup. **Claude** confirmed a
+  real browser visit: beacon injected at the edge, `POST /cdn-cgi/rum` → 204.
 - [ ] Optional: DMARC `p=none`; Google Search Console + submit the sitemap.
 
 ## Phase 4: retire Route 53

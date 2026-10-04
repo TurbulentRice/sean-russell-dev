@@ -1,7 +1,7 @@
 # P1: Foundation
 
-**Status: in progress.** Slices 1, 2 and 4 done 2026-10-02; slice 5 live,
-email and analytics left.
+**Status: in progress.** Slices 1, 2, 4 and 5 done (live 2026-10-04). Slice 3
+(copy) remains.
 
 Goal: a small, polished site live at seanrusselldev.com, with the
 structure every later epic fills in.
@@ -90,7 +90,7 @@ PR previews are configured but not yet exercised.
 - Workers Builds was connected in the dashboard by Sean; the local wrangler
   isn't logged in, so check deploys in the dashboard or by curl.
 
-### 5. Cutover
+### 5. Cutover ✅ (2026-10-04)
 
 1. Add seanrusselldev.com to Cloudflare; recreate any Route 53 records still
    needed (check MX/TXT first).
@@ -105,7 +105,8 @@ PR previews are configured but not yet exercised.
 sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md` is the playbook.
 
 *Done when:* https://seanrusselldev.com serves this site and `hello@`
-delivers.
+delivers. ✅ Record: [CUTOVER.md](CUTOVER.md). Left: delete the Route 53 hosted
+zone after a stable week (≈2026-10-11).
 
 ## Not covered, on purpose
 
