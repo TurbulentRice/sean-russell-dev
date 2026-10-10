@@ -39,7 +39,15 @@ assets.
 - `docs/working/` is history. It's accurate about its moment. When it
   disagrees with the code, the code wins.
 - Match the surrounding code's density and idiom. Comment the *why*.
-- Commit only when asked.
+- **Branches and PRs** (since 2026-10-09). Never commit to `main` directly.
+  Branch off `main` as `type/short-description`, with `type` one of `feat`,
+  `fix`, `docs`, `chore`, `refactor` (e.g. `feat/autolight-case-study`). One
+  coherent slice per branch. Commit as you go; push and open a PR when the
+  slice is reviewable, without asking first. Sean merges. Merging to `main`
+  deploys (Workers Builds); every PR gets a preview URL on workers.dev.
+- **A PR description is a short essay**: a few plain paragraphs on what
+  changed, why, and anything a reviewer should look at or decide. No
+  checklists or headings unless they earn it. End with the attribution line.
 
 ## 4. Commands
 
