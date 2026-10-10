@@ -96,7 +96,9 @@ Workers Builds, and set up PR previews.
 *Done when:* a PR gets a preview URL and `main` deploys. ✅ `main` deploys to
 https://sean-russell-dev.seanlawrencerussell.workers.dev; drafts 404 there,
 workers.dev sends `X-Robots-Tag: noindex`, `/about` → `/about/` (307).
-PR previews are configured but not yet exercised.
+PR previews are configured but not yet exercised. *Later (2026-10-12):*
+they 404'd, because preview URLs follow `workers_dev` by default and the
+custom domain turned that off. `preview_urls: true` in `wrangler.jsonc` fixes it.
 
 **Where the code disagreed with the plan:**
 - The repo is public (TurbulentRice/sean-russell-dev). The old one is
