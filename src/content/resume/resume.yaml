@@ -9,6 +9,7 @@ links:
   # hello@ forwards to Gmail via Cloudflare Email Routing (set up at cutover).
   email: hello@seanrusselldev.com
   github: github.com/TurbulentRice
+  linkedin: linkedin.com/in/sean-russell-professional
 summary: >-
   Software engineer with five years of experience performing full-stack web development and site
   reliability engineering tasks in an Agile environment. AI-enabled and ready for anything.
