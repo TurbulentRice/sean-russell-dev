@@ -1,0 +1,33 @@
+---
+// A screenshot that follows the site's theme: both renders ship as optimized,
+// responsive images, and CSS shows the one matching the page (system setting
+// or the ThemeToggle choice). The hidden one is lazy and display:none, so the
+// browser never fetches it.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  light: ImageMetadata;
+  dark: ImageMetadata;
+  alt: string;
+}
+const { light, dark, alt } = Astro.props;
+const sizes = '(min-width: 64rem) 60rem, 100vw';
+---
+
+<span class="shot">
+  <Picture class="light" src={light} alt={alt} formats={['avif', 'webp']} widths={[640, 960, 1280, 1600]} sizes={sizes} loading="lazy" />
+  <Picture class="dark" src={dark} alt={alt} formats={['avif', 'webp']} widths={[640, 960, 1280, 1600]} sizes={sizes} loading="lazy" />
+</span>
+
+<style>
+  .shot { display: block; }
+  .shot :global(img) { display: block; width: 100%; height: auto; }
+  .shot :global(.dark) { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .shot :global(.light) { display: none; }
+    :global(:root:not([data-theme='light'])) .shot :global(.dark) { display: block; }
+  }
+  :global(:root[data-theme='dark']) .shot :global(.light) { display: none; }
+  :global(:root[data-theme='dark']) .shot :global(.dark) { display: block; }
+</style>

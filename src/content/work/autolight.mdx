@@ -3,27 +3,147 @@ title: AutoLight
 summary: A machine-learning desktop app that learns a photographer's editing style from their Lightroom catalogs, and delivers it back into Lightroom. Designed and built solo.
 area: product
 role: Founder, sole engineer
-period: TBD
+period: 2025–present
 stack: [TypeScript, Electron, React, PyTorch]
 order: 2
 featured: true
 links:
   live: https://autolight.ai
-draft: true
+draft: false
 ---
 
-{/* Outline (P2). The repo is private: tell it through architecture, decisions and screenshots
-    (autolight-lossless/docs/screens/). Every number must trace to autolight-lossless/docs
-    BUSINESS.md or STATUS.md, per autolight-web's claims policy. */}
+import Figure from '../../components/case/Figure.astro';
+import Shot from '../../components/case/Shot.astro';
+import Metrics from '../../components/case/Metrics.astro';
+import Notes from '../../components/case/Notes.astro';
+import Architecture from '../../work/autolight/Architecture.astro';
+import styleLight from '../../work/autolight/style-light.png';
+import styleDark from '../../work/autolight/style-dark.png';
 
-## What it is
+{/* Claims policy (BRIEF, "Rules for case studies"): every AutoLight number traces to
+    autolight-lossless/docs/STATUS.md. Nothing here about model quality, launch, pricing or
+    platforms until autolight.ai says it (P2 plan, decision 5). */}
 
-## Architecture
+## The problem
 
-## Hard problems
+A wedding photographer can come home with four thousand frames, and most of the hours after
+that go to editing them. Most of that editing is the same handful of habits: this much
+exposure, that tone curve, these colors pulled back. A photographer's own Lightroom catalogs
+already hold years of those decisions.
 
-- Telling which photos were actually *edited*: no catalog column says so
+AutoLight learns from them. Point it at catalogs you've already edited and it trains a model on
+your slider habits. Then hand it a new shoot and it delivers edits back into Lightroom for you
+to review. It runs entirely on your machine: no presets, no uploads, and your RAW files never
+move.
 
-## What it shows
+## Constraints
 
-Initiative, perseverance, and synthesis across photography, ML, desktop and web engineering.
+- **The catalog is sacred.** A Lightroom catalog is an undocumented SQLite database holding
+  years of a photographer's work. Damaging one is not a bug; it's the end of trust.
+- **Local only.** No cloud training, no account, and it has to work offline.
+- **One person.** Every moving part has to earn its maintenance cost.
+- **The model sees very little.** It learns from a small preview of each photo, not the RAW, so
+  anything a preview can't show, it can't learn.
+
+## Decisions
+
+### Deliver into Lightroom, not beside it
+
+The obvious design renders edited photos in the app and lets you approve them. I didn't build
+that. An in-app renderer would never match Lightroom's own, and it would fail quietly: a
+photo that looks slightly wrong is worse than one that's plainly missing. Catalog writes, on
+the other hand, are testable, deterministic, and fail loudly.
+
+So AutoLight writes its edits into the catalog as Lightroom's own **virtual copies**, grouped
+in a dated collection, and you review them in the tool you already know. Lightroom doesn't
+document how a virtual copy is stored, so I worked it out by diffing the one real virtual copy
+in a test catalog against its master across all 133 tables. A virtual copy turned out to be
+rows in about seventeen of them.
+
+Every write goes into a **copy** of the catalog, never the original, and is gated on a SQLite
+integrity check plus a row-count reconciliation. A pass that fails its checks is reported as a
+failed pass, never as work done. Writing onto the original is possible, but only as an explicit
+action that backs the catalog up first. I also considered XMP sidecar files, which are safer to
+write, but they need a manual "Read Metadata" step in Lightroom and can't make virtual copies.
+
+### Draw a hard line between the app and the model
+
+The first version was a Python prototype, and the desktop app grew around it. That left two
+places that both thought they knew where files lived and what work came next. I drew one rule
+and enforced it:
+
+> Python answers "here's the result of the work you asked for." It never answers "what should
+> I work on?"
+
+The Python ML core became a stateless worker: absolute paths and parameters in, a stream of
+JSONL events out, then exit. Everything about state (what exists, where it lives, which jobs
+are running) belongs to the Electron side, behind a typed contract shared by both TypeScript
+halves. Retiring the prototype's UI and its duplicated bookkeeping removed about 900 lines.
+Jobs persist to SQLite and survive the window closing mid-training.
+
+### Measure before believing
+
+A model that edits photos always *looks* like it's working, because almost any edit looks
+plausible on its own. So I built a benchmark that tests the model the way it's really used:
+train on some shoots, then edit a shoot it has never seen, and compare against simple
+baselines. Every comparison runs against a control, and training is seeded, so two runs on the
+same photos produce bit-identical weights. Before that, a difference between two experiments
+could be noise.
+
+The benchmark changed the roadmap. Learning a photographer's style *within* one shoot is the
+easier part. Carrying it to a shoot the model has never seen is the hard part, and it's where
+the work is now.
+
+## What I built
+
+<Figure caption="Three processes on a typed contract, and a one-way path from your catalog to a validated copy." wide scroll>
+  <Architecture />
+</Figure>
+
+The app is built around three nouns. A **Style** is a model with an identity: what it learned
+from, its versions, and a measured signature of its habits. A **Catalog** is a Lightroom catalog
+you've introduced to the app. A **Pass** is one delivery of work: a Style, a catalog, and a
+validated result. Drag a catalog onto a Style and choose whether it should learn from it or edit
+it.
+
+<Figure caption="A Style's page: its signature, measured from the photos it learned from, and its history." wide>
+  <Shot light={styleLight} dark={styleDark} alt="AutoLight's Style page for a style called Film - Ektar: a chart of its per-slider tendencies and tone curve on the left, and a timeline of what it has learned and edited on the right." />
+</Figure>
+
+Lightroom compatibility is tested rather than assumed: every catalog version from Lightroom
+Classic 6 to 15 has a real specimen in the test suite, and the reader, the write, and the
+"was this photo actually edited?" check are proved against each one. That last check exists
+because no catalog field says whether a photo was edited, so AutoLight works it out from the
+develop settings themselves and only learns from photos you actually touched.
+
+## Results
+
+<Metrics items={[
+  ['LrC 6–15', 'catalog versions tested, each against a real specimen'],
+  ['1,600+', 'automated tests across six suites, including Playwright driving the real app'],
+  ['1.4 GB', 'peak memory to run a whole 4,249-frame wedding, down from ~28 GB'],
+  ['5.6×', 'faster training on Apple silicon once the ML core moved to Metal'],
+]} />
+
+The whole loop works end to end: watch a catalog, notice new edits, learn, deliver, review,
+correct, learn again. Every step waits for the photographer to say go. Keeping or deleting a
+delivered virtual copy feeds back into the next round of learning as confirmation or
+correction. AutoLight is in early access; there's a waitlist at
+[autolight.ai](https://autolight.ai).
+
+## What I'd do differently
+
+Build the benchmark first. I spent the first year making the loop work end to end, and only
+then built the instrument that showed where the model actually stood. It moved the project's
+priorities more than any feature did, and it would have moved them sooner.
+
+<Notes>
+  <p>
+    Measurements are from AutoLight's own records, September 2026, through the real command line on
+    Apple silicon. The memory figure compares chunked inference against the previous one-batch
+    design's extrapolated peak; predictions were byte-identical between the two.
+  </p>
+  <p>
+    The source is private while AutoLight is in early access.
+  </p>
+</Notes>

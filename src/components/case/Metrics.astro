@@ -1,0 +1,32 @@
+---
+// A case study's headline numbers, as readouts: mono values over small labels.
+// Only for numbers that are the point, and every one cited in Notes.
+interface Props {
+  items: [value: string, label: string][];
+}
+const { items } = Astro.props;
+---
+
+<dl class="metrics">
+  {items.map(([value, label]) => (
+    <div>
+      <dt>{label}</dt>
+      <dd class="num">{value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+    gap: var(--space-5) var(--space-4);
+    margin: var(--space-3) 0;
+    padding-block: var(--space-4);
+    border-block: 1px solid var(--line);
+  }
+  /* Value first visually, label first for screen readers (dt before dd). */
+  div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: var(--space-1); min-width: 0; }
+  dd { margin: 0; font: 500 var(--step-2)/1.1 var(--mono); letter-spacing: -0.02em; color: var(--fg); }
+  dt { font-size: var(--step--1); line-height: 1.4; color: var(--muted); }
+</style>

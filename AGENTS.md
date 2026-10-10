@@ -16,7 +16,7 @@ assets.
 - **Two jobs, kept apart.** The front (`/`, `/work`, `/about`, `/resume`) is
   curated and quiet. The lab is playful and every entry carries a status. Don't
   let lab energy leak into the front.
-- **The site is a work sample.** Performance, accessibility, both colour
+- **The site is a work sample.** Performance, accessibility, both color
   schemes and zero layout shift are features, not polish.
 - **Static by default; islands where they earn it.** A page ships no JS unless
   a component opts in with `client:*`.
@@ -39,6 +39,8 @@ assets.
 - `docs/working/` is history. It's accurate about its moment. When it
   disagrees with the code, the code wins.
 - Match the surrounding code's density and idiom. Comment the *why*.
+- **American spelling** everywhere, site and docs: color, optimize, labeled,
+  behavior, license (Sean, 2026-10-10).
 - **Branches and PRs** (since 2026-10-09). Never commit to `main` directly.
   Branch off `main` as `type/short-description`, with `type` one of `feat`,
   `fix`, `docs`, `chore`, `refactor` (e.g. `feat/autolight-case-study`). One
@@ -70,6 +72,8 @@ src/content.config.ts        collections: work, lab, notes, resume (schemas live
 src/content/work/*.mdx       case studies; `order` sorts, `featured` puts one on the home page
 src/content/lab/*.mdx        lab entries; `status`: live | wip | archived
 src/lab/<slug>/              an experiment's components, imported by its MDX entry
+src/work/<slug>/             a case study's figures and screenshots
+src/components/case/         Figure, Shot (theme-aware screenshot), Metrics, Notes
 src/content/notes/*.mdx      the blog (out of nav + sitemap until it has posts)
 src/content/resume/resume.yaml  the résumé, the single source for /resume and its PDF
 src/lib/resume.ts            résumé schema, shared by the collection and the import script
@@ -111,7 +115,7 @@ docs/                        STATUS, BRIEF, working/
   WebGL, `window`).
 - **Design rules (Signal, Verdigris).** Lists are `IndexList` rows, not cards.
   The accent is rationed: links, current nav, live readouts, status. Labels
-  and numbers are mono (`.label`, `.num`). Colours come from tokens in
+  and numbers are mono (`.label`, `.num`). Colors come from tokens in
   `global.css` only; check both themes. `/lab/design-system/` in dev shows
   everything.
 - **Theme:** auto by default. `ThemeToggle` sets `data-theme` on `<html>`
@@ -120,11 +124,14 @@ docs/                        STATUS, BRIEF, working/
   `global.css` (system-dark and chosen-dark); change both together.
 - **`Trace` never shows invented numbers on the front of the site.** It waits
   for real `/status` data (P4); the specimen passes `example`.
+- **Case-study screenshots never show client data.** AutoLight's real
+  catalogs carry clients' names and photos; use test catalogs or crop. Same
+  for anything from work: generalized and cleared (BRIEF).
 - **Link previews are built, not designed by hand.** Every page in
   `ogCards()` gets `/og/<path>.png` (1200×630); Base.astro points `og:image`
   at it, falling back to the home card. Satori needs woff (not woff2) and
   static weights, hence the dev-only `@fontsource/schibsted-grotesk`. The
-  card's colours are copied from `global.css` (light only); change both
+  card's colors are copied from `global.css` (light only); change both
   together.
 - **The footer stamp** reads `WORKERS_CI_COMMIT_SHA` (Workers Builds) or
   `git rev-parse HEAD` locally (`src/lib/build.ts`).

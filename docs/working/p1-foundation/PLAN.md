@@ -38,10 +38,10 @@ on the nose. Considered and set aside: "Contact sheet" (monochrome, film-edge
 metadata) and "Schematic" (dot grid, node graph). Borrow from them: frame
 numbering for case-study screenshots, the diagram style for architecture
 figures. Type: Schibsted Grotesk + IBM Plex Mono (self-hosted via Fontsource).
-**Palette: Verdigris** (oxidised-copper green; neutrals tinted toward it),
+**Palette: Verdigris** (oxidized-copper green; neutrals tinted toward it),
 chosen over Oxblood, Phosphor and International orange.
 
-Type scale, colour tokens (light/dark), spacing, components (card, tag,
+Type scale, color tokens (light/dark), spacing, components (card, tag,
 banner, code blocks), a view-transition treatment, generated OG images. The
 tokens in `src/styles/global.css` are placeholders shaped for this.
 

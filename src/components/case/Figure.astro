@@ -1,0 +1,24 @@
+---
+// A numbered figure (the counter lives in global.css). `wide` lets a diagram or
+// screenshot use the page's full width instead of the text measure; `scroll`
+// keeps a dense diagram legible on phones by scrolling it inside its own box
+// rather than shrinking its text.
+interface Props {
+  caption: string;
+  wide?: boolean;
+  scroll?: boolean;
+}
+const { caption, wide = false, scroll = false } = Astro.props;
+---
+
+<figure class:list={['figure', { wide }]}>
+  <div class:list={['frame', { scroll }]}><slot /></div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .frame { min-width: 0; }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .scroll :global(svg) { min-width: 40rem; }
+  figcaption { max-width: var(--measure); }
+</style>

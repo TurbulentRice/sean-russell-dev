@@ -1,0 +1,77 @@
+---
+// AutoLight's shape: three processes on a typed contract, and the one-way path
+// from a photographer's catalog to a validated copy. Drawn in the page's own
+// tokens, so it follows the theme.
+const box = { w: 214, h: 74 };
+const col = [20, 304, 588];
+const row = [36, 214];
+---
+
+<svg viewBox="0 0 822 330" role="img" aria-labelledby="al-arch-title al-arch-desc" class="arch">
+  <title id="al-arch-title">AutoLight architecture</title>
+  <desc id="al-arch-desc">
+    A React renderer talks to the Electron main process over typed IPC. Electron runs a Python ML
+    core through a JSONL command-line contract. Python reads the photographer's Lightroom catalog
+    and writes virtual copies only into a copy of it, after integrity checks.
+  </desc>
+
+  <!-- Process row -->
+  {[
+    ['React renderer', 'event-driven, never polls'],
+    ['Electron main', 'job broker · app SQLite'],
+    ['Python ML core', 'PyTorch · rawpy · .lrcat'],
+  ].map(([name, sub], i) => (
+    <g>
+      <rect x={col[i]} y={row[0]} width={box.w} height={box.h} rx="6" class="node" />
+      <text x={col[i] + 16} y={row[0] + 30} class="name">{name}</text>
+      <text x={col[i] + 16} y={row[0] + 52} class="sub">{sub}</text>
+    </g>
+  ))}
+
+  <!-- Contracts between processes -->
+  <line x1={col[0] + box.w} y1={row[0] + 37} x2={col[1]} y2={row[0] + 37} class="edge" />
+  <text x={(col[0] + box.w + col[1]) / 2} y={row[0] + 28} class="tag-text" text-anchor="middle">typed IPC</text>
+  <line x1={col[1] + box.w} y1={row[0] + 37} x2={col[2]} y2={row[0] + 37} class="edge" />
+  <text x={(col[1] + box.w + col[2]) / 2} y={row[0] + 28} class="tag-text" text-anchor="middle">JSONL CLI</text>
+
+  <!-- Catalog row -->
+  <rect x={col[1]} y={row[1]} width={box.w} height={box.h} rx="6" class="node" />
+  <text x={col[1] + 16} y={row[1] + 30} class="name">Your catalog</text>
+  <text x={col[1] + 16} y={row[1] + 52} class="sub">read only, never written</text>
+
+  <rect x={col[2]} y={row[1]} width={box.w} height={box.h} rx="6" class="node out" />
+  <text x={col[2] + 16} y={row[1] + 30} class="name">A copy + virtual copies</text>
+  <text x={col[2] + 16} y={row[1] + 52} class="sub">integrity + row-count gate</text>
+
+  <!-- Python reads the catalog -->
+  <path d={`M ${col[1] + 150} ${row[1]} V 165 H ${col[2] + 50} V ${row[0] + box.h + 6}`} class="edge" />
+  <path d={`M ${col[2] + 44} ${row[0] + box.h + 14} L ${col[2] + 50} ${row[0] + box.h + 4} L ${col[2] + 56} ${row[0] + box.h + 14}`} class="head" />
+  <text x={col[1] + 160} y="158" class="tag-text">reads</text>
+
+  <!-- Python writes the copy -->
+  <path d={`M ${col[2] + 150} ${row[0] + box.h} V ${row[1] - 6}`} class="edge accent" />
+  <path d={`M ${col[2] + 144} ${row[1] - 14} L ${col[2] + 150} ${row[1] - 4} L ${col[2] + 156} ${row[1] - 14}`} class="head accent" />
+  <text x={col[2] + 160} y="158" class="tag-text accent-text">writes</text>
+
+  <!-- The catalog is copied before anything is written -->
+  <line x1={col[1] + box.w} y1={row[1] + 37} x2={col[2] - 6} y2={row[1] + 37} class="edge" />
+  <path d={`M ${col[2] - 14} ${row[1] + 31} L ${col[2] - 4} ${row[1] + 37} L ${col[2] - 14} ${row[1] + 43}`} class="head" />
+  <text x={(col[1] + box.w + col[2]) / 2} y={row[1] + 28} class="tag-text" text-anchor="middle">copied</text>
+
+  <text x={col[0]} y={row[1] + 30} class="sub">Lightroom opens the copy</text>
+  <text x={col[0]} y={row[1] + 50} class="sub">and the edits arrive as its own</text>
+  <text x={col[0]} y={row[1] + 70} class="sub">virtual copies, ready to review.</text>
+</svg>
+
+<style>
+  .arch { display: block; width: 100%; height: auto; color: var(--fg); background: var(--surface); }
+  .node { fill: var(--bg); stroke: var(--line); stroke-width: 1.25; }
+  .out { stroke: var(--accent); }
+  .name { font: 500 15px var(--sans); fill: var(--fg); }
+  .sub { font: 400 11px var(--mono); fill: var(--muted); }
+  .tag-text { font: 400 11px var(--mono); fill: var(--muted); }
+  .accent-text { fill: var(--accent); }
+  .edge { fill: none; stroke: var(--muted); stroke-width: 1.25; }
+  .head { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-linejoin: round; }
+  .edge.accent, .head.accent { stroke: var(--accent); }
+</style>
