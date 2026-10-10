@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import IndexList from '../components/IndexList.astro';
 import { published } from '../lib/content';
+import { site } from '../site.config';
 
 const work = (await published('work')).filter((e) => e.data.featured).slice(0, 3);
 const lab = (await published('lab')).slice(0, 3);
@@ -10,12 +11,8 @@ const lab = (await published('lab')).slice(0, 3);
 <Base>
   <div class="page">
     <section class="hero">
-      <!-- Positioning copy is a placeholder until P1 slice 3 (BRIEF, "Positioning"). -->
-      <h1>I build things that work and fix things that break.</h1>
-      <p class="lede muted">
-        Full-stack engineer: frontend, backend, data, and lately the reliability and CI/CD that keep a
-        team shipping.
-      </p>
+      <h1>{site.headline}</h1>
+      <p class="lede muted">{site.lede}</p>
       {/* The live trace (src/components/Trace.astro) goes here once /status exists (P4). */}
     </section>
 

@@ -1,25 +1,44 @@
 ---
 import Base from '../layouts/Base.astro';
+import SpecSheet from '../components/SpecSheet.astro';
 import { site } from '../site.config';
 import { resumeIsPublic } from '../lib/content';
 
 const showResume = await resumeIsPublic();
 ---
 
-<Base title="About">
+<Base title="About" description="Full-stack engineer working remotely from upstate New York.">
   <article class="page">
     <header class="stack head">
       <h1>About</h1>
+      <SpecSheet items={[['Based', 'Upstate New York'], ['Works', 'Remote'], ['Contact', site.email]]} />
     </header>
     <div class="prose">
-      <!-- Placeholder copy until P1 slice 3. -->
       <p>
         I'm a full-stack engineer. I started in application frontend, moved through backend and data
-        engineering, and lately spend much of my time on reliability, CI/CD, and the systems that keep a
-        development team shipping.
+        engineering, and recently spend much of my time on reliability, CI/CD, and the systems
+        that keep teams shipping.
+      </p>
+      <p>
+        The common thread is wanting to understand how the whole thing works. I like thinking
+        about how systems should be shaped, all the ways they can break, and what's worth
+        the trade-off. Then building it.
+      </p>
+      <p>
+        I'm told I communicate well and have the patience of a saint (which comes in handy during
+        incidents). I love to lose an argument - being wrong is a valuable opportunity to improve.
+        May the best idea win!
+      </p>
+      <p>
+        I'm interested in work with room to grow into architecture and technical leadership. If
+        that sounds like your team, say <a href={`mailto:${site.email}`}>hello</a>.
       </p>
       <p>I'm also a photographer: <a href={site.photo}>seanrussellphoto.com</a>.</p>
       <p>{showResume && <><a href="/resume/">Résumé</a> · </>}<a href={site.github}>GitHub</a></p>
     </div>
   </article>
 </Base>
+
+<style>
+  .head { max-width: var(--measure); }
+</style>

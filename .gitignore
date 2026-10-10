@@ -29,3 +29,8 @@ npm-debug.log*
 
 # wrangler dev local state
 .wrangler/
+
+# Raw evidence from Sean's employer (exports, metrics, notes) stays local:
+# the repo is public. Case studies cite only what's been generalised and
+# cleared (docs/working/p2-story/PLAN.md, "Evidence").
+/private/

@@ -71,6 +71,8 @@ src/layouts/Base.astro       every page's <head>, header and footer
 src/styles/global.css        Signal/Verdigris tokens, base, prose, controls
 src/components/              IndexList (rows), Status, SpecSheet, Trace (live readout)
 src/lib/build.ts             commit + date for the footer stamp
+src/lib/og.ts                link-preview cards: which pages get one, and the renderer
+src/pages/og/[...key].png.ts  emits /og/<page>.png at build
 src/lab/design-system/       the design-system specimen (lab entry `design-system`, draft)
 scripts/import-resume.ts     .docx → YAML via Claude structured outputs
 public/_headers              cache + security headers; workers.dev kept out of search
@@ -110,6 +112,12 @@ docs/                        STATUS, BRIEF, working/
   `global.css` (system-dark and chosen-dark); change both together.
 - **`Trace` never shows invented numbers on the front of the site.** It waits
   for real `/status` data (P4); the specimen passes `example`.
+- **Link previews are built, not designed by hand.** Every page in
+  `ogCards()` gets `/og/<path>.png` (1200×630); Base.astro points `og:image`
+  at it, falling back to the home card. Satori needs woff (not woff2) and
+  static weights, hence the dev-only `@fontsource/schibsted-grotesk`. The
+  card's colours are copied from `global.css` (light only); change both
+  together.
 - **The footer stamp** reads `WORKERS_CI_COMMIT_SHA` (Workers Builds) or
   `git rev-parse HEAD` locally (`src/lib/build.ts`).
 - **Vite warns `MODULE_LEVEL_DIRECTIVE` for each MDX file** at build. That's

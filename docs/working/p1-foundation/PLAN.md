@@ -1,7 +1,7 @@
 # P1: Foundation
 
-**Status: in progress.** Slices 1, 2, 4 and 5 done (live 2026-10-04). Slice 3
-(copy) remains.
+**Status: DONE 2026-10-09.** Live at https://seanrusselldev.com since
+2026-10-04.
 
 Goal: a small, polished site live at seanrusselldev.com, with the
 structure every later epic fills in.
@@ -64,7 +64,7 @@ footer build stamp linking to the deployed commit. The draft lab entry
 - Work entries gained an `area` field (reliability / data / product) for the
   list tag; the first stack item read badly (".net").
 
-### 3. Positioning and copy
+### 3. Positioning and copy ✅ (2026-10-09)
 
 Workshop the headline and the About page with Sean. Home page structure final.
 Headline decided 2026-10-02: "I build things that work and fix things that
@@ -72,7 +72,21 @@ break." Work order: monitoring, AutoLight, ingest.
 
 Also: generated OG images per page (moved from slice 2).
 
-*Done when:* Sean signs off on the home and About copy.
+*Done when:* Sean signs off on the home and About copy. ✅ Sean edited both
+himself and called the slice closed. He'll keep editing as the site grows.
+
+**Where the code disagreed with the plan:**
+- Headline became "Building things that work and fixing things that break.",
+  lede "Full-stack engineer: frontend, backend, SRE and DevOps." (Sean's
+  edits). Both live in `site.config.ts` now, shared by the hero and the home
+  page's link preview.
+- About: a details strip (Based / Works / Contact), then four short
+  paragraphs in Sean's voice. One line on wanting room to grow into
+  architecture and technical leadership; nothing about needing a job or pay.
+- Link previews: one card per page, rendered at build (`src/lib/og.ts`,
+  satori + resvg, ~0.15 s each). Light theme only, the site's fonts and
+  tokens, eyebrow per section (`Work · reliability`). Pages without their
+  own card (404, résumé, notes index) use the home page's.
 
 ### 4. Repo and CI ✅ (2026-10-02)
 
@@ -106,7 +120,7 @@ sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md` is the playbook.
 
 *Done when:* https://seanrusselldev.com serves this site and `hello@`
 delivers. ✅ Record: [CUTOVER.md](CUTOVER.md). Left: delete the Route 53 hosted
-zone after a stable week (≈2026-10-11).
+zone after a stable week. ✅ Deleted 2026-10-09 (Sean).
 
 ## Not covered, on purpose
 

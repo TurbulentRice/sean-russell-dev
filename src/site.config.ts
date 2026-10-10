@@ -1,9 +1,14 @@
 export const site = {
   name: 'Sean Russell',
   title: 'Sean Russell · Software Engineer',
+  // The home page hero; also the home page's link-preview card (src/lib/og.ts).
+  headline: 'Building things that work and fixing things that break.',
+  lede: 'Full-stack engineer: frontend, backend, SRE and DevOps.',
   description:
-    'Full-stack engineer. I build things that work and fix things that break. Case studies, experiments and notes.',
+    'Full-stack engineer. Building things that work and fixing things that break. Case studies, experiments and notes.',
   url: 'https://seanrusselldev.com',
+  // Cloudflare Email Routing forwards it to Gmail (CUTOVER.md, phase 3).
+  email: 'hello@seanrusselldev.com',
   github: 'https://github.com/TurbulentRice',
   photo: 'https://www.seanrussellphoto.com',
 };

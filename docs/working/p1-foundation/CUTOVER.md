@@ -1,6 +1,6 @@
 # Cutover runbook: Route 53 → Cloudflare
 
-> Slice 5 of [PLAN.md](PLAN.md). Status: **live 2026-10-04.** Only phase 4 (retire Route 53) remains. Tick steps as they
+> Slice 5 of [PLAN.md](PLAN.md). Status: **DONE 2026-10-09.** Live since 2026-10-04. Tick steps as they
 > happen and note anything that surprised us. Modelled on
 > sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md`.
 >
@@ -82,5 +82,11 @@ Leftovers such as ACM validation CNAMEs don't matter: none get recreated.
 
 ## Phase 4: retire Route 53
 
-- [ ] **Sean:** after a week stable, delete the `seanrusselldev.com` hosted
-  zone ($0.50/month). The domain registration stays in Route 53 Domains.
+- [x] **Sean:** deleted the `seanrusselldev.com` hosted zone, 2026-10-09.
+  The registration (auto-renew on, expires 2027-08-18) stays in Route 53
+  Domains.
+
+*Surprise:* Route 53 refuses to delete a zone that still has records beyond
+its own NS and SOA ("contains non-required resource record sets"). The old
+EB alias and ACM validation CNAMEs were still there; deleting them first let
+the zone go.
