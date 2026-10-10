@@ -1,7 +1,8 @@
 # P2: Story
 
-**Status: planned.** Drafted 2026-10-09. Waiting on Sean's work evidence
-(expected the week of 2026-10-12) for slices 3–4; slices 1–2 can start now.
+**Status: in progress.** Drafted 2026-10-09; decisions settled the same day
+(below). Slices 1–2 under way. Slices 3–4 wait on Sean's work evidence
+(expected the week of 2026-10-12).
 
 Goal: the three case studies published, and a rewritten résumé that comes out
 of writing them. Together they should show the level Sean works at now:
@@ -128,7 +129,9 @@ both themes on a phone.
 
 *Done when:* Sean is happy to put the URL on the résumé and LinkedIn.
 
-## Decisions for Sean
+## Decisions
+
+Settled 2026-10-09: Sean took every default, and gave the LinkedIn URL.
 
 1. **Naming the employer in case studies.** The résumé names BBB. Case
    studies can name it ("at BBB") or stay general ("at a national
@@ -138,10 +141,15 @@ both themes on a phone.
 3. **Résumé scope:** keep the photography business and the Assembly role as
    full entries, or condense pre-2021 roles into one "Earlier" line? Default:
    photography stays (it explains AutoLight), the rest condenses.
-4. **LinkedIn URL** for the résumé and footer, if wanted.
+4. **LinkedIn URL** for the résumé and footer:
+   `linkedin.com/in/sean-russell-professional` (in `site.config.ts`).
 5. **AutoLight's public status:** what can the case study say about launch,
    pricing and platforms today? Default: link to autolight.ai and say only
-   what that site already says.
+   what that site already says. Context from Sean: the app is mid-way through
+   extensive validation on editing *across shoots* (the project's hardest
+   problem), and an autolight-web PR adding more detail waits on those
+   results. So the case study is about the engineering, not a launch, and
+   makes no claim about cross-shoot accuracy until autolight.ai does.
 
 ## Not covered, on purpose
 

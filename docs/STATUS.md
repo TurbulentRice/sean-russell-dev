@@ -3,11 +3,11 @@
 > Last updated **2026-10-09**. Keep this short: point to the next slice and
 > keep only notes that matter. The work lives in [working/](working/).
 
-**Epic:** [P2: Story](working/p2-story/PLAN.md) (planned). P1 is done.
-**Next:** Sean answers P2's five decisions; slices 1–2 (template, AutoLight)
-can start now. Work evidence lands in `private/` (git-ignored) the week of
-2026-10-12.
-**Deployed:** `main` → https://seanrusselldev.com (Workers Builds). Public repo: TurbulentRice/sean-russell-dev.
+**Epic:** [P2: Story](working/p2-story/PLAN.md) (in progress). P1 is done.
+**Next:** slices 1–2 (case-study template, AutoLight) on `feat/autolight-case-study`.
+Work evidence lands in `private/` (git-ignored) the week of 2026-10-12.
+**Deployed:** `main` → https://seanrusselldev.com (Workers Builds); changes
+arrive by PR (AGENTS §3). Public repo: TurbulentRice/sean-russell-dev.
 
 ## Notes
 
