@@ -40,7 +40,7 @@ Plus the spec sheet (role, period, stack), already in the layout.
 
 ## Slices
 
-### 1. Case-study template and figures
+### 1. Case-study template and figures ✅ (2026-10-12, with slice 2)
 
 The pieces every case study needs: an MDX `Figure` component for diagrams
 (inline SVG in the site's tokens, light and dark) and screenshots (`<picture>`
@@ -49,8 +49,19 @@ pull-quote/metric treatment for a headline number, and a "sources" footnote
 style. Prove them on AutoLight.
 
 *Done when:* the AutoLight draft uses each piece, in both themes and at 375px.
+✅ Checked in the browser.
 
-### 2. AutoLight
+As built, in `src/components/case/`: `Figure` (numbered caption; `wide` uses
+the page width, `scroll` keeps a dense diagram legible on phones by scrolling
+it in its own frame), `Shot` (light and dark screenshots as optimised
+AVIF/WebP; CSS shows the one matching the theme, and the hidden one is never
+fetched), `Metrics` (headline readouts), `Notes` (the fine print). A case
+study's own assets live in `src/work/<slug>/`, as lab assets do in
+`src/lab/<slug>/`. The "sources footnote" became `Notes`: public readers get
+where numbers come from and under what conditions; the private trail stays in
+this plan.
+
+### 2. AutoLight (in review, 2026-10-12)
 
 No dependency on work evidence. The repo is private, so tell it through
 architecture, decisions and the existing screenshots
@@ -60,7 +71,25 @@ photos were *edited* when no catalog field says so; delivering as virtual
 copies so the photographer reviews in Lightroom; the Python → Node boundary;
 one-time licence as a product decision.
 
-*Done when:* Sean approves the draft and it publishes (`draft: false`).
+*Done when:* Sean approves the draft and it publishes (`draft: false`). The PR
+sets `draft: false`, so its preview URL shows the page and merging publishes it.
+
+**Sources** (all `autolight-lossless`, private): README (what it is, the
+three nouns, Commit-with-backup, the Python/Node rule), `docs/STATUS.md`
+2026-09-23/25 (test counts, 1.38 GB / 4,249 frames vs ~28 GB extrapolated,
+training 124.8 s → 22.1 s on Metal, LrC 6–15 specimens, seeding, the
+leave-one-shoot-out finding), `working/redesign/P0_SPIKE.md` (133 tables,
+~17 per virtual copy), `CLOSEOUT.md` (renderer vs catalog-write bet),
+`working/migrations/ARCHITECTURE_BOUNDARIES.md` (~900 duplicated lines).
+autolight.ai's live page (early access, waitlist) bounds launch claims.
+
+**Where it disagreed with the plan:**
+- The home screenshot is out: it shows real clients' names and wedding
+  photos. Only the Style page (a test style, no client data) is used.
+  Retake the home screen with demo catalogs if we want it.
+- No benchmark numbers. The cross-shoot result is told qualitatively, as
+  "the hard part, and where the work is now", per decision 5.
+- The one-time licence isn't mentioned: pricing isn't on autolight.ai yet.
 
 ### 3. Synthetic monitoring
 

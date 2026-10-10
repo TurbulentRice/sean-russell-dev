@@ -62,6 +62,8 @@ src/content.config.ts        collections: work, lab, notes, resume (schemas live
 src/content/work/*.mdx       case studies; `order` sorts, `featured` puts one on the home page
 src/content/lab/*.mdx        lab entries; `status`: live | wip | archived
 src/lab/<slug>/              an experiment's components, imported by its MDX entry
+src/work/<slug>/             a case study's figures and screenshots
+src/components/case/         Figure, Shot (theme-aware screenshot), Metrics, Notes
 src/content/notes/*.mdx      the blog (out of nav + sitemap until it has posts)
 src/content/resume/resume.yaml  the résumé, the single source for /resume and its PDF
 src/lib/resume.ts            résumé schema, shared by the collection and the import script
@@ -112,6 +114,9 @@ docs/                        STATUS, BRIEF, working/
   `global.css` (system-dark and chosen-dark); change both together.
 - **`Trace` never shows invented numbers on the front of the site.** It waits
   for real `/status` data (P4); the specimen passes `example`.
+- **Case-study screenshots never show client data.** AutoLight's real
+  catalogs carry clients' names and photos; use test catalogs or crop. Same
+  for anything from work: generalised and cleared (BRIEF).
 - **Link previews are built, not designed by hand.** Every page in
   `ogCards()` gets `/og/<path>.png` (1200×630); Base.astro points `og:image`
   at it, falling back to the home card. Satori needs woff (not woff2) and
