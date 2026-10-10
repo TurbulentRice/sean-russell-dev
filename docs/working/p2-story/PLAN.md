@@ -16,7 +16,7 @@ The repo is public, so raw evidence never enters it.
 
 - **Exports, metrics, tickets, notes from work go in `private/`** at the repo
   root. It's git-ignored; nothing there is ever committed or published.
-- A case study cites only what has been **generalised** (no internal system
+- A case study cites only what has been **generalized** (no internal system
   names, hostnames, colleagues, or screenshots of internal tools) and
   **cleared** by Sean ("I'm free to share this number").
 - Each case study ends its slice with a short **sources** note in this plan:
@@ -32,7 +32,7 @@ About a five-minute read. The order:
 2. **Constraints**: what made it hard (legacy, scale, team, time).
 3. **Decisions**: the two or three calls that mattered, the options weighed,
    and why. This is the core: it's what shows architectural judgement.
-4. **What I built**: one architecture figure (self-numbering, site colours),
+4. **What I built**: one architecture figure (self-numbering, site colors),
    and only as much detail as the decisions need.
 5. **Results**: numbers where cleared, observed effects where not.
 6. **What I'd do differently**: one or two honest lines.
@@ -54,7 +54,7 @@ style. Prove them on AutoLight.
 
 As built, in `src/components/case/`: `Figure` (numbered caption; `wide` uses
 the page width, `scroll` keeps a dense diagram legible on phones by scrolling
-it in its own frame), `Shot` (light and dark screenshots as optimised
+it in its own frame), `Shot` (light and dark screenshots as optimized
 AVIF/WebP; CSS shows the one matching the theme, and the hidden one is never
 fetched), `Metrics` (headline readouts), `Notes` (the fine print). A case
 study's own assets live in `src/work/<slug>/`, as lab assets do in
@@ -70,7 +70,7 @@ architecture, decisions and the existing screenshots
 feature: learning from existing catalogs instead of presets; working out which
 photos were *edited* when no catalog field says so; delivering as virtual
 copies so the photographer reviews in Lightroom; the Python → Node boundary;
-one-time licence as a product decision.
+one-time license as a product decision.
 
 *Done when:* Sean approves the draft and it publishes (`draft: false`). The PR
 sets `draft: false`, so its preview URL shows the page and merging publishes it.
@@ -90,7 +90,7 @@ autolight.ai's live page (early access, waitlist) bounds launch claims.
   Retake the home screen with demo catalogs if we want it.
 - No benchmark numbers. The cross-shoot result is told qualitatively, as
   "the hard part, and where the work is now", per decision 5.
-- The one-time licence isn't mentioned: pricing isn't on autolight.ai yet.
+- The one-time license isn't mentioned: pricing isn't on autolight.ai yet.
 
 ### 3. Synthetic monitoring
 

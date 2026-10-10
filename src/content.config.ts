@@ -26,7 +26,7 @@ const work = defineCollection({
   }),
 });
 
-/** The lab: experiments, labelled as such. Rough edges allowed. */
+/** The lab: experiments, labeled as such. Rough edges allowed. */
 const lab = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/lab' }),
   schema: z.object({

@@ -20,7 +20,7 @@ and also Sean's **laboratory** and the home for future side projects.
 | | The front | The lab |
 |---|---|---|
 | For | A hiring manager with 30–90 seconds | Sean, and the curious visitor who stays |
-| Tone | Curated, fast, quiet | Playful, labelled, allowed to be rough |
+| Tone | Curated, fast, quiet | Playful, labeled, allowed to be rough |
 | Lives at | `/`, `/work`, `/about`, `/resume` | `/lab`, and subdomains for anything big |
 
 The old site's failure was mixing them. Every lab entry carries a **status**

@@ -1,7 +1,7 @@
 # Cutover runbook: Route 53 → Cloudflare
 
 > Slice 5 of [PLAN.md](PLAN.md). Status: **DONE 2026-10-09.** Live since 2026-10-04. Tick steps as they
-> happen and note anything that surprised us. Modelled on
+> happen and note anything that surprised us. Modeled on
 > sean-russell-photo's `docs/working/p1-portfolio/CUTOVER.md`.
 >
 > **Sean** = Cloudflare dashboard, AWS console, Gmail. **Claude** = repo
