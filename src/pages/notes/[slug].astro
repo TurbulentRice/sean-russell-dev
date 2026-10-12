@@ -13,11 +13,12 @@ const { title, summary, date, draft } = entry.data;
 ---
 
 <Base title={title} description={summary} noindex={draft}>
-  <article class="page">
+  <article class="page note-page">
     <header class="stack head">
       {draft && <p class="banner">Draft · visible in dev only</p>}
       <a href="/notes/" class="label back">← Notes</a>
       <h1>{title}</h1>
+      <p class="lede muted">{summary}</p>
       <p class="label num">{date.toISOString().slice(0, 10)}</p>
     </header>
     <div class="prose">
@@ -30,4 +31,7 @@ const { title, summary, date, draft } = entry.data;
   .head { max-width: var(--measure); }
   .back { text-decoration: none; }
   .back:hover { color: var(--accent); }
+  .lede { font-size: var(--step-1); line-height: 1.5; }
+  /* Same tightened gap as case studies: an early figure should land in the first screen. */
+  .note-page { gap: var(--space-6); }
 </style>

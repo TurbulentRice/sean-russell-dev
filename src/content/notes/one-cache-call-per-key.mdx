@@ -1,0 +1,117 @@
+---
+title: One cache call per key, per request
+summary: A request-scoped memoization layer cut network traffic to bbb.org's production cache by roughly 70–80%. Four files, and not one caller changed.
+date: 2026-10-12
+draft: false
+---
+
+import Figure from '../../components/case/Figure.astro';
+import Notes from '../../components/case/Notes.astro';
+import CallsChart from '../../notes/request-scoped-cache/CallsChart.astro';
+
+{/* Sources: private/engineering-case-studies-2026-10-12.txt, case study 3; chart values read
+    off its per-page chart. Internal names stay generic (P2 plan, decision 1). */}
+
+In July 2025 I shipped a four-file change (+106 / −16 lines) to bbb.org's main application. It
+cut network traffic to the production cache cluster by roughly 70–80% and its CPU by about half.
+No caller changed. This is how, and why the fix was so small.
+
+<Figure caption="Cache calls in one page render, before and after the request-scoped layer. Every page made 40–71% fewer calls; search pages, which fetch the most shared data, fell the most.">
+  <CallsChart />
+</Figure>
+
+## Where the calls came from
+
+The main application keeps shared reference data in a distributed cache: ElastiCache running
+Valkey, behind the FusionCache library. Its in-process memory layer was switched off, so every
+cache read was a network round trip.
+
+That would be fine if each page asked once. It didn't. Rendering one page meant many components
+each asking for the same reference data: business categories, local BBB details, category
+volumes, geo-IP. None of them knew the others had already asked.
+
+I counted before changing anything. One search page made 110 cache calls, and 70 of them were for
+one kind of key. The cache was healthy by every metric it reported. The waste was in how often we
+asked it.
+
+## The layer
+
+The fix is a thin layer in front of the cache, behind the same interface every caller already
+used:
+
+- On the first request for a key, it starts the real cache call and stores that pending task in
+  the request's own context.
+- Every later caller in the same request awaits that same task, including concurrent ones. Each
+  key reaches the cache at most once per request.
+- The store is thrown away when the request ends, so nothing can go stale and nothing needs
+  invalidating.
+- Outside a web request, such as in background work, it passes straight through.
+
+Because it sits behind the existing interface and arrives through dependency injection, all 34
+cache call sites across 12 services picked it up without a line changing. In outline:
+
+```csharp
+// A simplified sketch of the idea, not the production code.
+public sealed class RequestScopedCache(ICache inner, IHttpContextAccessor http) : ICache
+{
+    private static readonly object MemoKey = new();
+
+    public Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> factory)
+    {
+        var items = http.HttpContext?.Items;
+        if (items is null)
+            return inner.GetOrSetAsync(key, factory); // no request: pass straight through
+
+        if (items[MemoKey] is not ConcurrentDictionary<string, Lazy<Task<object?>>> memo)
+            items[MemoKey] = memo = new();
+
+        // Lazy makes sure only one caller per key starts the real call; the rest await it.
+        var pending = memo.GetOrAdd(key, _ => new Lazy<Task<object?>>(
+            async () => (object?)await inner.GetOrSetAsync(key, factory)));
+
+        return Unwrap<T>(pending.Value);
+    }
+
+    private static async Task<T> Unwrap<T>(Task<object?> task) => (T)(await task)!;
+}
+```
+
+The property that matters most is that the store dies with the request. Its lifetime is one you
+never have to manage, which is why the change could be this small. A longer-lived in-memory cache would have cut
+more calls, but it brings invalidation with it, and invalidation is where cache bugs live.
+
+## What it did in production
+
+I recorded the cluster's numbers on the ticket the week of the release:
+
+| Production cache cluster | Before | After | Change |
+| --- | --- | --- | --- |
+| Network bytes out | 10–18 GB | 2–5 GB | about −72% to −80% |
+| Cache hits | 379k–783k | 115k–236k | about −70% |
+| Engine CPU | 9–18% | 5–8% | about −44% to −56% |
+
+On release day, packets in and out on the busiest node fell by more than half the moment the
+release rolled out. Response times improved too: category search went from 490 to 330 ms, API
+search from 327 to 240 ms, and the search page from 490 to 440 ms.
+
+## What came next
+
+In spring 2026 a string of incidents hit the shared cache and search, and I built on the same
+cache stack:
+
+- a per-entry in-memory cache, so the application keeps serving hot entries when the shared
+  cache is degraded;
+- a non-blocking concurrency limit on geo-IP lookups that falls back to default location behavior
+  instead of queueing;
+- routing the application's reads to the database replica.
+
+So the in-memory layer did arrive in the end, but for resilience and entry by entry, with the
+duplicate traffic already gone underneath it.
+
+<Notes>
+  <p>
+    The cluster numbers compare about a week before the release with about a day after, and aren't
+    normalized per request. The same release shipped one unrelated feature. Calls per page were
+    measured locally; they depend on the code, not the environment.
+  </p>
+</Notes>

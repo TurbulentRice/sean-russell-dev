@@ -6,10 +6,9 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { parse } from 'yaml';
 
-// Pages that build but shouldn't be indexed yet: the résumé while it's a
-// draft, and Notes until it joins the nav (src/site.config.ts).
+// Pages that build but shouldn't be indexed yet: the résumé while it's a draft.
 const resumeDraft = parse(readFileSync('src/content/resume/resume.yaml', 'utf8')).draft !== false;
-const unlisted = ['/notes/', ...(resumeDraft ? ['/resume/'] : [])];
+const unlisted = resumeDraft ? ['/resume/'] : [];
 
 export default defineConfig({
   site: 'https://seanrusselldev.com',

@@ -75,8 +75,9 @@ src/content/work/*.mdx       case studies; `order` sorts, `featured` puts one on
 src/content/lab/*.mdx        lab entries; `status`: live | wip | archived
 src/lab/<slug>/              an experiment's components, imported by its MDX entry
 src/work/<slug>/             a case study's figures and screenshots
+src/notes/<slug>/            a note's figures and charts
 src/components/case/         Figure, Shot (theme-aware screenshot), Metrics, Notes
-src/content/notes/*.mdx      the blog (out of nav + sitemap until it has posts)
+src/content/notes/*.mdx      the blog (in the nav since its first post)
 src/content/resume/resume.yaml  the résumé, the single source for /resume and its PDF
 src/lib/resume.ts            résumé schema, shared by the collection and the import script
 src/lib/content.ts           published(): drafts filtered (except in dev) and sorted
@@ -129,6 +130,12 @@ docs/                        STATUS, BRIEF, working/
 - **A case study opens with a figure.** The first thing under the spec sheet
   is the study's most telling picture, captioned to stand alone, so it lands
   in the first screen. Text further down refers back to it as Fig. 01.
+- **Global utility classes are reserved.** `.page`, `.label`, `.tag`, `.num`,
+  `.mono`, `.muted`, `.stack`, `.section`, `.prose`, `.wrap`, `.banner` and
+  `.card` mean something site-wide (`global.css`), and Astro's scoped styles
+  don't stop them applying. Name a component's own classes something else
+  (`page-name`, `tag-text`); both collisions so far shipped broken layouts
+  into review.
 - **Case-study screenshots never show client data.** AutoLight's real
   catalogs carry clients' names and photos; use test catalogs or crop. Same
   for anything from work: generalized and cleared (BRIEF).
