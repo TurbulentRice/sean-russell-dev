@@ -1,0 +1,145 @@
+---
+title: Retiring a legacy data pipeline
+summary: Moved bbb.org's business profiles off a fragile push pipeline in two stages, from Solr to Postgres and then to an event-driven connector, with shadow runs, flag-based cutovers and a repair job instead of a big-bang switch.
+area: data
+role: Owned the Solr exit; built the connector's Organizations side
+period: 2024–2026
+stack: [.NET, PostgreSQL, Elasticsearch, Kubernetes, Prometheus]
+order: 3
+featured: true
+draft: false
+---
+
+import Figure from '../../components/case/Figure.astro';
+import Metrics from '../../components/case/Metrics.astro';
+import Notes from '../../components/case/Notes.astro';
+import BeforeAfter from '../../work/legacy-data-pipeline/BeforeAfter.astro';
+
+{/* Sources: private/engineering-case-studies-2026-10-12.txt, case study 1. Internal system names
+    stay generic (P2 plan, decision 1). "66.5M" is per 30 days (Sean, 2026-10-12). */}
+
+<Figure caption="How a business's data reaches bbb.org. Before: full payloads pushed through a queue to a listener on four Windows servers. After: a small signal, and a connector that reads the current state itself." wide scroll>
+  <BeforeAfter />
+</Figure>
+
+## The problem
+
+Business data reached bbb.org through a push pipeline. The system of record that the local BBBs
+use posted full payloads to a .NET Framework partner API, which queued them on RabbitMQ. A Windows
+service built from more than 20 chained projects consumed the queue and wrote to SQL Server and
+Solr.
+
+Operating it was manual. The runbook said to remote into each of four Windows servers, stop or
+kill the service, and restart it, and a scheduled task restarted it every five minutes anyway.
+Releases were ad hoc: no deploy workflow, no health endpoint, no metrics, no release tags.
+
+Incidents kept coming back: overnight crashes, a 12,000-message backlog, a RabbitMQ backup, and a
+2024 incident that duplicated and dropped reviews and complaints on bbb.org, with 25 linked support
+tickets. That incident's postmortem named the real fix: pull from the system of record instead of
+waiting for it to push.
+
+Profile pages also depended on Solr, which carried resiliency and load risk the organization
+wanted gone.
+
+## Constraints
+
+- **Profiles are bbb.org.** Every business page, search result and accreditation seal reads this
+  data, so there was no window to turn it off and rebuild.
+- **The old contract was undocumented.** The profile document was large, and the listener's
+  behavior existed only in its code.
+- **Years of drift.** The data already in production wasn't a clean baseline to migrate from.
+
+## Two stages
+
+**Stage 1: profiles off Solr and into Postgres** (May 2024 to January 2026). I owned this epic.
+The listener dual-wrote profile data into a new Postgres table alongside Solr. An import and
+reconciliation job backfilled every bureau, with per-bureau runs. The profile pages switched to
+read from Postgres, with a fallback, and a diff script compared the new table with the Solr
+collection before each cutover. A batched job then moved the stored JSON blob to structured
+profile data, which made room for multi-location businesses. The last step deleted the Solr-era
+profile code: 1,493 lines across 51 files. Solr was later removed from the codebase entirely.
+
+That gave profiles a database home a new writer could target.
+
+**Stage 2: an event-driven connector.** The new model inverts the old one (Fig. 01). The system of
+record sends a small signal, "business X changed", and the connector reads the business's current
+state and writes Postgres, Elasticsearch and the CDN. The pattern was a team decision. I built the
+Organizations half: the consumers for profiles, search, typeahead, status lookups, the profile
+search index and the Accredited Business seal pipeline; forwarding from the partner API, with a
+shadow run beside the old listener; the production rollout and every flag flip and rollback; and
+a reconcile operation that finds and repairs businesses that are stale or missing anywhere
+downstream. I also wrote the design docs for reconciliation, seals, force-sync, cache
+invalidation and message coalescing.
+
+## Decisions
+
+| Decision | Instead of | Why |
+| --- | --- | --- |
+| Shadow-run the connector beside the old listener, writing to shadow tables and indexes, then cut over by flag | A direct switch | The listener's behavior was undocumented. A field-by-field diff caught the expected drift before production did. |
+| Roll out and roll back with feature flags in deploy config | A code release per change | A rollback became a one-line config change. Consumers were switched on, off and back on in production several times between January and April 2026. |
+| Query the system of record's maintained views, not its base tables | My own faster base-table query, which I shipped first | It drifted on subtle fields and was hard to debug. I reverted to the views, which are the definition its owners maintain, and added timeout tolerance instead. |
+| Stream very large address sets in a separate enrichment step | One large query | Businesses with thousands of locations were timing out the sync. |
+| One message type per entity and action; extract the shared base only after four identical consumers existed | A generic dispatcher, or a shared abstraction designed up front | The abstraction came from real duplication, not a guess about it. |
+| Give each entity its own explicit source of business ids | A shared default list | A first version narrowed the shared list. I caught that it would have deleted businesses that still had complaint and review data. |
+
+## Hard problems
+
+**Rebuilding an opaque contract.** I rebuilt the profile document from about 15 of the system of
+record's views, and recorded which legacy fields were kept, fixed or dropped.
+
+**Cleaning up years of stale data.** Support kept finding merged, purged or suppressed businesses
+still live on bbb.org, some suppressed since 2023. I traced them to records the migration had
+left behind plus deactivation signals that never arrived, then shipped reconciliation in five
+phases. For bureaus with hundreds of thousands of businesses, it pages through Elasticsearch with a
+composite aggregation, because a flat aggregation caps out at 65,536 buckets. Re-runs converge to
+zero changes.
+
+**Measuring before fixing.** A ticket proposed a fix for stale business names. I measured
+production first: 4.53 million of 7.64 million rows had been frozen since the initial backfill,
+and the proposed fix would have broken about as many names as it repaired. The real cause was a
+missing fan-out to local business ids, and that's what I fixed.
+
+**Lapsed seals at the edge.** Turning on seal deletes removed about 15,500 seal images for
+businesses whose accreditation had lapsed. Then I found the CDN still served deleted seals for up
+to 31 days, and cut that to an hour with a purge and a cache rule.
+
+## Results
+
+<Metrics items={[
+  ['44', 'production releases, where the old pipeline had no deploy pipeline at all'],
+  ['~52k', 'organization syncs a day'],
+  ['0.013%', 'of messages failed to consume, across ~66.5M in 30 days'],
+  ['31 d → 1 h', 'for a lapsed seal to disappear from the CDN'],
+]} />
+
+| Measure | Listener era | Today |
+| --- | --- | --- |
+| Deploys | Manual, by remote desktop to four Windows servers; no release tags | Tagged CI/CD releases to Kubernetes; 44 to production, 32 during the rollout |
+| Scaling | Four fixed servers plus a five-minute restart task | 5 to 18 replicas that scale on CPU |
+| Health and telemetry | None | Health checks, Prometheus metrics, Grafana dashboards |
+| Volume and reliability | Recurring critical tickets: crashes, backlogs | ~52k organization syncs a day; ~0.013% consume errors over 30 days |
+| Data correctness | Stale and orphaned profiles, found by support | Reconciliation repairs a bureau on demand |
+
+**Where it stands.** The connector is the writer for profiles, search and typeahead today. The old
+listener isn't switched off yet: the partner API still accepts traffic, organization messages
+still flow to the listener in parallel, and shutting down the partner API, the listener and
+RabbitMQ is the next tracked step.
+
+## What I'd do differently
+
+Measure freshness from the start. The new pipeline is observably healthier, but we can't yet say
+how much sooner a change in the system of record shows up on bbb.org, or how incident counts moved
+across the migration. Those are the numbers that would make the case to anyone who doesn't read
+dashboards.
+
+<Notes>
+  <p>
+    Volume and error figures are Prometheus data for the 30 days to October 12, 2026; retention
+    doesn't reach back to the cutover. Other figures come from git history, CI run history, and
+    numbers recorded on tickets at the time.
+  </p>
+  <p>
+    Internal system names are left out. The event-driven pattern was a team decision; the
+    Organizations consumers, the rollout and reconciliation are my work.
+  </p>
+</Notes>
