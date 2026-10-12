@@ -1,14 +1,14 @@
 # P3: Lab and Notes
 
 **Status: in progress.** Drafted 2026-10-12, after P2's launch pass. Slice 1
-in review.
+done; slice 2 in review.
 
 Goal: the lab stops being empty, and Notes gets a steady second and third
 post. The lab's first real tool is the résumé exporter, in the browser.
 
 ## Slices
 
-### 1. Lab template polish (in review, 2026-10-12)
+### 1. Lab template polish ✅ (2026-10-12)
 
 The lab index and entry page as built in P1 have only ever shown drafts. Give
 them real content to settle against: the status key, how a full-width
@@ -33,7 +33,7 @@ As built:
   in the first screen (522px down on a phone).
 - `island-check` is gone.
 
-### 2. "Signal", the design system, as a lab entry
+### 2. "Signal", the design system, as a lab entry (in review, 2026-10-12)
 
 The draft specimen (`/lab/design-system/`) becomes a published entry: the
 tokens, type, components and the decisions behind them (why Verdigris, why
@@ -41,6 +41,14 @@ lists not cards, why one figure leads every case study). Status `live`: it
 updates whenever the system does.
 
 *Done when:* Sean approves and it publishes.
+
+As built: every specimen is real. The palette Stage reads each token's live
+value back out (it follows the theme toggle), the index is the real Work
+index, the figure is a real link-preview card, the code block is the real
+pre-paint theme script, and the contrast table uses the shipped tokens. The
+draft's placeholders (invented before/after numbers, a fake diagram, fake
+index rows) are gone. The closing blockquote paraphrases Sean's brief rather
+than quoting it word for word; Sean to confirm.
 
 ### 3. Notes: how this site is built, and CMS schemas as code
 
