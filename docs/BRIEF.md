@@ -19,7 +19,7 @@ and also Sean's **laboratory** and the home for future side projects.
 
 | | The front | The lab |
 |---|---|---|
-| For | A hiring manager with 30–90 seconds | Sean, and the curious visitor who stays |
+| For | A hiring manager with 30-90 seconds | Sean, and the curious visitor who stays |
 | Tone | Curated, fast, quiet | Playful, labeled, allowed to be rough |
 | Lives at | `/`, `/work`, `/about`, `/resume` | `/lab`, and subdomains for anything big |
 
@@ -83,7 +83,7 @@ Two ideas that turn claims into evidence:
 | `/` | Positioning line, featured work, latest lab entries |
 | `/work/` | Case studies (`work` collection) |
 | `/lab/` | Experiments (`lab` collection); each a self-contained page |
-| `/notes/` | The blog (`notes` collection). In the nav since its first post, the request-scoped cache write-up (2026-10-12; it was going to wait for 2–3 posts) |
+| `/notes/` | The blog (`notes` collection). In the nav since its first post, the request-scoped cache write-up (2026-10-12; it was going to wait for 2-3 posts) |
 | `/about/` | Bio, links, photography cross-link |
 | `/resume/` | Rendered from `src/content/resume/resume.yaml`; print stylesheet = the PDF |
 | `/status/` | Later: the live probe (above) |
@@ -130,6 +130,6 @@ Two ideas that turn claims into evidence:
 |---|---|
 | **P1 Foundation** | Scaffold, design system, home/about copy, cutover to seanrusselldev.com. [Plan](working/p1-foundation/PLAN.md) |
 | **P2 Story** | The three case studies, and the résumé rewrite that comes out of writing them. Print-to-PDF. |
-| **P3 Lab** | Lab template polish, 2–3 experiments, the ingest simulation. |
+| **P3 Lab** | Lab template polish, 2-3 experiments, the ingest simulation. |
 | **P4 Live** | The `/api` Worker and the `/status` synthetic probe. |
 | **Later** | Notes goes live; the `/inside/` page; side-project subdomains. |

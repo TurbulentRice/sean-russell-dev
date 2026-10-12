@@ -1,7 +1,7 @@
 # P2: Story
 
 **Status: in progress.** Drafted 2026-10-09; decisions settled the same day
-(below). Slices 1–2 under way. Slices 3–4 wait on Sean's work evidence
+(below). Slices 1-2 under way. Slices 3-4 wait on Sean's work evidence
 (expected the week of 2026-10-12).
 
 Goal: the three case studies published, and a rewritten résumé that comes out
@@ -82,7 +82,7 @@ sets `draft: false`, so its preview URL shows the page and merging publishes it.
 **Sources** (all `autolight-lossless`, private): README (what it is, the
 three nouns, Commit-with-backup, the Python/Node rule), `docs/STATUS.md`
 2026-09-23/25 (test counts, 1.38 GB / 4,249 frames vs ~28 GB extrapolated,
-training 124.8 s → 22.1 s on Metal, LrC 6–15 specimens, seeding, the
+training 124.8 s → 22.1 s on Metal, LrC 6-15 specimens, seeding, the
 leave-one-shoot-out finding), `working/redesign/P0_SPIKE.md` (133 tables,
 ~17 per virtual copy), `CLOSEOUT.md` (renderer vs catalog-write bet),
 `working/migrations/ARCHITECTURE_BOUNDARIES.md` (~900 duplicated lines).
@@ -161,7 +161,7 @@ read off its chart (exact labels; saved in `private/`).
 - The aside that a longer-lived in-memory cache "brings invalidation with it" is
   framing, not evidence; Sean to confirm it's his reasoning.
 
-### 5. Résumé rewrite
+### 5. Résumé rewrite (in review, 2026-10-12)
 
 Rewrite `resume.yaml` from the case studies outward: a summary that matches
 the site's positioning, current-role bullets that lead with decisions and
@@ -169,7 +169,25 @@ outcomes, older roles condensed. Then the print stylesheet, checked as a real
 PDF (Letter, one page if it can be, two at most), and `draft: false`, which
 brings back the `/resume/` route and its links.
 
-*Done when:* Sean approves the PDF and the page; `/resume/` is public.
+*Done when:* Sean approves the PDF and the page; `/resume/` is public. The PR
+sets `draft: false`, so its preview shows the page and merging publishes it
+(the sitemap and every Résumé link follow automatically).
+
+As built: the title stays Full Stack Developer (decision 7); the summary and
+bullets carry the level. bbb.org bullets lead with outcomes, all traced to the
+evidence export. Comcast is condensed to four bullets, photography to one line
+that points at AutoLight, Assembly and GCOM to an "Earlier" line. New schema
+fields: `projects` (AutoLight) and `earlier`. Skills regrouped by domain, not
+language. Prints to **two Letter pages** (checked with headless Chrome).
+
+**Where it disagreed with the plan / for Sean to check:**
+- The old "decreasing server request latency by 50%" claim is gone: the
+  evidence shows 490 → 330 ms on category search (about a third), so that's
+  what the résumé says.
+- RPI (Electronic Arts, 2011-2012) and the Geneseo GPA/Dean's List line were
+  cut for space. Easy to restore.
+- Vendor integrations (Zendesk, Meraki, Five9) and QA bullets at Comcast were
+  cut for space.
 
 ### 6. Launch pass
 

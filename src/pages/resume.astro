@@ -10,20 +10,24 @@ if (r.draft && !import.meta.env.DEV) return Astro.redirect('/about/');
 
 const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z`)) : 'Present');
+const bare = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+// Links show their address as the text, so the printed PDF stays useful on paper.
+const links = [
+  r.links.website && { href: `https://${bare(r.links.website)}`, text: bare(r.links.website) },
+  r.links.email && { href: `mailto:${r.links.email}`, text: r.links.email },
+  r.links.linkedin && { href: `https://${bare(r.links.linkedin)}`, text: bare(r.links.linkedin) },
+  r.links.github && { href: `https://${bare(r.links.github)}`, text: bare(r.links.github) },
+].filter(Boolean) as { href: string; text: string }[];
 ---
 
 <Base title="Résumé" description={r.summary} noindex={r.draft}>
   <article class="page resume">
     <header class="stack head">
-      {r.draft && <p class="banner">Draft résumé · imported, not yet reviewed</p>}
+      {r.draft && <p class="banner">Draft résumé · visible in dev only</p>}
       <h1>{r.name}</h1>
       <p class="lede muted">{r.headline}{r.location && ` · ${r.location}`}</p>
-      <p class="links">
-        {r.links.email && <a href={`mailto:${r.links.email}`}>{r.links.email}</a>}
-        {r.links.github && <a href={`https://${r.links.github.replace(/^https?:\/\//, '')}`}>GitHub</a>}
-        {r.links.linkedin && <a href={`https://${r.links.linkedin.replace(/^https?:\/\//, '')}`}>LinkedIn</a>}
-      </p>
-      <p>{r.summary}</p>
+      <p class="links">{links.map((l) => <a href={l.href}>{l.text}</a>)}</p>
+      <p class="summary">{r.summary}</p>
     </header>
 
     <section class="section">
@@ -31,8 +35,8 @@ const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z
       <ol class="entries">
         {r.experience.map((job) => (
           <li class="entry">
-            <p class="when label num">{month(job.start)} – {month(job.end)}</p>
-            <div class="stack what">
+            <p class="when label num">{month(job.start)} - {month(job.end)}</p>
+            <div class="what">
               <div>
                 <h3>{job.role}</h3>
                 <p class="muted">{job.org}{job.location && ` · ${job.location}`}</p>
@@ -48,8 +52,41 @@ const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z
             </div>
           </li>
         ))}
+        {r.earlier && r.earlier.length > 0 && (
+          <li class="entry">
+            <p class="when label">Earlier</p>
+            <ul class="what plain">{r.earlier.map((line) => <li>{line}</li>)}</ul>
+          </li>
+        )}
       </ol>
     </section>
+
+    {r.projects && r.projects.length > 0 && (
+      <section class="section">
+        <h2 class="label">Projects</h2>
+        <ol class="entries">
+          {r.projects.map((p) => (
+            <li class="entry">
+              <p class="when label num">{p.period}</p>
+              <div class="what">
+                <div>
+                  <h3>{p.name}</h3>
+                  {p.url && <p class="muted"><a href={`https://${bare(p.url)}`}>{bare(p.url)}</a></p>}
+                </div>
+                <p>{p.summary}</p>
+                {p.highlights.length > 0 && (
+                  <ul class="highlights">
+                    {p.highlights.map((h) => (
+                      <li>{h.title && <strong>{h.title}. </strong>}{h.text}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
 
     <section class="section">
       <h2 class="label">Skills</h2>
@@ -68,8 +105,8 @@ const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z
       <ol class="entries">
         {r.education.map((ed) => (
           <li class="entry">
-            <p class="when label num">{ed.start && `${month(ed.start)} – `}{ed.end && month(ed.end)}</p>
-            <div class="stack what">
+            <p class="when label num">{ed.start && `${month(ed.start)} - `}{ed.end && month(ed.end)}</p>
+            <div class="what">
               <div>
                 <h3>{ed.credential}</h3>
                 <p class="muted">{ed.institution}{ed.location && ` · ${ed.location}`}</p>
@@ -86,13 +123,15 @@ const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z
 <style>
   .head { max-width: var(--measure); }
   .lede { font-size: var(--step-1); line-height: 1.4; }
-  .links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); font-size: var(--step--1); }
+  .links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); font: 400 var(--step--1) var(--mono); }
   .entries { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
   .entry { display: grid; grid-template-columns: 11rem minmax(0, var(--measure)); gap: var(--space-2) var(--space-5); padding-block: var(--space-5); border-top: 1px solid var(--line); }
   .when { padding-top: 0.45em; }
-  .what { gap: var(--space-3); }
+  .what { display: grid; gap: var(--space-3); align-content: start; }
+  .what h3 { margin: 0; }
+  .plain { margin: 0; padding: 0; list-style: none; gap: var(--space-1); font-size: var(--step--1); }
   .highlights { margin: 0; padding-left: 1.1em; list-style: none; display: grid; gap: var(--space-2); font-size: var(--step--1); }
-  .highlights li::before { content: '–'; color: var(--muted); display: inline-block; width: 1.1em; margin-left: -1.1em; }
+  .highlights li::before { content: '-'; color: var(--muted); display: inline-block; width: 1.1em; margin-left: -1.1em; }
   .highlights strong { font-weight: 500; }
   .skills { margin: 0; display: grid; gap: var(--space-3); border-top: 1px solid var(--line); padding-top: var(--space-4); }
   .skills div { display: grid; grid-template-columns: 11rem minmax(0, var(--measure)); gap: var(--space-1) var(--space-5); }
@@ -102,10 +141,31 @@ const month = (m?: string | null) => (m ? fmt.format(new Date(`${m}-01T00:00:00Z
     .entry, .skills div { grid-template-columns: minmax(0, 1fr); }
   }
 
-  /* The PDF is this page, printed (P2). */
+  /* The PDF is this page, printed to US Letter. Light colors whatever the
+     screen theme, no site chrome, and the type tightened to fit two pages. */
   @media print {
-    :global(.site-header), :global(.site-footer), .banner { display: none; }
-    :global(body) { background: white; color: black; font-size: 10pt; }
-    .entry { break-inside: avoid; padding-block: var(--space-3); }
+    @page { size: letter; margin: 0.5in 0.55in; }
+    :global(:root), :global(:root[data-theme]) {
+      --bg: #fff; --surface: #fff; --fg: #111; --muted: #4a4f4c; --line: #cfd4d0; --accent: #1f5f51;
+      color-scheme: light;
+    }
+    :global(.site-header), :global(.site-footer), :global(.skip), .banner { display: none !important; }
+    :global(body) { font-size: 9.5pt; line-height: 1.4; }
+    :global(main) { min-height: 0; padding: 0; }
+    .resume { gap: 10pt; padding: 0; }
+    .head { gap: 4pt; max-width: none; }
+    .head h1 { font-size: 20pt; }
+    .lede { font-size: 11pt; }
+    .links { font-size: 8.5pt; gap: 2pt 14pt; }
+    .links a { color: var(--fg); text-decoration: none; }
+    .summary { font-size: 9.5pt; }
+    .section { gap: 4pt; }
+    .entry { grid-template-columns: 1.15in minmax(0, 1fr); gap: 2pt 12pt; padding-block: 6pt; break-inside: avoid; }
+    .what { gap: 3pt; }
+    .what h3 { font-size: 10.5pt; }
+    .highlights, .plain, .skills dt, .skills dd { font-size: 9pt; }
+    .highlights { gap: 2pt; }
+    .skills { gap: 2pt; padding-top: 6pt; }
+    .skills div { grid-template-columns: 1.15in minmax(0, 1fr); gap: 0 12pt; }
   }
 </style>

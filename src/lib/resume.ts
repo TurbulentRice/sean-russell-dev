@@ -44,6 +44,14 @@ const school = z.object({
   notes: z.array(z.string()),
 });
 
+const project = z.object({
+  name: z.string(),
+  url: z.string().optional(),
+  period: z.string(),
+  summary: z.string(),
+  highlights: z.array(highlight),
+});
+
 /** What the importer extracts: everything that comes from the document itself. */
 export const ResumeContent = z.object({
   name: z.string(),
@@ -54,6 +62,10 @@ export const ResumeContent = z.object({
   summary: z.string(),
   skills: z.array(z.object({ group: z.string(), items: z.array(z.string()) })),
   experience: z.array(job),
+  // Side projects big enough to stand beside a job (AutoLight).
+  projects: z.array(project).optional(),
+  // Older roles, condensed to one line each ("Senior Photographer, New York State Assembly, 2016-2021").
+  earlier: z.array(z.string()).optional(),
   education: z.array(school),
 });
 

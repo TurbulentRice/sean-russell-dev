@@ -65,6 +65,7 @@ Node 24 (`.nvmrc`).
 | `npm run check` | `astro check` (types + templates) |
 | `npm run import-resume -- <file.docx>` | .docx → `src/content/resume/resume.yaml` via Claude. `--text` prints the extracted text with no API call; `--force` overwrites |
 | `npx wrangler dev` | Serve `dist/` in the local Cloudflare runtime, with `_headers` applied (build first) |
+| Résumé PDF | `npm run dev`, then print `/resume/` to PDF (or headless: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --print-to-pdf=out.pdf http://localhost:4321/resume/`). The print stylesheet targets two Letter pages |
 | `npm run deploy` | Build and deploy by hand. Normally Workers Builds deploys `main` |
 
 ## 5. Layout

@@ -1,6 +1,6 @@
 ---
 title: One cache call per key, per request
-summary: A request-scoped memoization layer cut network traffic to bbb.org's production cache by roughly 70–80%. Four files, and not one caller changed.
+summary: A request-scoped memoization layer cut network traffic to bbb.org's production cache by roughly 70-80%. Four files, and not one caller changed.
 date: 2026-10-12
 draft: false
 ---
@@ -13,10 +13,10 @@ import CallsChart from '../../notes/request-scoped-cache/CallsChart.astro';
     off its per-page chart. Internal names stay generic (P2 plan, decision 1). */}
 
 In July 2025 I shipped a four-file change (+106 / −16 lines) to bbb.org's main application. It
-cut network traffic to the production cache cluster by roughly 70–80% and its CPU by about half.
+cut network traffic to the production cache cluster by roughly 70-80% and its CPU by about half.
 No caller changed. This is how, and why the fix was so small.
 
-<Figure caption="Cache calls in one page render, before and after the request-scoped layer. Every page made 40–71% fewer calls; search pages, which fetch the most shared data, fell the most.">
+<Figure caption="Cache calls in one page render, before and after the request-scoped layer. Every page made 40-71% fewer calls; search pages, which fetch the most shared data, fell the most.">
   <CallsChart />
 </Figure>
 
@@ -86,9 +86,9 @@ I recorded the cluster's numbers on the ticket the week of the release:
 
 | Production cache cluster | Before | After | Change |
 | --- | --- | --- | --- |
-| Network bytes out | 10–18 GB | 2–5 GB | about −72% to −80% |
-| Cache hits | 379k–783k | 115k–236k | about −70% |
-| Engine CPU | 9–18% | 5–8% | about −44% to −56% |
+| Network bytes out | 10-18 GB | 2-5 GB | about −72% to −80% |
+| Cache hits | 379k-783k | 115k-236k | about −70% |
+| Engine CPU | 9-18% | 5-8% | about −44% to −56% |
 
 On release day, packets in and out on the busiest node fell by more than half the moment the
 release rolled out. Response times improved too: category search went from 490 to 330 ms, API
