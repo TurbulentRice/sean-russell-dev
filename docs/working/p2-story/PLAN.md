@@ -189,7 +189,7 @@ language. Prints to **two Letter pages** (checked with headless Chrome).
 - Vendor integrations (Zendesk, Meraki, Five9) and QA bullets at Comcast were
   cut for space.
 
-### 6. Launch pass
+### 6. Launch pass (in review, 2026-10-12)
 
 All three case studies and the résumé live together. Home page order
 (monitoring, AutoLight, ingest), link previews checked in iMessage / Slack /
@@ -197,6 +197,27 @@ LinkedIn, Lighthouse on every page type, and a last read of every page in
 both themes on a phone.
 
 *Done when:* Sean is happy to put the URL on the résumé and LinkedIn.
+
+**Measured** (Lighthouse 12, mobile profile, every live page, 2026-10-12):
+before fixes, performance 96–100, accessibility 97–100, best practices and SEO
+100 everywhere; 182 internal links, none broken; every page has a 1200×630
+preview card; external links 200 (LinkedIn answers bots with 999, normal).
+
+**Fixed:**
+- AutoLight's lead screenshot was lazy: LCP 2.4 s → 1.5 s with `Shot priority`.
+- Code comments failed AA contrast in both Vitesse themes (2.1:1 / 3.7:1);
+  they take `--muted` now (5.2:1 / 5.7:1). Accessibility 100 everywhere.
+- The text face is preloaded. Layout shift went to 0 on every page (it was
+  0.028 on monitoring, 0.011 on the résumé). The cost: on text-only pages LCP
+  now lands when the font arrives (~1.3–1.5 s on simulated slow 4G) instead of
+  at first paint in the fallback (~0.9 s). Every page stays well under 2.5 s;
+  zero shift and no font flash were judged worth it.
+- The 404 page declared a canonical URL; noindex pages no longer do.
+- The résumé got its own link-preview card.
+
+**Left for Sean** (needs real accounts): paste a case-study URL into iMessage,
+Slack and LinkedIn's Post Inspector (linkedin.com/post-inspector) to see the
+cards; a last read on a phone in both themes.
 
 ## Decisions
 
