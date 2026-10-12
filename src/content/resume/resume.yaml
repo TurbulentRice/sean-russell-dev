@@ -7,7 +7,7 @@ draft: false
 name: Sean Russell
 headline: Full-stack engineer
 location: Schenectady, NY
-reviewed: 10-12-2026
+reviewed: 2026-10
 links:
   # hello@ forwards to Gmail via Cloudflare Email Routing (set up at cutover).
   email: hello@seanrusselldev.com
