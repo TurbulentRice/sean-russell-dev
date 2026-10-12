@@ -148,6 +148,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: var(--space-6) 0; }
    badly in cells of prose. Numeric-only columns can opt in with .num. */
 .prose table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
 .prose th { text-align: left; font: 500 var(--step--2) var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.prose td code { white-space: nowrap; } /* a token or flag reads as one unit */
 .prose th, .prose td { padding: var(--space-2) var(--space-3) var(--space-2) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
 
 /* Figures number themselves: Fig. 01, Fig. 02… per article. */

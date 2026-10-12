@@ -1,21 +1,39 @@
 ---
-// Reads the live tokens, so it always shows what the CSS actually says.
+// The palette as the browser sees it right now: each chip paints with the live
+// token, and a small script reads the token's value back out, so the hex codes
+// follow the theme toggle and the system setting without a reload.
 const tokens = ['bg', 'surface', 'fg', 'muted', 'line', 'accent'];
 ---
 
 <ul class="swatches wide">
   {tokens.map((t) => (
-    <li>
+    <li data-token={t}>
       <span class="chip" style={`background: var(--${t})`}></span>
-      <span class="label">--{t}</span>
+      <span class="name">--{t}</span>
+      <span class="hex num" data-hex></span>
     </li>
   ))}
 </ul>
 
+<script>
+  const read = () => {
+    const root = getComputedStyle(document.documentElement);
+    document.querySelectorAll<HTMLElement>('[data-token]').forEach((li) => {
+      const hex = li.querySelector('[data-hex]');
+      if (hex) hex.textContent = root.getPropertyValue(`--${li.dataset.token}`).trim();
+    });
+  };
+  // Every navigation (view transitions), every theme toggle, every system change.
+  document.addEventListener('astro:page-load', read);
+  new MutationObserver(read).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', read);
+</script>
+
 <style>
   .swatches { list-style: none; margin: 0; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: var(--space-4); }
   .swatches li::before { display: none !important; }
-  li { display: grid; gap: var(--space-2); }
-  .label { text-transform: none; letter-spacing: 0.02em; }
-  .chip { height: 3rem; border-radius: var(--radius); border: 1px solid var(--line); }
+  li { display: grid; gap: var(--space-1); }
+  .chip { height: 3rem; margin-bottom: var(--space-1); border-radius: var(--radius); border: 1px solid var(--line); }
+  .name { font: 500 var(--step--2)/1.2 var(--mono); }
+  .hex { font: 400 var(--step--2)/1.2 var(--mono); color: var(--muted); min-height: 1.2em; }
 </style>

@@ -1,96 +1,119 @@
 ---
 title: Signal
-summary: The design system for this site, every piece in one place.
-status: wip
+summary: The design system behind this site, every piece of it live, and the decisions that shaped it.
+status: live
 date: 2026-10-02
 updated: 2026-10-12
-stack: [CSS, Astro components]
-draft: true
+stack: [CSS custom properties, Astro components, Satori]
+draft: false
 ---
 
-import Swatches from '../../lab/design-system/Swatches.astro';
-import Trace from '../../components/Trace.astro';
-import IndexList from '../../components/IndexList.astro';
+import Stage from '../../components/lab/Stage.astro';
+import Figure from '../../components/case/Figure.astro';
+import Metrics from '../../components/case/Metrics.astro';
 import SpecSheet from '../../components/SpecSheet.astro';
 import Status from '../../components/Status.astro';
-import Stage from '../../components/lab/Stage.astro';
+import Trace from '../../components/Trace.astro';
+import Swatches from '../../lab/design-system/Swatches.astro';
+import WorkIndex from '../../lab/design-system/WorkIndex.astro';
 
-<Stage kind="Specimen" note="The palette, read live from the site's tokens: switch the theme in the footer and these follow.">
+<Stage kind="Specimen" note="The palette, read live from the page: switch the theme in the footer and the chips and their values follow.">
   <Swatches />
 </Stage>
 
-The site reads like a well-instrumented system: quiet type, generous space, work as an index. The
-accent, a patina green called verdigris, is rationed to links, the current page, live readouts and
-status.
+The brief was a site that reads like a well-instrumented system: understated, quiet type, generous
+space, with the interest in the details. Showing off a little, never on the nose. This page is the
+system itself, using the same components as the rest of the site rather than pictures of them.
 
-## Type
+## Decisions
 
-Schibsted Grotesk for everything you read; IBM Plex Mono for labels, numbers and readouts.
+### One accent, rationed
+
+The palette is called Verdigris, after the green of oxidized copper. It was chosen over three
+alternatives (an oxblood, an amber phosphor and an international orange) because it's uncommon
+on developer sites and calm without being bland. Most of its effect comes from the neutrals: every
+gray leans slightly toward the accent, so the page has a temperature before any color appears.
+
+The accent itself is rationed to links, the current page, live readouts and status. Everything else
+is ink and paper.
+
+| Token | Light | Dark | Contrast |
+| --- | --- | --- | --- |
+| `--fg` | `#152019` | `#e2e9e5` | 14.4 / 15.1 |
+| `--muted` | `#5d6a64` | `#88968f` | 4.8 / 6.0 |
+| `--accent` | `#22695a` | `#6cc3ad` | 5.6 / 8.9 |
+
+Contrast is light / dark, against each theme's background. Every text color clears WCAG AA
+(4.5:1) in both themes. The theme follows
+the system unless you choose otherwise in the footer, and a choice is applied before the first
+paint, so the page never flashes the wrong one.
+
+### Two typefaces with different jobs
+
+Schibsted Grotesk sets everything you read. IBM Plex Mono sets everything you scan: labels,
+numbers, dates, readouts. The split is what makes a spec sheet or an index read like an instrument
+panel without any ornament. Both are self-hosted, and the text face is preloaded, so text never
+jumps when the real font arrives.
 
 <p class="label">Section label · instrument caps</p>
 
-### A third-level heading
+### Lists, not cards
 
-Body text sits near 66 characters a line. Links look like [this](#), and inline code like
-`WORKERS_CI_COMMIT_SHA`.
+Work is an index, not a grid of tiles. A numbered row with a one-line summary and a tag lets you
+compare the whole list at a glance, and it doesn't pretend every project needs a thumbnail. This is
+the live Work index:
 
-## Readout
+<WorkIndex />
 
-The hero's live trace, once the `/status` probe exists. Until then it never appears on the front
-of the site.
+### Lead with a picture
+
+Every case study opens with its most telling figure, right under the spec sheet, and every lab entry
+opens with its experiment, as this one does. A visitor should see the thing before reading about it.
+Figures number themselves, and diagrams are drawn in the page's own tokens, so they follow the theme
+too.
+
+### Details that reward a closer look
+
+- The footer stamps every page with the commit it was built from, linked to GitHub.
+- Lab status is a shape as well as a word: <Status status="live" /> <Status status="wip" /> <Status status="archived" />
+- Link previews are rendered at build from the same fonts and tokens, one per page (Fig. 01).
+- The home page will carry a live latency and uptime readout once the probe that feeds it exists.
+  Until then it only appears here, clearly marked as example data:
 
 <Trace samples={[184, 181, 186, 179, 183, 178, 185, 180, 182, 214, 176, 183, 181, 179, 182, 177]} uptime={99.98} p50={182} window="30d" example />
 
-## Status
+<Figure caption="The link-preview card for the AutoLight case study, as shared to Slack or iMessage. Rendered at build with Satori, from the site's own fonts and colors.">
+  <img src="/og/work/autolight.png" width="1200" height="630" alt="A light card reading seanrusselldev.com, Work · product, AutoLight, with the case study's summary and Sean Russell's name." loading="lazy" />
+</Figure>
 
-<p class="label"><Status status="live" /> &nbsp; <Status status="wip" /> &nbsp; <Status status="archived" /></p>
+## Constraints it holds to
 
-## Index
-
-<IndexList rows={[
-  { href: '#', title: 'Synthetic monitoring', summary: 'A probe that found dozens of silent, user-facing defects in its first month.', meta: 'reliability' },
-  { href: '#', title: 'Signals, not payloads', summary: 'A lossy ingest pipeline, made cheap and recoverable.', meta: 'data' },
+<Metrics items={[
+  ['100', 'accessibility score on every page (Lighthouse, mobile)'],
+  ['0', 'layout shift on every page'],
+  ['375 px', 'every page checked at phone width, in both themes'],
 ]} />
 
-## Spec sheet
+The spec sheet is the same component the case studies use:
 
-<SpecSheet items={[['Role', 'Designer and sole engineer'], ['Period', '2026'], ['Stack', 'Playwright, TypeScript, CI/CD']]} />
+<SpecSheet items={[['Typefaces', 'Schibsted Grotesk, IBM Plex Mono'], ['Palette', 'Verdigris, light and dark'], ['Built with', 'CSS custom properties, Astro components']]} />
 
-## Prose
+The script that applies a saved theme before the first paint is small enough to show whole. It sits in
+every page's `<head>`:
 
-- Lists use an en dash
-- and stay compact
-
-1. Ordered lists number in mono
-2. like this
-
-> A blockquote, for the occasional quotation or aside from a postmortem.
-
-| Metric | Before | After |
-| --- | --- | --- |
-| Message size | 48 KB | 0.3 KB |
-| Recovery | none | replay from source |
-
-{/* Example figures above are illustrative, not real measurements. */}
-
-```ts
-// Code follows the system theme.
-export async function probe(url: string): Promise<number> {
-  const t0 = performance.now();
-  await fetch(url, { cache: 'no-store' });
-  return performance.now() - t0;
-}
+```js
+(function () {
+  function apply() {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  }
+  apply();
+  document.addEventListener('astro:after-swap', apply);
+})();
 ```
 
-<figure>
-  <svg viewBox="0 0 640 160" role="img" aria-label="Placeholder diagram">
-    <rect x="40" y="50" width="140" height="60" rx="6" fill="none" stroke="currentColor" opacity="0.35" />
-    <rect x="250" y="50" width="140" height="60" rx="6" fill="none" stroke="currentColor" opacity="0.35" />
-    <rect x="460" y="50" width="140" height="60" rx="6" fill="none" stroke="var(--accent)" />
-    <path d="M180 80 H250 M390 80 H460" stroke="var(--accent)" fill="none" />
-    <text x="110" y="85" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="currentColor">source</text>
-    <text x="320" y="85" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="currentColor">signal</text>
-    <text x="530" y="85" text-anchor="middle" font-family="var(--mono)" font-size="12" fill="currentColor">consumer</text>
-  </svg>
-  <figcaption>Figures number themselves, and diagrams draw in the page's own colors.</figcaption>
-</figure>
+> Understated, showing off a bit, never on the nose.
+
+That was the whole brief, and it's still the test for anything new on the site.

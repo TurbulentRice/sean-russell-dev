@@ -1,0 +1,9 @@
+---
+// The real Work index, not a mock-up: the specimen should show what visitors see.
+import IndexList from '../../components/IndexList.astro';
+import { published } from '../../lib/content';
+
+const work = await published('work');
+---
+
+<IndexList rows={work.map((e) => ({ href: `/work/${e.id}/`, title: e.data.title, summary: e.data.summary, meta: e.data.area }))} />
