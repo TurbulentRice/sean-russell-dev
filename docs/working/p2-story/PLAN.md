@@ -92,7 +92,7 @@ autolight.ai's live page (early access, waitlist) bounds launch claims.
   "the hard part, and where the work is now", per decision 5.
 - The one-time license isn't mentioned: pricing isn't on autolight.ai yet.
 
-### 3. Synthetic monitoring
+### 3. Synthetic monitoring (in review, 2026-10-12)
 
 Needs the evidence export. Feature the decisions behind black-box probing of
 critical journeys, alerting that catches slow-burn problems, the CI/CD and e2e
@@ -100,6 +100,20 @@ tie-in, and the debugging companion app. Results: dozens of tickets in month
 one, most of them user-facing, systemic and silent (the cleared wording).
 
 *Done when:* Sean approves and it publishes.
+
+**Sources:** the evidence export, case studies 2 and 4 (observability folded in
+as "When the dashboards are wrong"). Every figure in the page is from it.
+
+**Where it disagreed with the plan:**
+- "Dozens of tickets" was wrong: 19 tickets, about 12 distinct user-facing
+  defects. The page uses those numbers.
+- Role is "Primary engineer": the initiative belonged to an engineering lead,
+  and an SRE teammate built five journeys, the alert diagnostics and the
+  scheduler. Both are credited.
+- Two diagrams, not one: the probe pipeline, and the slow-render fallback.
+- "What I'd do differently" is drawn from Sean's own "not yet measured" note
+  (business impact); Sean to confirm it's his view.
+- Prose tables dropped `tabular-nums`: Schibsted Grotesk widens commas with it.
 
 ### 4. Event-driven ingest
 
@@ -133,11 +147,19 @@ both themes on a phone.
 
 Settled 2026-10-09: Sean took every default, and gave the LinkedIn URL.
 
-1. **Naming the employer in case studies.** The résumé names BBB. Case
-   studies can name it ("at BBB") or stay general ("at a national
-   nonprofit"). Naming it is more credible; general is safer if any detail is
-   sensitive. Default: general in case studies, named on the résumé.
-2. **Which numbers are cleared** for each work case study (after the export).
+1. **Naming the employer in case studies.** ~~Default: general.~~ **Changed
+   2026-10-12: name bbb.org.** The evidence (complaints, reviews, seals)
+   identifies it anyway, so a vague label would read as coy. Internal system
+   names stay generic ("the main application", "the system of record", "the
+   legacy listener service"); public technologies are named.
+2. **Which numbers are cleared** for each work case study. The evidence export
+   arrived 2026-10-12 (`private/engineering-case-studies-2026-10-12.txt`,
+   git-ignored). Its figures are cleared, with Sean's caveats carried into each
+   study's Notes. Commit and PR totals are cleared but used lightly: they show
+   that Sean measures and ships, not much else. "About 66.5M messages … a day"
+   is ambiguous (per day or per 30 days?) and stays out until confirmed. Never
+   published: the query parameter that forces the configuration fallback, and
+   how the probes' anti-automation exemption works.
 3. **Résumé scope:** keep the photography business and the Assembly role as
    full entries, or condense pre-2021 roles into one "Earlier" line? Default:
    photography stays (it explains AutoLight), the rest condenses.
@@ -150,6 +172,13 @@ Settled 2026-10-09: Sean took every default, and gave the LinkedIn URL.
    problem), and an autolight-web PR adding more detail waits on those
    results. So the case study is about the engineering, not a launch, and
    makes no claim about cross-shoot accuracy until autolight.ai does.
+6. **What's featured.** Three case studies (monitoring with the
+   observability work folded in, AutoLight, the legacy pipeline). The
+   request-scoped cache becomes the first Notes post, which brings Notes live.
+   The CMS-as-code work goes on the résumé.
+7. **Title.** Sean's title is Full Stack Developer; the work is a senior
+   engineer's, and that's the title he's aiming for next. The résumé keeps the
+   real title and lets the bullets show the level.
 
 ## Not covered, on purpose
 

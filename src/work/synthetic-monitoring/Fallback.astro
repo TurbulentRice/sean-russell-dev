@@ -1,0 +1,53 @@
+---
+// The silent failure: a page's runtime configuration arrives with the server
+// render, unless the render is slow, in which case the browser quietly falls
+// back to the development defaults compiled into the build.
+---
+
+<svg viewBox="0 0 884 236" role="img" aria-labelledby="sm-fb-title sm-fb-desc" class="diagram">
+  <title id="sm-fb-title">How a slow render shipped development settings</title>
+  <desc id="sm-fb-desc">
+    A page request goes to the server render. If the render finishes within 3 seconds, the page
+    carries its production configuration. If it takes longer, the page is sent without it, and the
+    browser uses development defaults: localhost links, a development reCAPTCHA key, and error
+    reporting switched off.
+  </desc>
+
+  <rect x="16" y="87" width="168" height="62" rx="6" class="node" />
+  <text x="30" y="114" class="name">Page request</text>
+  <text x="30" y="134" class="sub">any page, any user</text>
+
+  <rect x="246" y="87" width="168" height="62" rx="6" class="node" />
+  <text x="260" y="114" class="name">Server render</text>
+  <text x="260" y="134" class="sub">supplies runtime config</text>
+
+  <path d="M 184 118 H 240" class="edge" />
+  <path d="M 231 113 L 240 118 L 231 123" class="edge" />
+
+  <!-- Fast path -->
+  <path d="M 414 108 H 450 V 52 H 490" class="edge" />
+  <path d="M 481 47 L 490 52 L 481 57" class="edge" />
+  <text x="442" y="74" class="sub" text-anchor="end">under 3 s</text>
+  <rect x="496" y="21" width="372" height="62" rx="6" class="node" />
+  <text x="510" y="48" class="name">Production config</text>
+  <text x="510" y="68" class="sub">the page works</text>
+
+  <!-- Slow path -->
+  <path d="M 414 128 H 450 V 184 H 490" class="edge bad" />
+  <path d="M 481 179 L 490 184 L 481 189" class="edge bad" />
+  <text x="442" y="172" class="sub bad-text" text-anchor="end">over 3 s</text>
+  <rect x="496" y="153" width="372" height="62" rx="6" class="node bad" />
+  <text x="510" y="180" class="name">Sent without config: dev defaults</text>
+  <text x="510" y="200" class="sub">localhost links · dev reCAPTCHA · no error reports</text>
+</svg>
+
+<style>
+  .diagram { display: block; width: 100%; height: auto; background: var(--surface); }
+  .node { fill: var(--bg); stroke: var(--line); stroke-width: 1.25; }
+  .node.bad { stroke: var(--accent); stroke-dasharray: 4 3; }
+  .name { font: 500 15px var(--sans); fill: var(--fg); }
+  .sub { font: 400 11px var(--mono); fill: var(--muted); }
+  .bad-text { fill: var(--accent); }
+  .edge { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-linejoin: round; }
+  .edge.bad { stroke: var(--accent); }
+</style>
