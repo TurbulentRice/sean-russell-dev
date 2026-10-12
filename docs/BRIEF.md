@@ -129,7 +129,7 @@ Two ideas that turn claims into evidence:
 | Epic | What |
 |---|---|
 | **P1 Foundation** | Scaffold, design system, home/about copy, cutover to seanrusselldev.com. [Plan](working/p1-foundation/PLAN.md) |
-| **P2 Story** | The three case studies, and the résumé rewrite that comes out of writing them. Print-to-PDF. |
-| **P3 Lab** | Lab template polish, 2-3 experiments, the ingest simulation. |
+| **P2 Story** | The three case studies, the first Notes post, and the résumé rewrite that comes out of writing them; a local exporter (PDF, DOCX, Markdown, text). [Plan](working/p2-story/PLAN.md) |
+| **P3 Lab and Notes** | Lab template polish, the design system as a lab entry, two notes (how this site is built; CMS schemas as code), the résumé tool in the browser, the ingest simulation. [Plan](working/p3-lab/PLAN.md) |
 | **P4 Live** | The `/api` Worker and the `/status` synthetic probe. |
-| **Later** | Notes goes live; the `/inside/` page; side-project subdomains. |
+| **Later** | The `/inside/` page; side-project subdomains. |
