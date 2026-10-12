@@ -189,7 +189,7 @@ language. Prints to **two Letter pages** (checked with headless Chrome).
 - Vendor integrations (Zendesk, Meraki, Five9) and QA bullets at Comcast were
   cut for space.
 
-### 6. Launch pass (in review, 2026-10-12)
+### 6. Launch pass ✅ (2026-10-12)
 
 All three case studies and the résumé live together. Home page order
 (monitoring, AutoLight, ingest), link previews checked in iMessage / Slack /
@@ -217,7 +217,19 @@ preview card; external links 200 (LinkedIn answers bots with 999, normal).
 
 **Left for Sean** (needs real accounts): paste a case-study URL into iMessage,
 Slack and LinkedIn's Post Inspector (linkedin.com/post-inspector) to see the
-cards; a last read on a phone in both themes.
+cards; a last read on a phone in both themes. ✅ Both checked by Sean.
+
+### 7. Résumé exporter (local)
+
+`npm run resume:export` turns `resume.yaml` into timestamped files in
+`exports/` (git-ignored): PDF (the `/resume/` page printed by Chrome, so it
+matches the site), DOCX (single-column, for applicant-tracking systems and
+"send me a Word version"), Markdown and plain text (for forms and LinkedIn).
+The DOCX, Markdown and text renderers live in `src/lib/` as plain TypeScript
+with no Node-only APIs, so P3's browser tool reuses them unchanged.
+
+*Done when:* one command produces all four from the committed YAML, and the
+DOCX opens cleanly in Word and Google Docs.
 
 ## Decisions
 
