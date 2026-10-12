@@ -1,174 +1,136 @@
-# Hand-converted from Sean_Russell_Resume_2025.docx on 2026-10-02 as a
-# starting point. Out of date: context only, not the final résumé (P3).
+# The résumé: the single source for /resume and its PDF (print the page).
 # Schema: src/lib/resume.ts. Street address and phone are deliberately absent.
-draft: true
+# Rewritten 2026-10-12 (P2 slice 5) from the case studies outward. Every work
+# figure traces to private/engineering-case-studies-2026-10-12.txt; AutoLight's
+# to autolight-lossless/docs/STATUS.md.
+draft: false
 name: Sean Russell
-headline: Full-Stack Software Engineer
+headline: Full-stack engineer
 location: Schenectady, NY
 links:
   # hello@ forwards to Gmail via Cloudflare Email Routing (set up at cutover).
   email: hello@seanrusselldev.com
   github: github.com/TurbulentRice
   linkedin: linkedin.com/in/sean-russell-professional
+  website: seanrusselldev.com
 summary: >-
-  Software engineer with five years of experience performing full-stack web development and site
-  reliability engineering tasks in an Agile environment. AI-enabled and ready for anything.
+  Full-stack engineer with five years shipping and running production systems at bbb.org and
+  Comcast, across frontend, backend, data, SRE and DevOps. Leads work that crosses the stack:
+  retiring a legacy data pipeline, building production monitoring that found failures nothing
+  else could see, and cutting cache traffic 70–80% with a four-file change. Measures before
+  changing anything, communicates clearly, and works with AI tools every day.
 skills:
-  - group: JavaScript
-    items: [React, Next, TypeScript, Node, Express, Angular, jQuery, Vite, Webpack]
-  - group: C#
-    items: [.NET, Entity Framework, Dapper, MassTransit, Polly, Prometheus]
-  - group: Python
-    items: [Flask, Boto3, Celery, Flower, EasySNMP, NumPy, Pandas]
-  - group: PHP
-    items: [Laravel, Eloquent, Slim, PDO]
-  - group: HTML and CSS
-    items: [HTML5, CSS3, Tailwind, styled-components, Sass, Bootstrap, UIKit, Razor, Blade]
-  - group: Databases
-    items: [PostgreSQL, MySQL, SQL Server, SQLite, MongoDB, Apache Solr]
+  - group: Languages
+    items: [TypeScript, JavaScript, C#, Python, SQL, PHP]
+  - group: Frontend
+    items: [React, Next.js, Astro, Tailwind, Playwright]
+  - group: Backend and data
+    items: [Node, .NET, Express, Flask, PostgreSQL, SQL Server, Elasticsearch, Solr, RabbitMQ, Valkey/Redis]
   - group: Infrastructure
-    items: [AWS, Git, Docker, Terraform, Kubernetes, ArgoCD, Cloudflare, Linux, Apache, Nginx, MS Azure, RabbitMQ, Grafana, Redis]
-  - group: Software and Tools
-    items: [Cursor, Claude Code, Codex, Adobe Creative Cloud]
+    items: [AWS, Kubernetes, Docker, Terraform, ArgoCD, Cloudflare, Linux]
+  - group: Observability
+    items: [Prometheus, Grafana, OpenTelemetry, Sentry]
+  - group: AI
+    items: [Claude Code, Cursor, Codex, PyTorch]
 experience:
-  - org: Better Business Bureau
+  - org: Better Business Bureau (bbb.org)
     location: Arlington, VA
     role: Full Stack Developer
     start: 2024-01
     end: null
     summary: >-
-      Web developer with a wide range of proficiencies: designing systems, codifying infrastructure,
-      migrating data, building backend services and APIs, and developing responsive, accessible, and
-      SEO-friendly user interfaces.
+      Engineer on bbb.org, working across the main application, its data pipeline, observability
+      and release tooling.
     highlights:
-      - title: Application Optimization
+      - title: Synthetic monitoring
         text: >-
-          Designed and implemented a thin request-scoped task memoization layer in front of a large
-          Valkey distributed cache, immediately reducing application cache calls by 70%, and decreasing
-          server request latency by 50% across bbb.org.
-      - title: Cache Invalidation
+          Primary engineer for probes that act like real users on production every 15 minutes,
+          with on-call alerts, CI/CD integration and an internal releases app. Found a defect that
+          had silently broken 2.8% of page renders for over a year; failing probe runs fell from
+          5.4% to 0.7% after the fix.
+      - title: Legacy data pipeline
         text: >-
-          Architected and led development on a distributed cache invalidation service responsible for
-          clearing relevant web data caches in response to events occurring in disconnected
-          applications. Implemented fan-out messaging pattern using AWS SNS and SQS, and codified
-          infrastructure using Terraform.
-      - title: DevOps
+          Owned the move of business profiles from Solr to PostgreSQL, then built the
+          Organizations side of an event-driven connector that replaced the legacy push pipeline:
+          shadow runs, feature-flag cutovers, and a reconciliation job that repairs stale data on
+          demand. 44 production releases; about 52k organization syncs a day.
+      - title: Request-scoped cache
         text: >-
-          Created a CI/CD release helper CLI tool, which is used across development teams to simplify
-          and standardize the release process, offering convenience features and helpful guardrails.
-          Responsible for updating, migrating, and reconciling 5 million+ rows of mission critical
-          business profile data from a cloud enterprise search platform to a PostgreSQL database.
-      - title: AI Sentiment Analysis
+          Designed a memoization layer in front of the shared Valkey cache that cut its network
+          traffic by 70–80% and its CPU by about half, with no caller changes; category search
+          went from 490 to 330 ms.
+      - title: Observability
         text: >-
-          Working enthusiastically with stakeholders to define areas of opportunity in the emerging
-          landscape of AI-driven tools and services. Built a containerized microservice to analyze
-          sentiment of customer complaint texts using .NET, Docker, Kubernetes, and Google Cloud
-          Natural Language API.
+          Gave the team's services consistent Prometheus metrics, health checks and one Sentry
+          setup. The render metrics later proved the root cause of an outage every dashboard had
+          shown as healthy.
+      - title: New frontend and CMS
+        text: >-
+          Took the new React frontend to production and turned its Storyblok CMS schemas into
+          reviewed code that CI promotes from dev to prod.
+      - title: Platform
+        text: >-
+          Built the release CLI the team uses to cut, patch and promote releases, and architected a
+          cache invalidation service using SNS/SQS fan-out and Terraform. Built a containerized
+          sentiment-analysis service for complaint text on Kubernetes.
   - org: Comcast
     location: Troy, NY
     role: Software Engineer
     start: 2021-02
     end: 2023-12
     summary: >-
-      Full-stack engineer developing front-end web applications and back-end services to deliver
-      managed Wi-Fi solutions for hotels, arenas, and campuses around the world.
+      Full-stack engineer on managed Wi-Fi products for hotels, arenas and campuses.
     highlights:
       - title: Xfinity NOW Wi-Fi Pass
         text: >-
-          Lead front-end developer for a new Wi-Fi hotspot product, resulting in 33,459 passes sold in
-          the first month. Collaborated with product team to define requirements, monitor application
-          activity metrics, and troubleshoot software issues. Wrote secure APIs to manage an automated
-          email journey from pass purchase to expiration.
-      - title: Captive Portal Development
+          Lead frontend developer for a new hotspot product that sold 33,459 passes in its first
+          month; wrote the APIs behind its purchase-to-expiration email journey.
+      - title: Captive portals
         text: >-
-          Designed and built responsive landing pages for high-profile customers including Wyndham
-          Resorts, Four Seasons, Cedar Fair, San Francisco Giants, and University of Alabama.
-      - title: DevOps
+          Designed and built landing pages for customers including Wyndham, Four Seasons, Cedar
+          Fair, the San Francisco Giants and the University of Alabama.
+      - title: Reliability and cloud
         text: >-
-          Supported the migration from on-premises servers to cloud infrastructure using AWS EC2, RDS,
-          CloudFront, S3, SecretsManager, and Microsoft Azure.
-      - title: Internal Tools
-        text: >-
-          Updated mission-critical business applications to mitigate SLA impact of third-party service
-          outages on customer networks using Python-Flask servers, EasySNMP, Celery, and Flower.
-          Integrated internal software with external vendor APIs including Zendesk, Cisco Meraki, and
-          Five9.
-      - title: Quality Assurance
-        text: >-
-          Perform functional, regression, and end-to-end testing, write unit tests, and maintain
-          detailed test plan documentation for multiple code bases.
-      - title: Leadership
-        text: >-
-          Enthusiastically collaborate across teams, create and manage user stories, and communicate
-          clearly with stakeholders. Mentored a junior developer in REST principles, API
-          authentication, and code deployment. Mentored an intern in UI/UX design and front-end web
-          development.
-      - title: Cybersecurity
-        text: >-
-          Remediate security vulnerabilities in code and infrastructure, including automating data
-          retention and disposal policies, and implementing user authentication (RADIUS, SSO, OAuth,
-          JWT).
+          Hardened internal tools against third-party outages (Flask, Celery, SNMP), supported the
+          move from on-premises servers to AWS and Azure, and implemented authentication with
+          RADIUS, SSO, OAuth and JWT.
+      - title: Mentoring
+        text: Mentored a junior developer and an intern in APIs, deployment and frontend development.
   - org: Sean Russell Photography
     location: Troy, NY
     role: Owner
     start: 2015-07
     end: null
-    summary: Professional portraiture, wedding, and event photography for diverse clientele across Northeastern US.
-    highlights:
-      - title: Communication
-        text: Communicating with clients to design unique product packages on a timeline.
-      - title: Customer Satisfaction
-        text: Achieving a 5-star customer satisfaction record and glowing word-of-mouth recommendations.
-      - title: Technical Expertise
-        text: >-
-          Employing advanced knowledge of lighting, composition, photo/video equipment, and
-          post-production software and workflows; editing and archiving tens of thousands of images.
-      - title: Marketing
-        text: >-
-          Managing a business portfolio website with third-party product, sales, and marketing tools
-          including SEO to boost engagement.
-  - org: New York State Assembly
-    location: Albany, NY
-    role: Senior Photographer
-    start: 2016-10
-    end: 2021-02
     summary: >-
-      Principal photographer responsible for managing official portrait studio and documenting
-      legislative session, press conferences, and events for use in government media.
-    highlights:
-      - title: Organization
-        text: >-
-          Orchestrated the coverage, processing, and documentation of hundreds of photo jobs for a team
-          of staff photographers.
-      - title: Leadership
-        text: >-
-          Spearheaded the rearchitecting of official portrait system; researched and secured several
-          large equipment purchase orders.
-  - org: GCOM Software Inc.
-    location: Albany, NY
-    role: Computer Specialist
-    start: 2013-06
-    end: 2014-08
-    summary: >-
-      Technical support representative for the NYSDOH's Health Commerce System, providing call support
-      to physicians and nurse practitioners around NY during the rollout of the I-STOP Prescription
-      Monitoring Program software.
+      Portrait, wedding and event photography across the Northeast; tens of thousands of images
+      edited and archived, which is where AutoLight started.
     highlights: []
+projects:
+  - name: AutoLight
+    url: autolight.ai
+    period: 2025–present
+    summary: >-
+      A desktop app that learns a photographer's editing style from their Lightroom catalogs and
+      delivers it back into Lightroom. Designed and built solo; in early access.
+    highlights:
+      - text: >-
+          Electron and React app over a Python/PyTorch ML core, joined by a typed JSONL contract;
+          edits are written as Lightroom's own virtual copies into a validated copy of the catalog.
+      - text: >-
+          Tested against every Lightroom Classic catalog version from 6 to 15; 1,600+ automated
+          tests, including Playwright driving the real app.
+earlier:
+  - Senior Photographer, New York State Assembly, 2016–2021
+  - Computer Specialist, GCOM Software, 2013–2014
 education:
-  - institution: CanCode Communities
-    location: Albany, NY
-    credential: Continuing education
-    start: 2020-06
-    end: 2021-05
-    notes: [JavaScript Frameworks, JavaScript Fundamentals, Python for Data Analytics]
   - institution: State University of New York at Geneseo
     location: Geneseo, NY
-    credential: 'Bachelor of Arts: Communication, Journalism and Media'
+    credential: 'BA, Communication, Journalism and Media'
     end: 2015-05
-    notes: ["Graduated on the Dean's List with a GPA of 3.6."]
-  - institution: Rensselaer Polytechnic Institute
-    location: Troy, NY
-    credential: 'Undergraduate studies: Electronic Arts'
-    start: 2011-09
-    end: 2012-05
-    notes: [Studied digital media production under Pauline Oliveros, Igor Vamos, and Michael Century.]
+    notes: []
+  - institution: CanCode Communities
+    location: Albany, NY
+    credential: 'Continuing education: JavaScript frameworks, Python for data analytics'
+    start: 2020-06
+    end: 2021-05
+    notes: []
