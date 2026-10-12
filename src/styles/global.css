@@ -169,6 +169,14 @@ hr { border: 0; border-top: 1px solid var(--line); margin: var(--space-6) 0; }
   :root:not([data-theme='light']) :is(.astro-code, .astro-code span) { color: var(--shiki-dark) !important; font-style: var(--shiki-dark-font-style) !important; }
 }
 :root[data-theme='dark'] :is(.astro-code, .astro-code span) { color: var(--shiki-dark) !important; font-style: var(--shiki-dark-font-style) !important; }
+/* Vitesse's comments fail WCAG AA contrast (2.1:1 light, 3.7:1 dark; Lighthouse,
+   2026-10-12). Comments take the muted token instead: 5.2:1 and 5.7:1. Matched by
+   the inline colors Shiki writes, so these selectors follow a theme change. */
+.astro-code span[style*="color:#a0ada0" i] { color: var(--muted) !important; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .astro-code span[style*="--shiki-dark:#758575" i] { color: var(--muted) !important; }
+}
+:root[data-theme='dark'] .astro-code span[style*="--shiki-dark:#758575" i] { color: var(--muted) !important; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

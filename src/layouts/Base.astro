@@ -6,6 +6,8 @@ import { build } from '../lib/build';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import { resumeIsPublic } from '../lib/content';
 import { ogKeyFor } from '../lib/og';
+// The same hashed file global.css's @font-face points at (Vite dedupes the asset).
+import sansLatin from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -28,8 +30,11 @@ const ogImage = new URL(`/og/${await ogKeyFor(path)}.png`, site.url);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {/* A noindex page (404, drafts) has no canonical address to claim. */}
+    {!noindex && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Preloaded: the largest paint on most pages is text, and it re-measures when this font swaps in. -->
+    <link rel="preload" href={sansLatin} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#eceeea" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d1412" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content={pageTitle} />
