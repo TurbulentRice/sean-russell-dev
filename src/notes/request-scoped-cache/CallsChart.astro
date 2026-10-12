@@ -1,0 +1,75 @@
+---
+// Cache calls per page render, before and after, as a dumbbell chart. Built in
+// HTML rather than SVG so the labels stay readable at phone width. Values are
+// read off the chart recorded on the ticket (local measurement, July 2025).
+const rows: [page: string, before: number, after: number][] = [
+  ['Category search', 112, 32],
+  ['Search, with location', 110, 32],
+  ['Search, no location', 90, 27],
+  ['API search', 85, 34],
+  ['Business profile', 35, 20],
+  ['Complaints', 32, 18],
+  ['Reviews', 30, 18],
+  ['Landing page', 29, 16],
+];
+const max = 120;
+const pct = (v: number) => `${(v / max) * 100}%`;
+const fewer = (b: number, a: number) => `−${Math.round(((b - a) / b) * 100)}%`;
+---
+
+<div class="chart" role="table" aria-label="Cache calls per page render, before and after">
+  <div class="row head" role="row">
+    <span role="columnheader">Page</span>
+    <span role="columnheader" class="legend">
+      <span><i class="dot after"></i>After</span>
+      <span><i class="dot before"></i>Before</span>
+    </span>
+    <span role="columnheader" class="change">Change</span>
+  </div>
+  {rows.map(([page, before, after]) => (
+    <div class="row" role="row">
+      <span role="rowheader" class="page-name">{page}</span>
+      <span role="cell" class="track" aria-label={`${before} calls before, ${after} after`}>
+        <span class="bar" style={`left: ${pct(after)}; width: calc(${pct(before)} - ${pct(after)})`}></span>
+        <span class="dot after" style={`left: ${pct(after)}`}></span>
+        <span class="dot before" style={`left: ${pct(before)}`}></span>
+        <span class="val after-val num" style={`right: calc(100% - ${pct(after)} + 0.6rem)`}>{after}</span>
+        <span class="val before-val num" style={`left: calc(${pct(before)} + 0.6rem)`}>{before}</span>
+      </span>
+      <span role="cell" class="change num">{fewer(before, after)}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .chart { display: grid; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr) 3.5rem;
+    gap: var(--space-3);
+    align-items: center;
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .row:last-child { border-bottom: 0; }
+  .head { font: 500 var(--step--2)/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .legend { display: flex; gap: var(--space-4); }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4em; }
+  .legend .dot { position: static; transform: none; }
+  .page-name { font-size: var(--step--1); line-height: 1.3; }
+  .change { text-align: right; font: 500 var(--step--1) var(--mono); }
+  .head .change { font: inherit; }
+  .track { position: relative; height: 1.6rem; margin-inline: 1.9rem 2.3rem; }
+  .bar { position: absolute; top: 50%; height: 2px; transform: translateY(-50%); background: var(--line); }
+  .dot { position: absolute; top: 50%; width: 10px; height: 10px; border-radius: 50%; transform: translate(-50%, -50%); display: inline-block; }
+  .dot.before { background: var(--muted); }
+  .dot.after { background: var(--accent); }
+  .val { position: absolute; top: 50%; transform: translateY(-50%); font: 400 var(--step--2)/1 var(--mono); color: var(--muted); }
+  .after-val { color: var(--fg); font-weight: 500; }
+  @media (max-width: 34rem) {
+    .chart { padding: var(--space-3); }
+    .row { grid-template-columns: minmax(0, 1fr) 3rem; }
+    .track { grid-column: 1 / -1; grid-row: 2; }
+    .head .legend { grid-column: 1 / -1; grid-row: 2; }
+  }
+</style>

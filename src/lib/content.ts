@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
 type Listed = 'work' | 'lab' | 'notes';
 
@@ -14,7 +14,6 @@ export async function published<C extends Listed>(name: C): Promise<CollectionEn
 
 /** The résumé is public once resume.yaml says `draft: false`; dev always shows it. */
 export async function resumeIsPublic(): Promise<boolean> {
-  const { getEntry } = await import('astro:content');
   const entry = await getEntry('resume', 'resume');
   return !!entry && (import.meta.env.DEV || !entry.data.draft);
 }

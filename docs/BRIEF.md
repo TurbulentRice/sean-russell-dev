@@ -83,7 +83,7 @@ Two ideas that turn claims into evidence:
 | `/` | Positioning line, featured work, latest lab entries |
 | `/work/` | Case studies (`work` collection) |
 | `/lab/` | Experiments (`lab` collection); each a self-contained page |
-| `/notes/` | The blog (`notes` collection). Built from day one, **out of the nav and sitemap until it has 2–3 posts** |
+| `/notes/` | The blog (`notes` collection). In the nav since its first post, the request-scoped cache write-up (2026-10-12; it was going to wait for 2–3 posts) |
 | `/about/` | Bio, links, photography cross-link |
 | `/resume/` | Rendered from `src/content/resume/resume.yaml`; print stylesheet = the PDF |
 | `/status/` | Later: the live probe (above) |

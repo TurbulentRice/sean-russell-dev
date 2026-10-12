@@ -144,6 +144,23 @@ days (Sean, 2026-10-12).
 - "What I'd do differently" is drawn from Sean's "not yet measured" note
   (freshness, incident counts); Sean to confirm.
 
+### 4b. Notes: the request-scoped cache (in review, 2026-10-12)
+
+Decision 6 made this the first Notes post, so Notes joined the nav and the
+sitemap with it (`site.config.ts`, `astro.config.mjs`). "One cache call per key,
+per request" at `/notes/one-cache-call-per-key/`.
+
+**Sources:** the evidence export, case study 3. The per-page call counts were
+read off its chart (exact labels; saved in `private/`).
+
+**Where it disagreed with the plan:**
+- The lead figure is a dumbbell chart in HTML, not SVG, so labels stay legible
+  on phones (`src/notes/request-scoped-cache/CallsChart.astro`).
+- The C# block is an illustrative sketch, labeled as such; the production code
+  stays private.
+- The aside that a longer-lived in-memory cache "brings invalidation with it" is
+  framing, not evidence; Sean to confirm it's his reasoning.
+
 ### 5. Résumé rewrite
 
 Rewrite `resume.yaml` from the case studies outward: a summary that matches

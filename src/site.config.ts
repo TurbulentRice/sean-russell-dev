@@ -14,9 +14,10 @@ export const site = {
   photo: 'https://www.seanrussellphoto.com',
 };
 
-// Notes joins the nav once it has a few published posts (BRIEF, "Notes").
+// Notes joined the nav with its first post (P2 plan, decision 6).
 export const nav = [
   { href: '/work/', label: 'Work' },
   { href: '/lab/', label: 'Lab' },
+  { href: '/notes/', label: 'Notes' },
   { href: '/about/', label: 'About' },
 ];
