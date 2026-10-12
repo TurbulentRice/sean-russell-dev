@@ -23,6 +23,7 @@ export async function ogCards(): Promise<OgCard[]> {
     { key: 'about', eyebrow: 'About', title: 'Sean Russell', summary: 'Full-stack engineer working remotely from upstate New York.' },
     { key: 'work', eyebrow: 'Work', title: 'Case studies', summary: 'The problem, the decisions, and what came of them.' },
     { key: 'lab', eyebrow: 'Lab', title: 'Experiments', summary: 'Some polished, some not, all labeled.' },
+    { key: 'resume', eyebrow: 'Résumé', title: site.name, summary: site.lede },
     ...work.map((e) => ({ key: `work/${e.id}`, eyebrow: `Work · ${e.data.area}`, title: e.data.title, summary: e.data.summary })),
     ...lab.map((e) => ({ key: `lab/${e.id}`, eyebrow: `Lab · ${e.data.status}`, title: e.data.title, summary: e.data.summary })),
     ...notes.map((e) => ({ key: `notes/${e.id}`, eyebrow: 'Notes', title: e.data.title, summary: e.data.summary })),
