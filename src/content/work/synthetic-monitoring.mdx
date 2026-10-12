@@ -20,6 +20,10 @@ import Fallback from '../../work/synthetic-monitoring/Fallback.astro';
     "Rules for case studies"). Never publish the parameter that forces the configuration fallback
     or how the probes' anti-automation exemption works (P2 plan, decision 2). */}
 
+<Figure caption="Synthetic monitoring for bbb.org: one library of real user journeys, run against stage after every release and against production every 15 minutes." wide scroll>
+  <Pipeline />
+</Figure>
+
 ## The problem
 
 Before this work, production failures on bbb.org were found by users and staff, usually hours or
@@ -38,12 +42,9 @@ those bypasses had hidden a live failure to save reviews for weeks.
 ## What I built
 
 The initiative belonged to an engineering lead, and I was its primary engineer: the probe
-harness, the CI and alerting layer, and an internal releases app. An SRE teammate built five of
-the form-submission journeys, the alert diagnostics and the scheduler.
+harness, the CI and alerting layer, and an internal releases app (Fig. 01). An SRE teammate
+built five of the form-submission journeys, the alert diagnostics and the scheduler.
 
-<Figure caption="One journey library, run against stage after every release and against production every 15 minutes." wide scroll>
-  <Pipeline />
-</Figure>
 
 The design rests on a few choices:
 

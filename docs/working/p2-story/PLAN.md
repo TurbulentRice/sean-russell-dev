@@ -28,12 +28,16 @@ The repo is public, so raw evidence never enters it.
 
 About a five-minute read. The order:
 
+0. **The lead figure**, right under the spec sheet: the study's most telling
+   picture (a screenshot, the system's shape, the before and after), with a
+   caption that stands on its own. A picture should land in the first screen
+   (Sean, 2026-10-12). Later sections refer back to it as Fig. 01.
 1. **The problem**: what was wrong, and for whom. Concrete, no jargon up front.
 2. **Constraints**: what made it hard (legacy, scale, team, time).
 3. **Decisions**: the two or three calls that mattered, the options weighed,
    and why. This is the core: it's what shows architectural judgement.
-4. **What I built**: one architecture figure (self-numbering, site colors),
-   and only as much detail as the decisions need.
+4. **What I built**: further figures as needed (self-numbering, site
+   colors), and only as much detail as the decisions need.
 5. **Results**: numbers where cleared, observed effects where not.
 6. **What I'd do differently**: one or two honest lines.
 

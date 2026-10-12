@@ -24,6 +24,10 @@ import styleDark from '../../work/autolight/style-dark.png';
     autolight-lossless/docs/STATUS.md. Nothing here about model quality, launch, pricing or
     platforms until autolight.ai says it (P2 plan, decision 5). */}
 
+<Figure caption="AutoLight's Style page: a model of one photographer's editing habits, its measured signature on the left and everything it has learned and done on the right." wide>
+  <Shot light={styleLight} dark={styleDark} alt="AutoLight's Style page for a style called Film - Ektar: a chart of its per-slider tendencies and tone curve on the left, and a timeline of what it has learned and edited on the right." />
+</Figure>
+
 ## The problem
 
 A wedding photographer can come home with four thousand frames, and most of the hours after
@@ -101,14 +105,11 @@ the work is now.
 </Figure>
 
 The app is built around three nouns. A **Style** is a model with an identity: what it learned
-from, its versions, and a measured signature of its habits. A **Catalog** is a Lightroom catalog
+from, its versions, and a measured signature of its habits, as in Fig. 01. A **Catalog** is a Lightroom catalog
 you've introduced to the app. A **Pass** is one delivery of work: a Style, a catalog, and a
 validated result. Drag a catalog onto a Style and choose whether it should learn from it or edit
 it.
 
-<Figure caption="A Style's page: its signature, measured from the photos it learned from, and its history." wide>
-  <Shot light={styleLight} dark={styleDark} alt="AutoLight's Style page for a style called Film - Ektar: a chart of its per-slider tendencies and tone curve on the left, and a timeline of what it has learned and edited on the right." />
-</Figure>
 
 Lightroom compatibility is tested rather than assumed: every catalog version from Lightroom
 Classic 6 to 15 has a real specimen in the test suite, and the reader, the write, and the

@@ -126,6 +126,9 @@ docs/                        STATUS, BRIEF, working/
   `global.css` (system-dark and chosen-dark); change both together.
 - **`Trace` never shows invented numbers on the front of the site.** It waits
   for real `/status` data (P4); the specimen passes `example`.
+- **A case study opens with a figure.** The first thing under the spec sheet
+  is the study's most telling picture, captioned to stand alone, so it lands
+  in the first screen. Text further down refers back to it as Fig. 01.
 - **Case-study screenshots never show client data.** AutoLight's real
   catalogs carry clients' names and photos; use test catalogs or crop. Same
   for anything from work: generalized and cleared (BRIEF).

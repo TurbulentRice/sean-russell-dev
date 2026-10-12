@@ -14,7 +14,7 @@ const { title, summary, role, period, stack, links, draft } = entry.data;
 ---
 
 <Base title={title} description={summary} noindex={draft}>
-  <article class="page">
+  <article class="page case-page">
     <header class="stack head">
       {draft && <p class="banner">Draft · visible in dev only</p>}
       <a href="/work/" class="label back">← Work</a>
@@ -40,6 +40,9 @@ const { title, summary, role, period, stack, links, draft } = entry.data;
   .back { text-decoration: none; }
   .back:hover { color: var(--accent); }
   .lede { font-size: var(--step-1); line-height: 1.5; }
+  /* A tighter header-to-content gap than other pages: the lead figure belongs
+     in the first screen (P2 plan, "What a case study is"). */
+  .case-page { gap: var(--space-6); }
   .case { max-width: none; }
   .case > :global(:not(.wide)) { max-width: var(--measure); }
   .links { display: flex; gap: var(--space-5); font-size: var(--step--1); }
