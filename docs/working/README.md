@@ -7,8 +7,8 @@ necessarily about now.** For now, read [../STATUS.md](../STATUS.md).
 | Epic | State |
 |---|---|
 | [p1-foundation/](p1-foundation/PLAN.md) | Scaffold, design system, copy, cutover. **DONE**: live 2026-10-04, closed 2026-10-09. Cutover record: [CUTOVER.md](p1-foundation/CUTOVER.md) |
-| [p2-story/](p2-story/PLAN.md) | The three case studies, the first note, the résumé rewrite and exporter. **In progress** (slice 7). |
-| [p3-lab/](p3-lab/PLAN.md) | Lab and Notes: the design system entry, two notes, the résumé tool, the ingest simulation. **Planned.** |
+| [p2-story/](p2-story/PLAN.md) | The three case studies, the first note, the résumé rewrite and exporter. **DONE** 2026-10-12. |
+| [p3-lab/](p3-lab/PLAN.md) | Lab and Notes: the design system entry, two notes, the résumé tool, the ingest simulation. **In progress.** |
 
 ## Starting an epic
 

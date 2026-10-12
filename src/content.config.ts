@@ -33,7 +33,9 @@ const lab = defineCollection({
     title: z.string(),
     summary: z.string(),
     status: z.enum(['live', 'wip', 'archived']),
+    // Started. A live entry keeps changing, so it can also say when it last did.
     date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
     stack: z.array(z.string()),
     draft,
   }),

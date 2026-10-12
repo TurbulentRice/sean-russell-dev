@@ -10,6 +10,8 @@ export const site = {
   // Cloudflare Email Routing forwards it to Gmail (CUTOVER.md, phase 3).
   email: 'hello@seanrusselldev.com',
   github: 'https://github.com/TurbulentRice',
+  // This site's own source; lab entries link to their folder in it.
+  repo: 'https://github.com/TurbulentRice/sean-russell-dev',
   linkedin: 'https://www.linkedin.com/in/sean-russell-professional/',
   photo: 'https://www.seanrussellphoto.com',
 };
