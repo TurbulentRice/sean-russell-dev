@@ -1,0 +1,71 @@
+---
+// The data flow for a business's profile, before and after: a heavy push
+// through a queue and a fragile listener, versus a small signal and a
+// connector that reads the current state itself. Drawn in the page's tokens.
+const h = 62;
+type N = { x: number; w: number; name: string; sub: string; accent?: boolean };
+const lane = (y: number, nodes: N[]) => ({ y, nodes });
+const before = lane(46, [
+  { x: 16, w: 168, name: 'System of record', sub: 'pushes full payloads' },
+  { x: 234, w: 150, name: 'Partner API', sub: '.NET Framework 4.8' },
+  { x: 434, w: 120, name: 'RabbitMQ', sub: 'queue' },
+  { x: 604, w: 264, name: 'Listener service', sub: '4 Windows hosts · 5-min restarts' },
+]);
+const after = lane(206, [
+  { x: 16, w: 168, name: 'System of record', sub: 'sends "X changed"' },
+  { x: 234, w: 320, name: 'Event-driven connector', sub: 'Kubernetes, 5–18 replicas', accent: true },
+  { x: 604, w: 264, name: 'Postgres · Elasticsearch · CDN', sub: 'profiles, search, typeahead, seals' },
+]);
+const mid = (y: number) => y + h / 2;
+---
+
+<svg viewBox="0 0 884 326" role="img" aria-labelledby="ldp-ba-title ldp-ba-desc" class="diagram">
+  <title id="ldp-ba-title">How a business's data reaches bbb.org, before and after</title>
+  <desc id="ldp-ba-desc">
+    Before: the system of record pushed full payloads to a partner API, which queued them on
+    RabbitMQ for a listener service on four Windows servers, restarted every five minutes. After: the
+    system of record sends a small signal that a business changed, and an event-driven connector on
+    Kubernetes reads the business's current state and writes Postgres, Elasticsearch and the CDN.
+  </desc>
+
+  <text x="16" y="30" class="lane">Before · push</text>
+  <text x="16" y="190" class="lane accent-text">After · signal, then pull</text>
+
+  {[before, after].map(({ y, nodes }) => (
+    <g>
+      {nodes.slice(0, -1).map((n, i) => {
+        const next = nodes[i + 1];
+        return (
+          <g>
+            <path d={`M ${n.x + n.w} ${mid(y)} H ${next.x - 4}`} class="edge" />
+            <path d={`M ${next.x - 12} ${mid(y) - 5} L ${next.x - 3} ${mid(y)} L ${next.x - 12} ${mid(y) + 5}`} class="edge" />
+          </g>
+        );
+      })}
+      {nodes.map((n) => (
+        <g>
+          <rect x={n.x} y={y} width={n.w} height={h} rx="6" class:list={['node', { accent: n.accent }]} />
+          <text x={n.x + 14} y={y + 27} class="name">{n.name}</text>
+          <text x={n.x + 14} y={y + 47} class="sub">{n.sub}</text>
+        </g>
+      ))}
+    </g>
+  ))}
+
+  <!-- The connector reads current state back from the system of record. -->
+  <path d={`M 394 ${after.y + h} V 302 H 100 V ${after.y + h + 6}`} class="edge accent" />
+  <path d={`M 95 ${after.y + h + 14} L 100 ${after.y + h + 5} L 105 ${after.y + h + 14}`} class="edge accent" />
+  <text x="112" y="296" class="sub accent-text">reads current state from its maintained views</text>
+</svg>
+
+<style>
+  .diagram { display: block; width: 100%; height: auto; background: var(--surface); }
+  .node { fill: var(--bg); stroke: var(--line); stroke-width: 1.25; }
+  .node.accent { stroke: var(--accent); }
+  .name { font: 500 15px var(--sans); fill: var(--fg); }
+  .sub { font: 400 11px var(--mono); fill: var(--muted); }
+  .lane { font: 500 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; fill: var(--muted); }
+  .accent-text { fill: var(--accent); }
+  .edge { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-linejoin: round; }
+  .edge.accent { stroke: var(--accent); }
+</style>

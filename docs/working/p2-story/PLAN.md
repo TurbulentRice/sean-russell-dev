@@ -115,7 +115,10 @@ as "When the dashboards are wrong"). Every figure in the page is from it.
   (business impact); Sean to confirm it's his view.
 - Prose tables dropped `tabular-nums`: Schibsted Grotesk widens commas with it.
 
-### 4. Event-driven ingest
+### 4. Retiring a legacy data pipeline (in review, 2026-10-12)
+
+Was "Event-driven ingest"; renamed to match the evidence. URL:
+`/work/legacy-data-pipeline/`.
 
 Needs the evidence export. Before/after architecture figures (heavy
 content-carrying messages vs. signals + fetch-from-source, consumer-side
@@ -123,6 +126,19 @@ coalescing, fan-out). The interactive simulation stays in P3 (the lab); this
 slice gets static figures that the simulation can later replace or sit beside.
 
 *Done when:* Sean approves and it publishes.
+
+**Sources:** the evidence export, case study 1. "~66.5M messages" is per 30
+days (Sean, 2026-10-12).
+
+**Where it disagreed with the plan:**
+- Two stages, not one: the Solr exit (Sean owned the epic) came first and is
+  half the story.
+- The signal-and-pull pattern was a team decision; the page says so. Sean's
+  decisions are the rollout ones, shown as a table (decision, instead of, why).
+- No "cheaper, faster": neither was measured. The old listener isn't switched
+  off yet, and the page says that too.
+- "What I'd do differently" is drawn from Sean's "not yet measured" note
+  (freshness, incident counts); Sean to confirm.
 
 ### 5. Résumé rewrite
 
