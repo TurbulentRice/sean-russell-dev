@@ -3,6 +3,7 @@ title: Signal
 summary: The design system for this site, every piece in one place.
 status: wip
 date: 2026-10-02
+updated: 2026-10-12
 stack: [CSS, Astro components]
 draft: true
 ---
@@ -12,14 +13,15 @@ import Trace from '../../components/Trace.astro';
 import IndexList from '../../components/IndexList.astro';
 import SpecSheet from '../../components/SpecSheet.astro';
 import Status from '../../components/Status.astro';
+import Stage from '../../components/lab/Stage.astro';
+
+<Stage kind="Specimen" note="The palette, read live from the site's tokens: switch the theme in the footer and these follow.">
+  <Swatches />
+</Stage>
 
 The site reads like a well-instrumented system: quiet type, generous space, work as an index. The
 accent, a patina green called verdigris, is rationed to links, the current page, live readouts and
 status.
-
-## Color
-
-<Swatches />
 
 ## Type
 

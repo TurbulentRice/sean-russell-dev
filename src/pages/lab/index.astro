@@ -18,12 +18,13 @@ const entries = await published('lab');
         <Status status="archived" /> kept for the record
       </p>
     </header>
-    {entries.length === 0 && <p class="muted">The first experiments are on the bench.</p>}
-    <IndexList numbered={false} rows={entries.map((e) => ({ href: `/lab/${e.id}/`, title: e.data.title, summary: e.data.summary, status: e.data.status, meta: e.data.date.getFullYear().toString(), draft: e.data.draft }))} />
+    {entries.length === 0 && <p class="muted empty">The first experiments are on the bench.</p>}
+    <IndexList numbered={false} rows={entries.map((e) => ({ href: `/lab/${e.id}/`, title: e.data.title, summary: e.data.summary, status: e.data.status, meta: (e.data.updated ?? e.data.date).getFullYear().toString(), draft: e.data.draft }))} />
   </div>
 </Base>
 
 <style>
   .intro { max-width: 52ch; }
+  .empty { padding-block: var(--space-4); border-block: 1px solid var(--line); font-size: var(--step--1); }
   .key { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); align-items: center; font: 400 var(--step--2)/1.6 var(--mono); color: var(--muted); }
 </style>

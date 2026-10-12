@@ -1,13 +1,14 @@
 # P3: Lab and Notes
 
-**Status: planned.** Drafted 2026-10-12, after P2's launch pass.
+**Status: in progress.** Drafted 2026-10-12, after P2's launch pass. Slice 1
+in review.
 
 Goal: the lab stops being empty, and Notes gets a steady second and third
 post. The lab's first real tool is the résumé exporter, in the browser.
 
 ## Slices
 
-### 1. Lab template polish
+### 1. Lab template polish (in review, 2026-10-12)
 
 The lab index and entry page as built in P1 have only ever shown drafts. Give
 them real content to settle against: the status key, how a full-width
@@ -16,6 +17,21 @@ Retire `island-check` (plumbing, not an experiment); slice 4 proves islands
 for real.
 
 *Done when:* a published lab entry looks finished in both themes and at 375px.
+(Nothing is published until slice 2, so this was settled on the design-system
+draft in dev; slice 2 confirms it live.)
+
+As built:
+- `Stage` (`src/components/lab/Stage.astro`): the frame an experiment runs in,
+  full width, labeled ("Interactive", "Specimen"), with an optional note and a
+  "runs in your browser · nothing is uploaded" line for tools that take the
+  visitor's data. A lab entry opens with its Stage, as a case study opens with
+  its lead figure.
+- An optional `updated` date beside the start date; the index shows the later.
+- An automatic **Source ↗** link for any entry with code in `src/lab/<slug>/`,
+  to that folder in the public repo (`site.repo`).
+- The header-to-content gap matches case studies and notes, so the Stage lands
+  in the first screen (522px down on a phone).
+- `island-check` is gone.
 
 ### 2. "Signal", the design system, as a lab entry
 
@@ -51,6 +67,9 @@ schema, and downloads a .zip of exports: DOCX, Markdown, plain text and JSON
 Resume, plus a print-ready page for PDF. It reuses P2 slice 7's renderers, so
 the CLI and the tool can't drift. Everything runs in the browser; nothing is
 uploaded, and the page says so. It never touches this site's own YAML.
+The template is a real file to download (`resume-template.yaml`, commented,
+with every field shown), not text to copy into a blank file (Sean,
+2026-10-12).
 
 *Done when:* a stranger's YAML produces a correct .zip, offline, on desktop and
 phone.

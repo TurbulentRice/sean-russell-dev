@@ -1,8 +1,7 @@
 # P2: Story
 
-**Status: in progress.** Drafted 2026-10-09; decisions settled the same day
-(below). Slices 1-2 under way. Slices 3-4 wait on Sean's work evidence
-(expected the week of 2026-10-12).
+**Status: DONE 2026-10-12.** Three case studies, the first note and the résumé
+are live, and `npm run resume:export` produces PDF, DOCX, Markdown and text.
 
 Goal: the three case studies published, and a rewritten résumé that comes out
 of writing them. Together they should show the level Sean works at now:
@@ -66,7 +65,7 @@ study's own assets live in `src/work/<slug>/`, as lab assets do in
 where numbers come from and under what conditions; the private trail stays in
 this plan.
 
-### 2. AutoLight (in review, 2026-10-12)
+### 2. AutoLight ✅ (2026-10-12)
 
 No dependency on work evidence. The repo is private, so tell it through
 architecture, decisions and the existing screenshots
@@ -96,7 +95,7 @@ autolight.ai's live page (early access, waitlist) bounds launch claims.
   "the hard part, and where the work is now", per decision 5.
 - The one-time license isn't mentioned: pricing isn't on autolight.ai yet.
 
-### 3. Synthetic monitoring (in review, 2026-10-12)
+### 3. Synthetic monitoring ✅ (2026-10-12)
 
 Needs the evidence export. Feature the decisions behind black-box probing of
 critical journeys, alerting that catches slow-burn problems, the CI/CD and e2e
@@ -119,7 +118,7 @@ as "When the dashboards are wrong"). Every figure in the page is from it.
   (business impact); Sean to confirm it's his view.
 - Prose tables dropped `tabular-nums`: Schibsted Grotesk widens commas with it.
 
-### 4. Retiring a legacy data pipeline (in review, 2026-10-12)
+### 4. Retiring a legacy data pipeline ✅ (2026-10-12)
 
 Was "Event-driven ingest"; renamed to match the evidence. URL:
 `/work/legacy-data-pipeline/`.
@@ -144,7 +143,7 @@ days (Sean, 2026-10-12).
 - "What I'd do differently" is drawn from Sean's "not yet measured" note
   (freshness, incident counts); Sean to confirm.
 
-### 4b. Notes: the request-scoped cache (in review, 2026-10-12)
+### 4b. Notes: the request-scoped cache ✅ (2026-10-12)
 
 Decision 6 made this the first Notes post, so Notes joined the nav and the
 sitemap with it (`site.config.ts`, `astro.config.mjs`). "One cache call per key,
@@ -161,7 +160,7 @@ read off its chart (exact labels; saved in `private/`).
 - The aside that a longer-lived in-memory cache "brings invalidation with it" is
   framing, not evidence; Sean to confirm it's his reasoning.
 
-### 5. Résumé rewrite (in review, 2026-10-12)
+### 5. Résumé rewrite ✅ (2026-10-12)
 
 Rewrite `resume.yaml` from the case studies outward: a summary that matches
 the site's positioning, current-role bullets that lead with decisions and
@@ -219,7 +218,7 @@ preview card; external links 200 (LinkedIn answers bots with 999, normal).
 Slack and LinkedIn's Post Inspector (linkedin.com/post-inspector) to see the
 cards; a last read on a phone in both themes. ✅ Both checked by Sean.
 
-### 7. Résumé exporter (local)
+### 7. Résumé exporter (local) ✅ (2026-10-12)
 
 `npm run resume:export` turns `resume.yaml` into timestamped files in
 `exports/` (git-ignored): PDF (the `/resume/` page printed by Chrome, so it
@@ -229,7 +228,12 @@ The DOCX, Markdown and text renderers live in `src/lib/` as plain TypeScript
 with no Node-only APIs, so P3's browser tool reuses them unchanged.
 
 *Done when:* one command produces all four from the committed YAML, and the
-DOCX opens cleanly in Word and Google Docs.
+DOCX opens cleanly in Word and Google Docs. ✅ Sean checked the exports.
+
+As built: PDF via `playwright-core` driving the installed Chrome against a
+fresh build served from `dist/`; DOCX single-column with no tables or tab
+stops, Arial named on every run (Quick Look ignores the default font); files
+never overwrite (`-2`, `-3` within a minute); the DOCX records the commit.
 
 ## Decisions
 

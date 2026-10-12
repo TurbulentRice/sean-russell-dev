@@ -78,6 +78,7 @@ src/lab/<slug>/              an experiment's components, imported by its MDX ent
 src/work/<slug>/             a case study's figures and screenshots
 src/notes/<slug>/            a note's figures and charts
 src/components/case/         Figure, Shot (theme-aware screenshot), Metrics, Notes
+src/components/lab/Stage.astro  the frame every lab experiment opens with
 src/content/notes/*.mdx      the blog (in the nav since its first post)
 src/content/resume/resume.yaml  the résumé, the single source for /resume and its PDF
 src/lib/resume.ts            résumé schema, shared by the collection and the import script
@@ -89,7 +90,6 @@ src/components/              IndexList (rows), Status, SpecSheet, Trace (live re
 src/lib/build.ts             commit + date for the footer stamp
 src/lib/og.ts                link-preview cards: which pages get one, and the renderer
 src/pages/og/[...key].png.ts  emits /og/<page>.png at build
-src/lab/design-system/       the design-system specimen (lab entry `design-system`, draft)
 scripts/import-resume.ts     .docx → YAML via Claude structured outputs
 public/_headers              cache + security headers; workers.dev kept out of search
 wrangler.jsonc               assets-only Worker
@@ -133,6 +133,10 @@ docs/                        STATUS, BRIEF, working/
   `global.css` (system-dark and chosen-dark); change both together.
 - **`Trace` never shows invented numbers on the front of the site.** It waits
   for real `/status` data (P4); the specimen passes `example`.
+- **A lab entry opens with its Stage** (`components/lab/Stage.astro`): the
+  experiment itself, full width, in the first screen. Code in
+  `src/lab/<slug>/` earns the entry an automatic Source link to that folder on
+  GitHub, so keep experiment code there and readable.
 - **A case study opens with a figure.** The first thing under the spec sheet
   is the study's most telling picture, captioned to stand alone, so it lands
   in the first screen. Text further down refers back to it as Fig. 01.

@@ -1,0 +1,39 @@
+---
+// The frame an experiment runs in: full width, set apart from the prose, with
+// a small label saying what it is. A lab entry opens with its Stage, the way a
+// case study opens with its lead figure (AGENTS, "A case study opens with a
+// figure"). Put the island inside: <Stage><Tool client:visible /></Stage>.
+interface Props {
+  /** What kind of thing this is, e.g. "Interactive" or "Specimen". */
+  kind?: string;
+  /** One line under the frame: how to use it, or what it's showing. */
+  note?: string;
+  /** Say plainly that it runs locally (for tools that take the visitor's data). */
+  local?: boolean;
+}
+const { kind = 'Interactive', note, local = false } = Astro.props;
+---
+
+<section class="stage wide" aria-label={kind}>
+  <div class="bar">
+    <span class="label">{kind}</span>
+    {local && <span class="label local">Runs in your browser · nothing is uploaded</span>}
+  </div>
+  <div class="body"><slot /></div>
+  {note && <p class="note">{note}</p>}
+</section>
+
+<style>
+  .stage { display: grid; gap: var(--space-2); }
+  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-1) var(--space-4); }
+  .local { color: var(--accent); }
+  .body {
+    min-width: 0;
+    padding: var(--space-5);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .note { font-size: var(--step--1); color: var(--muted); max-width: var(--measure); }
+  @media (max-width: 34rem) { .body { padding: var(--space-4); } }
+</style>

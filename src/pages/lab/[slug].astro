@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import SpecSheet from '../../components/SpecSheet.astro';
 import Status from '../../components/Status.astro';
 import { published } from '../../lib/content';
+import { site } from '../../site.config';
 
 export async function getStaticPaths() {
   return (await published('lab')).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
@@ -11,20 +12,31 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, summary, status, date, stack, draft } = entry.data;
+const { title, summary, status, date, updated, stack, draft } = entry.data;
+
+// An entry whose code lives in src/lab/<slug>/ links to that folder: the repo
+// is public, and reading the source is part of the lab.
+const folders = new Set(Object.keys(import.meta.glob('/src/lab/*/*')).map((p) => p.split('/')[3]));
+const source = folders.has(entry.id) ? `${site.repo}/tree/main/src/lab/${entry.id}` : undefined;
+const day = (d: Date) => d.toISOString().slice(0, 10);
 ---
 
 <Base title={title} description={summary} noindex={draft}>
-  <article class="page">
+  <article class="page lab-page">
     <header class="stack head">
       {draft && <p class="banner">Draft · visible in dev only</p>}
       <a href="/lab/" class="label back">← Lab</a>
       <h1>{title}</h1>
       <p class="lede muted">{summary}</p>
-      <div class="meta"><Status status={status} /><span class="label num">{date.toISOString().slice(0, 10)}</span></div>
+      <p class="meta">
+        <Status status={status} />
+        <span class="label num">Started {day(date)}</span>
+        {updated && <span class="label num">Updated {day(updated)}</span>}
+      </p>
       <SpecSheet items={[['Stack', stack.join(', ')]]} />
+      {source && <p class="links"><a href={source}>Source ↗</a></p>}
     </header>
-    <!-- Lab entries may break out of the text measure: the experiment is the point. -->
+    <!-- An entry opens with its Stage (the experiment), which may use the page width. -->
     <div class="prose lab">
       <Content />
     </div>
@@ -36,7 +48,10 @@ const { title, summary, status, date, stack, draft } = entry.data;
   .back { text-decoration: none; }
   .back:hover { color: var(--accent); }
   .lede { font-size: var(--step-1); line-height: 1.5; }
-  .meta { display: flex; gap: var(--space-4); align-items: center; }
+  .meta { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); align-items: center; }
+  .links { font-size: var(--step--1); }
+  /* Same tightened gap as case studies and notes: the experiment belongs in the first screen. */
+  .lab-page { gap: var(--space-6); }
   .lab { max-width: none; }
   .lab > :global(:not(.wide)) { max-width: var(--measure); }
 </style>
