@@ -52,9 +52,13 @@ Sean would change. Together they span the whole lifecycle.
 
 ### Rules for case studies
 
-- **Employer work is generalized.** No internal names, hostnames, screenshots
-  of internal tools, or numbers Sean isn't free to share. "Blue Data Connector"
-  never appears on the site.
+- **Employer work names bbb.org, and nothing internal.** (Revised
+  2026-10-12; it said "generalized".) No internal system names, hostnames,
+  screenshots of internal tools, or numbers Sean hasn't cleared. "Blue Data
+  Connector", "Terminus" and "the Listener" never appear on the site.
+- **Credit is exact.** Say what Sean owned and what teammates built. "Primary
+  engineer" when an initiative belonged to someone else; "a team decision"
+  when it was one.
 - **AutoLight's repo is private.** Tell it through architecture, decisions and
   screenshots (`autolight-lossless/docs/screens/`). Every AutoLight number must
   trace to `autolight-lossless/docs/BUSINESS.md` or `STATUS.md`, the same

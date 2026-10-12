@@ -1,34 +1,173 @@
 ---
-title: Synthetic monitoring for critical user journeys
-summary: A black-box probe that found dozens of silent, user-facing defects in its first month, the kind dev could never reproduce.
+title: Synthetic monitoring for bbb.org
+summary: Probes that act like real users on production found a defect that had silently broken 2.8% of page renders for more than a year, and dashboards that had stayed green through real outages.
 area: reliability
-role: TBD
-period: TBD
-stack: [Playwright, CI/CD, Alerting, TypeScript]
+role: Primary engineer
+period: Jun–Oct 2026
+stack: [Playwright, CI/CD, Prometheus, OpenTelemetry, Sentry]
 order: 1
 featured: true
-draft: true
+draft: false
 ---
 
-{/* Outline (P2). Generalize employer-internal names before publishing. */}
+import Figure from '../../components/case/Figure.astro';
+import Metrics from '../../components/case/Metrics.astro';
+import Notes from '../../components/case/Notes.astro';
+import Pipeline from '../../work/synthetic-monitoring/Pipeline.astro';
+import Fallback from '../../work/synthetic-monitoring/Fallback.astro';
+
+{/* Sources: private/engineering-case-studies-2026-10-12.txt, case studies 2 and 4 (BRIEF,
+    "Rules for case studies"). Never publish the parameter that forces the configuration fallback
+    or how the probes' anti-automation exemption works (P2 plan, decision 2). */}
 
 ## The problem
 
+Before this work, production failures on bbb.org were found by users and staff, usually hours or
+days after they started. Login broke twice: once from a migration, once from a holiday firewall
+rule that turned real sign-ins away. Complaints and reviews stopped rendering on business
+profiles while the page still returned 200. Filing a complaint went dark over a holiday weekend,
+and nothing noticed.
+
+Every server-side monitor stayed green through all of it. CPU, memory, error rate and liveness
+measure whether the servers are healthy, not whether a person can finish what they came to do.
+
+The end-to-end test suite didn't help either. It ran only on stage, through bypass cookies and
+headers that production rightly refuses, so it could pass while production was broken. One of
+those bypasses had hidden a live failure to save reviews for weeks.
+
 ## What I built
 
-- Black-box synthetic probes over the site's critical user journeys
-- Alerting, wired into CI/CD and the e2e test suite
-- An internal companion app for debugging failure reports
+The initiative belonged to an engineering lead, and I was its primary engineer: the probe
+harness, the CI and alerting layer, and an internal releases app. An SRE teammate built five of
+the form-submission journeys, the alert diagnostics and the scheduler.
+
+<Figure caption="One journey library, run against stage after every release and against production every 15 minutes." wide scroll>
+  <Pipeline />
+</Figure>
+
+The design rests on a few choices:
+
+- **One journey library, two targets.** Each journey is written once and runs against stage after
+  every release and against production on a schedule. A guardrail check fails any change that
+  lets the two drift, or that adds a bypass or request mocking, so the stage suite can never again
+  pass by skipping the parts that break.
+- **Probes that behave like strangers.** They run from outside the network, through the real CDN
+  and firewall, and are exempted only from the few anti-automation checks a probe can't honestly
+  pass. One-time codes arrive through a real inbound mailbox. Eleven journeys are built and nine
+  run in production, including login, registration, complaints, reviews, and applying for
+  accreditation.
+- **Probe data never mixes with real data.** Where a table can flag synthetic rows, probe rows are
+  written, flagged, and filtered out of everything that aggregates, publishes, reports, exports or
+  trains. Where it can't, the endpoint accepts the request and stores nothing. A probe that leaves
+  traces in staff tools is a probe nobody will keep running.
+- **Alerts people act on.** A failed journey posts to the on-call channel with which journey
+  failed, where it stopped, and the likely cause. Known live defects show in red with their
+  ticket instead of being silenced.
+- **A home for the evidence.** The releases app streams the private Playwright reports and traces,
+  and records every release, deployment and smoke result across apps. It sits on a release tool I
+  had written earlier, which the team uses to cut, patch and promote releases across its apps.
+
+## The headline find
+
+Users had been reporting what looked like several unrelated bugs, each on only some page loads
+and never in a dev environment: a Submit button that did nothing, with no spinner, error or
+request; a "Get listed" link that opened a dead page; a complaint form that bounced back to its
+start.
+
+The probes kept failing in ways that looked flaky. Their traces didn't: they showed requests to
+`localhost` and a development reCAPTCHA key, on production pages.
+
+<Figure caption="Production pages get their runtime configuration from the server render. A slow render sent the page without it, and the browser quietly used the development defaults." wide scroll>
+  <Fallback />
+</Figure>
+
+When the server render took more than 3 seconds, the page went out without its configuration,
+and the browser fell back to the development defaults compiled into the build. About 18 of 33
+settings were wrong on such a page. That fallback had existed for at least 13 months.
+
+Nobody could reproduce it because it happened per render, so the next load worked. It clustered
+with slowness. Every layer stayed silent, including Sentry, which the same wrong settings had
+switched off on exactly those renders. And because each form touched different wrong values, it
+had been filed as four or more separate bugs.
+
+I closed it in four steps:
+
+1. Made the fallback degrade safely, with relative links and hardened values.
+2. Made it visible. The probes record the fallback rate on every run, which put a number on it:
+   2.8% of sampled renders. The alert names the defect.
+3. Found a way to trigger the fallback on demand in production, without writing any data, which
+   turned an intermittent bug into a deterministic one.
+4. Fixed the class at its source. The main application now emits the configuration on every render
+   path, and the client fails loudly if it's missing instead of falling back.
+
+The structural fix reached production 18 days after the umbrella ticket was filed. Slow renders
+still happen at the same rate, but those pages now work.
+
+## When the dashboards are wrong
+
+The probes are one half of seeing production. The other half is the services reporting on
+themselves, and for two years I'd been giving the services our team runs the same three things:
+Prometheus metrics, a health endpoint, and one shared Sentry setup, including OpenTelemetry
+instrumentation of the server-render service.
+
+That paid off on a Sunday in September 2026, when the probes failed 19 runs in a row over four
+hours while every dashboard stayed green. The first theory was a readiness problem in the render
+service. The render metrics said otherwise:
+
+- The render service stayed fast throughout. Its p95 went from 48 to about 80 ms, against a
+  3,000 ms budget.
+- Meanwhile the main application's open sockets per pod grew from about 450 to about 16,000.
+- A shared header-and-footer service was crash-looping 40 to 60 times an hour.
+
+Together they told the story. Calls to the crashing service were exhausting the main
+application's outbound connections, so the render request never got a connection in time and
+never appeared in the render service's metrics at all. The same evidence showed that the first
+proposed remedy wouldn't have prevented the outage. And it connected back to the headline find: a
+starved render is exactly what triggered the configuration fallback.
+
+## Other catches
+
+The probes have produced 19 tickets so far, about 12 of them distinct user-facing defects. Among
+them: a race in the accreditation application that told some users there was no matching BBB,
+where I fixed the cause that blocked real users before the noisier one behind most of the alerts;
+and account pages that returned 404 for one to three minutes on every rolling deploy, caught 25
+seconds after a rollout began.
+
+They also audited the monitoring itself, exposing alert emails the chat tool silently dropped, a
+concurrency setting that cancelled one journey on every run, and a digest that threw away every
+diagnostic.
 
 ## Results
 
-- ~20 tickets generated in the first month from slow burn alerts
-- ~90% attributed to user-facing, systemic, silent problems that couldn't be reproduced in dev:
-  races, infrastructure, 1-in-100 edge cases
+<Metrics items={[
+  ['5.4% → 0.7%', 'probe runs failing, before and after the configuration fix'],
+  ['2.8%', 'of page renders silently misconfigured, for more than a year'],
+  ['15 min', 'to detection, where failures used to surface hours or days later'],
+  ['~12', 'distinct user-facing defects found, from 19 tickets so far'],
+]} />
 
-## Decisions and trade-offs
+| Measure | Before | After |
+| --- | --- | --- |
+| How failures were found | Users or staff, hours to days later | A probe, typically within 15 minutes |
+| Journeys watched in production | 0 | 9, every 15 minutes (over 4,400 runs so far) |
+| Probe runs failing (10 days before, 6 after the fix) | 52 of 960 (5.4%) | 4 of 573 (0.7%) |
+| Alerted journey failures | 54 in 913 runs | 2 in 86 runs |
+| Probe data in staff tools | No probes wrote data | None, by design |
 
 ## What I'd do differently
 
-{/* Live companion idea: a Cron Trigger Worker probing this site, autolight.ai and
-    seanrussellphoto.com, results in D1, rendered at /status (BRIEF, "Show, don't tell"). */}
+Measure the business side from the start. We know how often the configuration fallback broke a
+page and how much the fix reduced failures, but not how many complaints, reviews and applications
+it cost or recovered. That number would have made the case for this work on its own.
+
+<Notes>
+  <p>
+    Figures come from CI run history, Prometheus, and numbers recorded on tickets at the time.
+    Run-level failure rates are a lower bound, because a re-run turns a failed run green, and the
+    after-window is six days.
+  </p>
+  <p>
+    Some details are left out on purpose: how the probes are exempted from anti-automation checks,
+    how the fallback can be triggered, hostnames, and internal system names.
+  </p>
+</Notes>

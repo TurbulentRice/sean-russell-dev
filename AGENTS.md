@@ -41,6 +41,8 @@ assets.
 - Match the surrounding code's density and idiom. Comment the *why*.
 - **American spelling** everywhere, site and docs: color, optimize, labeled,
   behavior, license (Sean, 2026-10-10).
+- **No em dashes** in site copy, docs or PR descriptions; use a colon, a comma
+  or a new sentence instead (Sean, 2026-10-12).
 - **Branches and PRs** (since 2026-10-09). Never commit to `main` directly.
   Branch off `main` as `type/short-description`, with `type` one of `feat`,
   `fix`, `docs`, `chore`, `refactor` (e.g. `feat/autolight-case-study`). One

@@ -144,7 +144,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: var(--space-6) 0; }
 .prose blockquote { margin: 0; padding-left: var(--space-4); border-left: 2px solid var(--line); color: var(--muted); }
 .prose :not(pre) > code { background: var(--accent-soft); padding: 0.1em 0.35em; border-radius: 4px; }
 .prose pre { margin: 0; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius); overflow-x: auto; line-height: 1.55; }
-.prose table { border-collapse: collapse; width: 100%; font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+/* No tabular-nums here: in Schibsted Grotesk it also widens commas, which reads
+   badly in cells of prose. Numeric-only columns can opt in with .num. */
+.prose table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
 .prose th { text-align: left; font: 500 var(--step--2) var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .prose th, .prose td { padding: var(--space-2) var(--space-3) var(--space-2) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
 
