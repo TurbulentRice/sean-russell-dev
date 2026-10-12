@@ -34,3 +34,6 @@ npm-debug.log*
 # the repo is public. Case studies cite only what's been generalised and
 # cleared (docs/working/p2-story/PLAN.md, "Evidence").
 /private/
+
+# Résumé exports (npm run resume:export): personal files, timestamped.
+/exports/

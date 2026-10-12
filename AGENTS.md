@@ -65,7 +65,7 @@ Node 24 (`.nvmrc`).
 | `npm run check` | `astro check` (types + templates) |
 | `npm run import-resume -- <file.docx>` | .docx → `src/content/resume/resume.yaml` via Claude. `--text` prints the extracted text with no API call; `--force` overwrites |
 | `npx wrangler dev` | Serve `dist/` in the local Cloudflare runtime, with `_headers` applied (build first) |
-| Résumé PDF | `npm run dev`, then print `/resume/` to PDF (or headless: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --print-to-pdf=out.pdf http://localhost:4321/resume/`). The print stylesheet targets two Letter pages |
+| `npm run resume:export` | `resume.yaml` → `exports/<Name>-Resume-<YYYY-MM-DD-HHmm>.{pdf,docx,md,txt}` (git-ignored). The PDF is `/resume/` printed by your installed Chrome from a fresh build (two Letter pages); `--formats docx,md` picks some; `--no-build` reuses `dist/` |
 | `npm run deploy` | Build and deploy by hand. Normally Workers Builds deploys `main` |
 
 ## 5. Layout
@@ -109,6 +109,11 @@ docs/                        STATUS, BRIEF, working/
   stripping). Keep it free of Astro imports and TS-only syntax such as enums,
   and import it with its `.ts` extension. It uses the `zod` package directly,
   which is the same Zod 4 copy `astro/zod` resolves to.
+- **Résumé renderers are shared with the browser.** `src/lib/resume-export/`
+  (Markdown, text, DOCX) has no Node APIs, so P3's in-browser tool imports it
+  as is. Keep it that way: Node-only work (files, the server, Chrome) stays in
+  `scripts/export-resume.ts`. The DOCX is single-column with no tables or tab
+  stops, and names its font on every run (Quick Look ignores the default).
 - **The importer is a bootstrap, not a sync.** After import, the YAML is the
   truth. It refuses to overwrite without `--force`, and always writes
   `draft: true`. The model is told to drop street address and phone; check
