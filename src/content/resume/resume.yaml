@@ -7,6 +7,7 @@ draft: false
 name: Sean Russell
 headline: Full-stack engineer
 location: Schenectady, NY
+reviewed: 10-12-2026
 links:
   # hello@ forwards to Gmail via Cloudflare Email Routing (set up at cutover).
   email: hello@seanrusselldev.com
@@ -16,14 +17,14 @@ links:
 summary: >-
   Full-stack engineer with five years shipping and running production systems at bbb.org and
   Comcast, across frontend, backend, data, SRE and DevOps. Leads work that crosses the stack:
-  retiring a legacy data pipeline, building production monitoring that found failures nothing
-  else could see, and cutting cache traffic 70–80% with a four-file change. Measures before
-  changing anything, communicates clearly, and works with AI tools every day.
+  retiring a legacy data pipeline, building production monitoring that found failures only real
+  users could see, and cutting cache traffic 70-80% with a four-file change. Measures before
+  and after changing anything, communicates clearly, and works with AI tools every day.
 skills:
   - group: Languages
     items: [TypeScript, JavaScript, C#, Python, SQL, PHP]
   - group: Frontend
-    items: [React, Next.js, Astro, Tailwind, Playwright]
+    items: [React, TanStack, Next.js, Astro, Tailwind, Playwright]
   - group: Backend and data
     items: [Node, .NET, Express, Flask, PostgreSQL, SQL Server, Elasticsearch, Solr, RabbitMQ, Valkey/Redis]
   - group: Infrastructure
@@ -31,16 +32,15 @@ skills:
   - group: Observability
     items: [Prometheus, Grafana, OpenTelemetry, Sentry]
   - group: AI
-    items: [Claude Code, Cursor, Codex, PyTorch]
+    items: [Claude Code, Codex, PyTorch]
 experience:
-  - org: Better Business Bureau (bbb.org)
+  - org: Better Business Bureau (IABBB - bbb.org)
     location: Arlington, VA
     role: Full Stack Developer
     start: 2024-01
     end: null
     summary: >-
-      Engineer on bbb.org, working across the main application, its data pipeline, observability
-      and release tooling.
+      Engineer on bbb.org, working across the main application, its data pipeline, observability and CI/CD.
     highlights:
       - title: Synthetic monitoring
         text: >-
@@ -57,13 +57,13 @@ experience:
       - title: Request-scoped cache
         text: >-
           Designed a memoization layer in front of the shared Valkey cache that cut its network
-          traffic by 70–80% and its CPU by about half, with no caller changes; category search
+          traffic by 70-80% and its CPU by about half, with no caller changes; category search
           went from 490 to 330 ms.
       - title: Observability
         text: >-
-          Gave the team's services consistent Prometheus metrics, health checks and one Sentry
-          setup. The render metrics later proved the root cause of an outage every dashboard had
-          shown as healthy.
+          Gave the team's services consistent Prometheus metrics, health checks, Sentry reporting,
+          and Grafana dashboards. The render metrics later proved the root cause of an outage every
+          dashboard had shown as healthy.
       - title: New frontend and CMS
         text: >-
           Took the new React frontend to production and turned its Storyblok CMS schemas into
@@ -87,12 +87,12 @@ experience:
           month; wrote the APIs behind its purchase-to-expiration email journey.
       - title: Captive portals
         text: >-
-          Designed and built landing pages for customers including Wyndham, Four Seasons, Cedar
+          Designed and built custom landing pages for customers including Wyndham, Four Seasons, Cedar
           Fair, the San Francisco Giants and the University of Alabama.
       - title: Reliability and cloud
         text: >-
-          Hardened internal tools against third-party outages (Flask, Celery, SNMP), supported the
-          move from on-premises servers to AWS and Azure, and implemented authentication with
+          Hardened internal monitoring and support tools against third-party outages (Flask, Celery, SNMP),
+          supported the migration from on-premises servers to AWS and Azure, and implemented authentication with
           RADIUS, SSO, OAuth and JWT.
       - title: Mentoring
         text: Mentored a junior developer and an intern in APIs, deployment and frontend development.
@@ -108,7 +108,7 @@ experience:
 projects:
   - name: AutoLight
     url: autolight.ai
-    period: 2025–present
+    period: 2025-present
     summary: >-
       A desktop app that learns a photographer's editing style from their Lightroom catalogs and
       delivers it back into Lightroom. Designed and built solo; in early access.
@@ -120,8 +120,8 @@ projects:
           Tested against every Lightroom Classic catalog version from 6 to 15; 1,600+ automated
           tests, including Playwright driving the real app.
 earlier:
-  - Senior Photographer, New York State Assembly, 2016–2021
-  - Computer Specialist, GCOM Software, 2013–2014
+  - Senior Photographer, New York State Assembly, 2016-2021
+  - Computer Specialist, GCOM Software, 2013-2014
 education:
   - institution: State University of New York at Geneseo
     location: Geneseo, NY

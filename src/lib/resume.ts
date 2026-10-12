@@ -64,7 +64,7 @@ export const ResumeContent = z.object({
   experience: z.array(job),
   // Side projects big enough to stand beside a job (AutoLight).
   projects: z.array(project).optional(),
-  // Older roles, condensed to one line each ("Senior Photographer, New York State Assembly, 2016–2021").
+  // Older roles, condensed to one line each ("Senior Photographer, New York State Assembly, 2016-2021").
   earlier: z.array(z.string()).optional(),
   education: z.array(school),
 });

@@ -3,7 +3,7 @@ title: Synthetic monitoring for bbb.org
 summary: Probes that act like real users on production found a defect that had silently broken 2.8% of page renders for more than a year, and dashboards that had stayed green through real outages.
 area: reliability
 role: Primary engineer
-period: Jun–Oct 2026
+period: Jun-Oct 2026
 stack: [Playwright, CI/CD, Prometheus, OpenTelemetry, Sentry]
 order: 1
 featured: true
@@ -41,10 +41,10 @@ those bypasses had hidden a live failure to save reviews for weeks.
 
 ## What I built
 
-The initiative belonged to an engineering lead, and I was its primary engineer: the probe
-harness, the CI and alerting layer, and an internal releases app (Fig. 01). An SRE teammate
-built five of the form-submission journeys, the alert diagnostics and the scheduler.
-
+I worked with the Vice President of Technology to design the black-box synthetic monitoring architecture,
+and I was its primary engineer: the probe harness, the tests, the stage smoke test release gate, the CI
+and alerting layer, and an internal releases app (Fig. 01) to host reports, diagnostic, and show user journey
+health at a glance.
 
 The design rests on a few choices:
 
