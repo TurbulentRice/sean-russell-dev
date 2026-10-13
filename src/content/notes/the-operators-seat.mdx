@@ -1,0 +1,182 @@
+---
+title: The operator's seat
+summary: Coding agents now do most of the typing. What's left for the person is wanting something, judging whether it's good, and answering for it. That turns out to be the job.
+date: 2026-10-12
+draft: true
+---
+
+import Notes from '../../components/case/Notes.astro';
+
+{/* Sources are listed in <Notes> at the end; every quote was checked against its original.
+    Repo numbers come from `git log` on main, 2026-10-12. Spots marked SEAN need your own words. */}
+
+This site is ten days old. Its repository has 43 commits, and 27 of them carry a co-author line
+for Claude, the coding agent I work with. Fourteen pull requests have merged. I didn't write most
+of the CSS, name most of the variables, or type most of the build scripts.
+
+So what did I do?
+
+It's a fair question, and everyone who works with agents is going to have to answer it. Not to
+defend themselves, but because the answer is where the leverage is. If you know which part of the
+work is yours, you can get better at it. If you don't, you'll spend your days competing with the
+agent on the parts it's already better at.
+
+## We've been here before
+
+In 1954, the team building FORTRAN wrote that it "should virtually eliminate coding and
+debugging." Their 1957 paper called it an "automatic coding system." It did eliminate something:
+writing machine instructions by hand. Programmers didn't go away. They moved up a level and built
+things nobody could have built before. Every layer since, from compilers to frameworks to package
+managers, has taken a share of the typing and left the job in place.
+
+Fred Brooks drew the line in 1986. Some of software's difficulty is *accidental*: syntax, tooling,
+the friction of turning an idea into something a machine accepts. The rest is *essential*: "The
+hardest single part of building a software system is deciding precisely what to build." Agents are
+extraordinary at the accidental part. They're getting good at a lot of what used to feel essential,
+too. The line keeps moving, which is why I don't think the usual question is the right one.
+
+## Don't ask what it can't do
+
+The tempting move is to list what AI can't do. I started there myself: an agent won't have a great
+idea in the middle of the night, and it won't fix a bug unless someone tells it to.
+
+The trouble is that list shrinks every few months. Agents already run on schedules, watch CI and
+open their own pull requests. A list of things AI can't do *yet* is a list of things to wait out.
+
+A sturdier question is what only means something when a person does it. J.C.R. Licklider answered
+it in 1960, in a paper about how people and computers might work together: "men will set the
+goals, formulate the hypotheses, determine the criteria, and perform the evaluations," while
+"computing machines will do the routinizable work that must be done to prepare the way for
+insights." Sixty-six years later, the routinizable share has grown beyond anything he could have
+pictured. His list for the human side still holds. I'd boil it down to three things: wanting,
+judging and answering.
+
+## Wanting
+
+A crane does all of the lifting on a job site and none of the deciding. It isn't missing strength.
+It's missing a reason to lift. That's what the operator brings.
+
+Agents are the same, and that holds even for the ones that run on their own. A scheduled agent is
+running because someone wanted it to. Initiative isn't a feature you can bolt on; it comes from
+caring how something turns out.
+
+{/* SEAN: one or two sentences in your own words. Why did you want this site, or what's an idea
+    that arrived sideways (a shower, a walk, 2am) that an agent then built? The lab section, the
+    résumé-as-data pipeline and the /inside/ page are all candidates. */}
+
+No agent decided this site needed a lab, or that the résumé should be rendered from data. That
+isn't a capability gap. There was no one on the other side who wanted a lab.
+
+## Judging
+
+The best ideas, songs and inventions tend to come out of messy, human processes, and they often
+carry the fingerprints of whoever made them. That mess is exactly what we train out of AI.
+
+The fine-tuning that makes models helpful and reliable, reinforcement learning from human
+feedback, "significantly reduces output diversity," according to one study of its effects. The same
+pull shows up in the people using them. In a 2024 experiment, 300 writers wrote short stories, some
+with ideas from a language model and some without. The AI-assisted stories were rated more
+creative, especially for the least creative writers. They were also more like one another. Each
+writer did better, and the group as a whole got more alike.
+
+That isn't a bug so much as a choice. A coding agent that improvises is a liability, so we build
+these systems to be consistent, correct and never weird. It's a little like making them in the
+image of who we'd like to be. Which leaves the weird to us.
+
+Judging is the person deciding whether *correct* is also *good*, and sometimes that the strange
+option is the right one.
+
+## Answering
+
+In 1985, Peter Naur argued that programming is really "an activity by which the programmers form
+or achieve a certain kind of insight," a theory of the problem and its solution. The code is only
+a trace of that theory. He took it to an uncomfortable conclusion: "The death of a program happens
+when the programmer team possessing its theory is dissolved," and rebuilding the theory "merely from
+the documentation, is strictly impossible."
+
+Agents make this sharper. An agent starts each session knowing only what it can read. The theory
+has to live somewhere, and the only place it can live in full is the person. When I merge a pull
+request, I'm saying I understand the change well enough to answer for it. The agent can't be on the
+hook for that. Someone has to be.
+
+## The catch
+
+In 1983, Lisanne Bainbridge published a short paper on industrial control rooms called *Ironies of
+Automation*. Its central irony: "the more advanced a control system is, so the more crucial may be
+the contribution of the human operator." Automation takes the easy work and "leaves the operator to
+do the tasks which the designer cannot think how to automate." Meanwhile the operator gets less
+practice, and "skills deteriorate when they are not used."
+
+That's the real risk in the idea that developers become managers of agents. A manager who stops
+reading the code loses the theory. Without the theory, they can't judge. Without judgment, they
+can't answer for the work.
+
+We're also bad at noticing when it happens. In an early-2025 study by METR, experienced open-source
+developers expected AI tools to speed them up by 24%. With the tools, they took 19% *longer*. Even
+afterward, they believed the tools had made them 20% faster. METR has since said that newer tools
+probably do speed developers up, so the slowdown is dated. The gap between how it felt and what
+happened is the part worth keeping. You can't tell whether the arrangement is working by how it
+feels.
+
+So I'm not sure "manager" is the right word. "Editor" is closer: someone who doesn't type most of
+the words but is still inside the text, reading every line that ships.
+
+## The shape of the work
+
+Here's how this site is built, as a specimen. None of it is clever. Each piece is there to keep the
+wanting, judging and answering with me.
+
+**The directives are written down.** The repo has one file of agent directives, `AGENTS.md`. It
+holds principles, working agreements and house style, and every rule I've added is attributed and
+dated:
+
+> **No em dashes** in site copy, docs or PR descriptions; use a colon, a comma or a new sentence
+> instead (Sean, 2026-10-12).
+
+That's taste, recorded in a form that outlives a session. The agent reads it before it reads
+anything else.
+
+**What's next fits in a few lines.** `docs/STATUS.md` opens with "Keep this short: point to the
+next slice." The real plans live in a working folder, with one rule for when they go stale: "When
+it disagrees with the code, the code wins."
+
+**The theory is written down too, where it can be.** `AGENTS.md` has a section called "Things the
+code knows that you don't." It's where lessons go after they cost something. One reads: "both
+collisions so far shipped broken layouts into review." Naur is right that documentation can't
+replace the theory. It can give the agent enough to work inside a theory I still hold.
+
+**One slice per branch, one pull request per slice.** Small enough that I can read the whole diff
+and keep the whole change in my head. The agent opens the pull request without asking.
+
+**I merge.** Merging to `main` deploys the site. It's the one step that changes what the world
+sees, and it's the one the agent doesn't take.
+
+**Claims trace to sources.** It's a principle in the file, and it applies to this essay too. Every
+quote above is checked against its original, and the sources are listed below.
+
+## Tool or coworker?
+
+There's an easy line to end on: an intelligent tool is still a tool. There's a less comfortable one
+right behind it: an intelligent tool may not be a tool at all. If it isn't, then what is it? A
+coworker? Something more?
+
+I don't know. What I notice is that nothing above depends on the answer. Crane or colleague,
+someone still has to want the building, judge whether it's any good and sign for it when it's done.
+For now, that's my seat.
+
+<Notes>
+  <p>
+    Repository numbers are from this site's git history on main as of October 12, 2026. A co-author
+    line marks a commit the agent helped write; it doesn't measure how much of each one it typed.
+  </p>
+  <p>
+    Sources: J. W. Backus et al., <a href="https://www.softwarepreservation.org/projects/FORTRAN/BackusEtAl-Preliminary%20Report-1954.pdf">Preliminary Report: Specifications for the IBM Mathematical FORmula TRANslating System</a> (1954) and <a href="https://www.softwarepreservation.org/projects/FORTRAN/paper/BackusEtAl-FortranAutomaticCodingSystem-1957.pdf">The FORTRAN Automatic Coding System</a> (1957).
+    F. P. Brooks, <a href="https://blog.acolyer.org/2016/09/06/no-silver-bullet-essence-and-accident-in-software-engineering/">No Silver Bullet: Essence and Accident in Software Engineering</a> (1986).
+    J. C. R. Licklider, <a href="https://groups.csail.mit.edu/medg/people/psz/Licklider.html">Man-Computer Symbiosis</a> (1960).
+    R. Kirk et al., <a href="https://arxiv.org/abs/2310.06452">Understanding the Effects of RLHF on LLM Generalisation and Diversity</a> (ICLR 2024).
+    A. R. Doshi and O. P. Hauser, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11244532/">Generative AI enhances individual creativity but reduces the collective diversity of novel content</a> (Science Advances, 2024).
+    P. Naur, <a href="https://neonvagabond.xyz/mirrors/naur1985programming.html">Programming as Theory Building</a> (1985).
+    L. Bainbridge, <a href="https://en.wikipedia.org/wiki/Ironies_of_Automation">Ironies of Automation</a> (Automatica, 1983).
+    METR, <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity</a> (2025) and its <a href="https://metr.org/blog/2026-02-24-uplift-update/">February 2026 update</a>.
+  </p>
+</Notes>
