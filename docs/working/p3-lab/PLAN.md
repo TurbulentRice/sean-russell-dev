@@ -1,7 +1,7 @@
 # P3: Lab and Notes
 
 **Status: in progress.** Drafted 2026-10-12, after P2's launch pass. Slices 1
-and 2 done; slice 3 in progress.
+to 3 done; slice 4 next.
 
 Goal: the lab stops being empty, and Notes gets a steady second and third
 post. The lab's first real tool is the résumé exporter, in the browser.
@@ -50,7 +50,7 @@ draft's placeholders (invented before/after numbers, a fake diagram, fake
 index rows) are gone. The closing blockquote paraphrases Sean's brief rather
 than quoting it word for word; Sean confirmed it 2026-10-30.
 
-### 3. Notes: how this site is built, and CMS schemas as code
+### 3. Notes: how this site is built, and CMS schemas as code ✅ (2026-10-30)
 
 Two posts.
 
@@ -67,11 +67,16 @@ Two posts.
 
 *Done when:* both publish.
 
-As built, so far:
+As built:
 - **How this site is built** (2026-10-30) leads with what the home page really
   downloads (99 KB, three quarters fonts, zero React). No island exists yet, so
   the note says that instead of the plan's "islands where they earn it", and it
   points at slice 4 as the first. The chart's numbers are a dated snapshot.
+- **CMS schemas as code** (2026-10-30) opens on the first sync wiping editors'
+  presets, with the promotion path as Fig. 01. The export gives no before/after
+  metric, and the note says so. Its code is a labeled sketch with invented names.
+  How the first sync wiped the presets isn't in the export, so the note doesn't
+  explain it.
 - **The operator's seat** wasn't planned: Sean published it (PR #14) as a third
   post. It owns the workflow side; this note owns the stack, and they link. A
   source check afterward corrected 300 writers to 293 and restored a clipped

@@ -1,0 +1,130 @@
+---
+title: CMS schemas as code
+summary: bbb.org's Storyblok schemas were edited by hand in two places. Now they're reviewed in pull requests and promoted by CI. The first sync wiped the editors' presets, and the design had to make room for them.
+date: 2026-10-30
+draft: false
+---
+
+import Figure from '../../components/case/Figure.astro';
+import Notes from '../../components/case/Notes.astro';
+import PromotionPath from '../../notes/cms-schemas-as-code/PromotionPath.astro';
+
+{/* Sources: private/engineering-case-studies-2026-10-12.txt, case study 5. Internal names stay
+    generic: the frontend and the schema package are described, not named. */}
+
+The first time I synced our CMS schemas from git, it wiped the editors' presets.
+
+Presets are saved starting points for a component, the kind of thing an editor sets up once and
+reuses. I'd been treating the CMS as a place to deploy schemas to, and the
+editors were using it as a place to work. Both were true, and most of what follows is about making
+them true at once.
+
+<Figure caption="How a schema change reaches bbb.org. Schemas only move one way, out of git. Presets belong to editors in dev and to code in prod.">
+  <PromotionPath />
+</Figure>
+
+## Half a contract, edited by hand
+
+In 2026 I took bbb.org's new React frontend from a folder in the repo to production. It renders
+pages from [Storyblok](https://www.storyblok.com), a headless CMS where each kind of content block
+is defined by a component schema: the fields an editor sees and fills in.
+
+The frontend's code depends on those fields, so a schema is half of a contract. The code half lived
+in git, with review and history. The schema half lived in the CMS UI and was edited by hand, once
+for the dev space and again for prod. The two spaces drifted, and no change could be reviewed.
+
+The rest of the project was in a similar state. The frontend had no production deployment, the
+visual editor's preview depended on short-lived developer tunnels, and bbb.org had no route that
+served Storyblok pages at all.
+
+## The repo owns schemas
+
+The first decision was the plainest. Committed schema files are the source of truth, and nobody
+edits a schema in the CMS. They live in a small package that isn't a runtime app. Its only job is
+to hold the schemas and let the pipeline move them, along the path in Fig. 01.
+
+Everything else in the note depends on this one. Keeping the CMS as the editing surface would have
+been easier on day one, but a change there has no diff, no reviewer and no promotion path, and prod
+is free to drift from dev again.
+
+## Sync never deletes
+
+The obvious way to write a sync is to mirror: make the remote look exactly like the repo, deleting
+anything extra. I made it additive instead. It pushes and updates, and it never deletes a remote
+component.
+
+In a mirror, an unmanaged experiment in dev, or one mistake in the repo, could take out a live
+component on the next run. Deletion is a separate, explicit step, so removing something is always
+a decision and never a side effect. The cost is that leftovers can sit in a space until someone
+removes them on purpose, which is a much better problem to have.
+
+## Presets have two owners
+
+Which brings me back to the presets. One owner for everything was the tidy answer, and it would
+have been wrong in either direction: code owning dev presets takes away the editors' work, and
+editors owning prod presets brings back the drift.
+
+So ownership changes with the environment. Editors own presets in dev, and code owns them in prod.
+In dev, the sync re-seeds each component with dev's own presets. Promotion mirrors the committed
+ones into prod. In outline:
+
+```ts
+// A simplified sketch of the idea, not the production code.
+async function syncToDev(schemas: Schema[], dev: Space) {
+  const presets = await dev.presets();
+  for (const schema of schemas) {
+    await dev.upsertComponent(schema); // push or update; nothing here deletes
+    await dev.setPresets(schema.name, presets[schema.name]); // the editors' work survives
+  }
+}
+
+async function promoteToProd(schemas: Schema[], prod: Space) {
+  for (const schema of schemas) {
+    await prod.upsertComponent(schema);
+    await prod.setPresets(schema.name, schema.presets); // in prod, code decides
+  }
+}
+```
+
+## Consolidate before you scale
+
+Once schemas were files, the duplication between them was easy to see, and every new component would
+have added to it. Before growing the library I consolidated them, which removed 3,065 lines of
+duplicated schema.
+
+## The road to production
+
+The schemas were the interesting part, but the frontend still had to ship.
+
+- **The deploy.** Container builds, release configuration and workflows, in one change of 207 files,
+  released through the same tagged pipeline as everything else.
+- **Previews.** Deployments for draft content in both dev and prod, so editors see unpublished
+  changes in the real app. That replaced the developer tunnels.
+- **Routing.** The routes that publish Storyblok pages under bbb.org, a generic same-origin
+  passthrough and an asset prefix.
+
+Running two sites under one domain also leaves a gap. I diagnosed and documented an edge case that
+turns a working page into a 404: publishing a CMS page whose old URL still exists on the previous
+site, without a matching edge-routing entry.
+
+## Where it ended up
+
+The new frontend now serves bbb.org's CMS-driven pages: local bureau pages, IABBB pages and archived
+pages from the previous CMS. A change to a component travels the way code does. It's reviewed in a
+pull request, synced on merge and promoted on release.
+
+I don't have a before-and-after number for this one, and I'd rather not invent a proxy for it. What
+changed is that a schema has a history now, and prod has one way in.
+
+This site has no CMS at all: [MDX in git does the job](/notes/how-this-site-is-built/). It's the same
+instinct with no editors to account for. The presets were the reminder that a CMS is shared with
+people who work there, and a pipeline has to leave room for them.
+
+<Notes>
+  <p>
+    The work ran from February to August 2026: 30 commits, four design docs and a package README.
+    The repository squash-merges, so one commit is about one pull request. Line and file totals
+    include docs and generated files, so treat them as size, not effort. The code above is a
+    sketch, and its names are invented.
+  </p>
+</Notes>
