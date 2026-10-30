@@ -17,9 +17,8 @@ or type most of the build scripts.
 
 So what did I do?
 
-It's a fair question, and everyone who works with agents will eventually have to answer it. Not to
-defend themselves, but because the answer is where the leverage is. If you know which part of the
-work is yours, you can get better at it. If you don't, you'll spend your time competing with a tool
+It's a fair question, and everyone who works with agents will eventually have to answer it. If you know
+which part of the work is yours, you can get better at it. If you don't, you'll spend your time competing with a tool
 at the things it's already better at.
 
 ## We've been here before
@@ -50,7 +49,7 @@ A sturdier question is: what only means something when a person does it? J.C.R. 
 it in 1960, in a paper about how people and computers might work together: "men will set the
 goals, formulate the hypotheses, determine the criteria, and perform the evaluations," while
 "computing machines will do the routinizable work that must be done to prepare the way for
-insights." Sixty-six years later, the routinizable share has grown beyond anything he could have
+insights and decisions." Sixty-six years later, the routinizable share has grown beyond anything he could have
 pictured. His list for the humans still holds, and I'd boil it down to three things: wanting,
 judging and answering.
 
@@ -63,17 +62,22 @@ Agents are the same, and that holds even for the ones that run on their own. A s
 running because someone wanted it to. Initiative isn't a feature you can bolt on; it comes from
 caring how something turns out.
 
-Humans are uniquely gifted at wanting things. Like it or not, it's one of the hard differentiators
+Humans are uniquely gifted at wanting things. Like it or not, it's one of the clearest differences
 between human intelligence and artificial intelligence. Desire is fundamentally emotional, chaotic,
 illogical, spontaneous. It justifies itself, and so cannot be wrong or right. An agent that displayed
 those properties would be written off as inconsistent, unreliable, unpredictable: no one would use a
 crane that decides mid-lift it wants to drop the load somewhere else.
 
-Nothing told me to make this site - I just *wanted* to. It came out of a curiosity to ship a site
+When the agent drafted this essay, it reached this spot and stopped. It left a note for me: "SEAN: one
+or two sentences in your own words. Why did you want this site, or what's an idea that arrived
+sideways (a shower, a walk, 2am) that an agent then built?" It could write everything around that
+question. It couldn't answer it.
+
+Nothing told me to make this site: I just *wanted* to. It came out of a curiosity to ship a site
 as simply as possible; a need for a personal portfolio with a URL; a craving to host and share my
 own lab experiments.
 
-No agent wanted any of this at all, and nothing could have been built without my human impetus.
+No agent wanted any of this, and none of it gets built unless somebody does.
 That isn't a capability gap. There simply was no one on the other side to want those things.
 
 ## Judging
@@ -83,18 +87,18 @@ carry the fingerprints of whoever made them. That mess is exactly what we train 
 
 The fine-tuning that makes models helpful and reliable, reinforcement learning from human
 feedback, "significantly reduces output diversity," according to one study of its effects. The same
-pull shows up in the people using them. In a 2024 experiment, 300 writers wrote short stories, some
+pull shows up in the people using them. In a 2024 experiment, 293 writers wrote short stories, some
 with ideas from a language model and some without. The AI-assisted stories were rated more
 creative, especially for the least creative writers. They were also more like one another. Each
 writer did better, and the group as a whole got more alike.
 
-That isn't a bug so much as a choice. A coding agent that improvises is a liability, so we build
+We chose that. A coding agent that improvises is a liability, so we build
 these systems to be consistent, correct and never weird. It's a little like making them in the
 image of who we'd like to be. Which leaves the weird all to us.
 
 Judging is the person deciding whether *correct* is also *good*, and sometimes that the strange
-option is the right one. Similar to a desire, a judgement is self-justifying: it may be based on
-something measurable, or it may be based on arbitrary taste - neither is necessarily wrong.
+option is the right one. Like a desire, a judgment justifies itself: it may be based on
+something measurable, or on arbitrary taste, and neither is necessarily wrong.
 
 ## Answering
 
@@ -145,7 +149,8 @@ to a degree, ownership.
 
 ## The shape of the work
 
-Here's how this site is built, as a specimen. None of it is clever. Each piece is there to keep the
+Here's how the work on this site runs, as a specimen. (The stack has [its own
+note](/notes/how-this-site-is-built/).) None of it is clever. Each piece is there to keep the
 wanting, judging and answering with me.
 
 **The directives are written down.** The repo has one file of agent directives, `AGENTS.md`. It
@@ -155,7 +160,7 @@ dated:
 > **No em dashes** in site copy, docs or PR descriptions; use a colon, a comma or a new sentence
 > instead (Sean, 2026-10-12).
 
-That's taste, recorded in a form that outlives a session. The agent reads it before it reads
+That's taste, written down where the next session will find it. The agent reads it before it reads
 anything else.
 
 **What's next fits in a few lines.** `docs/STATUS.md` opens with "Keep this short: point to the

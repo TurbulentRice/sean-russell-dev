@@ -1,8 +1,138 @@
 ---
 title: How this site is built
-summary: Static by default, interactive where it earns it. Astro islands on Cloudflare, and why.
-date: 2026-10-02
-draft: true
+summary: The plan was static by default, with React islands where they earn it. Four weeks in, none have. What actually ships, and the parts that bit me.
+date: 2026-10-30
+draft: false
 ---
 
-{/* A natural first post: the stack, the islands model, the resume-as-data pipeline. */}
+import Figure from '../../components/case/Figure.astro';
+import Notes from '../../components/case/Notes.astro';
+import HomePageChart from '../../notes/how-this-site-is-built/HomePageChart.astro';
+
+{/* Sources: this repo. Sizes measured on production 2026-10-30 (see the chart component); the old
+    site's description is from docs/BRIEF.md. The workflow side lives in the-operators-seat. */}
+
+This site has a rule: a page ships no JavaScript unless it earns it. The plan was React islands,
+small interactive pieces dropped into otherwise static pages. So React is installed, configured
+and deployed. There's a 220 KB bundle of it sitting on Cloudflare right now.
+
+No page has asked for it yet.
+
+<Figure caption="Everything the home page downloads, measured in production on October 30, 2026. It comes to 99 KB, about three quarters of it fonts. React is on the list because it's the zero I'm proudest of and most embarrassed by.">
+  <HomePageChart />
+</Figure>
+
+I find that chart more honest than a stack diagram. Here's how the site got there.
+
+## What it replaced
+
+The previous seanrusselldev.com was a 2021 Create React App and Express server on Elastic
+Beanstalk, built while I was learning to program. It had dogs, music, an uploader, an OpenAI toy,
+and old projects mounted under `/pages`. I loved it, and it was a mess in one specific way: a
+hiring manager and a person poking around for fun landed in the same place, and neither was served
+well.
+
+So the new site does two jobs and keeps them apart. The front is curated and quiet. The lab is
+allowed to be rough, and every entry carries a status so a rough edge reads as a choice. The other
+test I set was maintenance: every dependency and service has to justify itself against "untouched
+for six months and still works." A server I have to patch doesn't pass that. HTML files do.
+
+## Static, with receipts
+
+The site is [Astro](https://astro.build) with static output: 14 pages, built in about four seconds
+into plain files. The CSS is small enough to inline, so a page arrives with its styles in the same
+response and there's one less request to block rendering. Uncompressed, the home page is 23 KB.
+On the wire it's 6.6.
+
+Static by default still isn't the same as no JavaScript, and I'd rather list the exceptions than
+round them down:
+
+- **Page transitions.** Astro's client router, 5.9 KB on every page, makes moving between pages
+  feel continuous. It's the one thing here I'd cut first.
+- **The theme.** An inline script applies your saved light or dark choice before first paint, and
+  again after each page transition. Without it you'd get a flash of the wrong theme.
+- **Analytics.** Cloudflare injects a beacon at the edge, so it isn't in my repo or my build, and
+  `curl` won't even show it. It's there for browsers. No cookies, no banner. It's also the only
+  third-party script on the site, and it took a written reason to get in.
+
+The fonts dominate the chart, and I'm fine with that. Type is most of what this site has to look
+at. They're self-hosted, and the body face is preloaded because the largest thing painted on most
+pages is text, which gets measured again when the font swaps in.
+
+## Content is data
+
+Case studies, lab entries and notes are MDX files in git, with their frontmatter checked by a
+schema at build. A typo in a status field fails the build instead of quietly rendering nothing.
+That's the whole CMS, and being one person, I've never wanted another.
+
+The résumé is where this pays off. It's a single YAML file. `/resume/` renders it, and one command
+turns it into a PDF, a Word file, Markdown and plain text. The PDF is the actual page, printed by
+real Chrome from a fresh build, so the web and paper versions can't disagree.
+
+The Word file took the most fussing. It's a single column with no tables or tab stops, and it names
+its font on every run of text, because macOS Quick Look ignores the document's default and I got
+tired of seeing my résumé in the wrong typeface.
+
+I also wrote a script that uses the Claude API to convert an old `.docx` into that YAML. My own
+résumé was converted by hand anyway.
+
+## Things the build does on its own
+
+Nearly every page gets its own link-preview card, a 1200×630 PNG generated at build from the page's title
+and summary. [Satori](https://github.com/vercel/satori) lays it out, resvg rasterizes it, and no
+service is involved. The cost is some quirks. Satori reads woff but not woff2, and it wants static
+weights, so the repo keeps a second copy of the typeface in dev dependencies just for this. Its
+colors are copied from the stylesheet by hand, with a comment telling you to change both.
+
+The footer has a build stamp: the short commit hash and the date, linked to that commit on GitHub.
+It's a few lines of code and my favorite thing on the site. You can check exactly which version
+you're reading, and [the repo is public](https://github.com/TurbulentRice/sean-russell-dev).
+
+## Hosting: a Worker with no code
+
+It runs on Cloudflare as a Worker that has no script, only static assets. Requests never invoke
+anything, so there's nothing to bill or patch. If an experiment ever needs an API, the plan is to
+add a script and route only `/api/*` to it, leaving every static page alone.
+
+Merging to `main` deploys. Every pull request gets its own preview URL, kept out of search by a
+`noindex` header, and that's how I review changes: on a real URL, on my phone if I feel like it.
+
+That setup produced my favorite bug. Once the custom domain was live, the `workers.dev` address was
+off, as it should be. But with Wrangler 4.44 and later that default also turns preview URLs off, so
+every pull request's preview link was a 404. The fix is two explicit lines of config and a comment
+explaining why they're both needed. The comment is longer than the fix.
+
+Not everything lives in the repo, which bothers me more than it should. The `www` redirect, HTTPS
+enforcement, email routing and analytics are all settings in the Cloudflare dashboard. The best I
+can do is list them in the docs, so the next person to be confused has somewhere to look. That
+person is me.
+
+## What bit me
+
+Astro scopes component styles, and I leaned on that a little too comfortably. Scoping stops my
+styles leaking out, but it doesn't stop global ones leaking in. Name a component's element `.page`
+or `.tag` and the site-wide utility classes with those names apply to it anyway. That shipped
+broken layouts into review twice before it became a written rule.
+
+Most of the typing here was done by a coding agent, and rules like that one are how it stays
+safe to work that way. That's a different story, and I wrote it down in [The operator's
+seat](/notes/the-operators-seat/).
+
+## Where the zero goes
+
+The résumé renderers have no Node dependencies, on purpose. The next lab entry is a tool where you
+drop in your own résumé YAML and get the same exports back, entirely in your browser, nothing
+uploaded. It can't work as a static page. It has earned an island.
+
+There's also a slot in the design for a small live readout, fed by a real probe this site doesn't
+have yet. The component refuses to show numbers it didn't measure, so for now it shows nothing.
+
+So the chart at the top has a date on it for a reason. I'm looking forward to it being wrong.
+
+<Notes>
+  <p>
+    Sizes are compressed response bodies on the production home page, without headers, from the
+    browser's Resource Timing API. The browser reports zero for the cross-origin analytics script,
+    so that one was measured separately. The React bundle's 220 KB is uncompressed; 68 KB gzipped.
+  </p>
+</Notes>
