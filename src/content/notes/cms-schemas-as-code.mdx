@@ -1,0 +1,146 @@
+---
+title: CMS schemas as code
+summary: How bbb.org moved from AEM to Storyblok with each component's schema and React code in one commit, what the checks look for, and what happens when developers and editors share a space.
+date: 2026-10-30
+draft: false
+---
+
+import Figure from '../../components/case/Figure.astro';
+import Notes from '../../components/case/Notes.astro';
+import PromotionPath from '../../notes/cms-schemas-as-code/PromotionPath.astro';
+
+{/* Sources: private/engineering-case-studies-2026-10-12.txt, case study 5, and Sean's account of
+    the migration and the presets (2026-10-30). Internal names stay generic: the frontend and the
+    schema package are described, not named. */}
+
+BBB isn't one organization. It's a federation of local BBBs, and each one needs to manage its own
+content, users, permissions, pages and assets. Run all of that alongside a main site and it gets
+complicated quickly. So bbb.org needs a CMS, and the CMS has a harder job than most.
+
+That used to be Adobe Experience Manager. AEM was expensive and didn't give us the flexibility
+or control we wanted. Storyblok was a good alternative: developers
+could manage and version components in code, built from our internal design system, and editors
+could assemble pages from those building blocks.
+
+That only pays off if the components really are managed in code, and a Storyblok component has two
+halves. This is how we kept them together.
+
+<Figure caption="How a component reaches editors. From the commit on, its schema and its React code travel together, and the release that promotes one promotes the other.">
+  <PromotionPath />
+</Figure>
+
+## Half a contract
+
+A component schema defines the fields an editor sees and fills in. The React code that renders the
+component depends on those fields, so the schema is half of a contract. At the start of the
+project the code half lived in git, with review and history. The schema half lived in the CMS UI
+and was edited by hand, so the dev and prod spaces drifted and no change could be reviewed.
+
+The rest of the project was in a similar state. The new frontend had no production deployment, the
+visual editor's preview depended on short-lived developer tunnels, and bbb.org had no route that
+served Storyblok pages at all.
+
+In the migration I was in charge of the infrastructure and CI/CD and of configuring the app: the
+web server, Vite, deployment and the database. I also helped developers port some of the components
+over from AEM.
+
+## One commit, both halves
+
+A developer still defines a component's properties in the Storyblok UI. What changed is what
+happens next. They pull the schema down into a JSON file, write
+the React component against it, and commit both together.
+
+That's the whole idea, and the rest of the pipeline follows from it. The schema and the code that
+implements it are versioned as one thing, so they can be promoted together and rolled back
+together. There's never a question of which schema goes with which release.
+
+The files live in a small package that isn't a runtime app. Its job is to hold the schemas and let
+the pipeline move them, along the path in Fig. 01. When a commit is tagged, it goes out through the
+same trunk-based release pipeline as all of our other apps, and its schemas are promoted to the
+prod space, where editors can use them.
+
+## What a pull request checks
+
+Code can be rolled back. Content is harder, because editors have already filled in pages against
+the old shape of a component. So the checks look at the schema diff as well as the code.
+
+On every pull request, checks confirm that component formats are valid, that everything will sync
+without error, and that the guardrails are obeyed. Then they evaluate the diff for risk. Removing a
+field would orphan the values already stored in it. Changing a field's data type can do similar damage. Any
+change that could break a component has to come with a migration script.
+
+A merge syncs the dev space with the committed schemas, so the change can be tested and reviewed in
+the preview environment before it goes near a release.
+
+The sync itself is additive: it pushes and updates, and it never deletes a remote component. An
+unmanaged experiment in dev can't take out a live component that way, and deleting one is a
+separate, explicit step. The cost is that leftovers can sit in a space until someone removes them
+on purpose.
+
+## The space everyone shares
+
+The hiccup worth telling about was a small one.
+
+Presets are pre-defined configurations of a component, saved by editors. Developers own components
+and non-technical staff own presets, but Storyblok pulls and syncs the two together. Pull a
+component and you get its presets. Sync a component to a deployed space and its presets go with it.
+And if the schema has no presets at the time of the sync, any presets saved in that space are
+replaced with nothing.
+
+During initial development, editors were trying out presets in the same dev space that developers
+were syncing to. A developer following normal practice, merging a change, could erase a preset an
+editor was still working on, if no developer had pulled and committed it yet. Nobody had done
+anything wrong. Git said one thing and the space said another, and the sync believed git.
+
+That's an overlap of concerns in the product, and I couldn't remove it. I could work around it by
+changing the dev sync script to save whatever presets exist, run the sync, and restore them:
+
+```ts
+// A simplified sketch of the idea, not the production code.
+async function syncToDev(components: Schema[], dev: Space) {
+  const inFlight = await dev.presets(); // everything saved there, committed or not
+  await dev.sync(components);           // this replaces each component's presets
+  await dev.restorePresets(inFlight);   // so an editor's work survives the deploy
+}
+```
+
+Uncommitted presets now survive in dev, and they still get committed and promoted alongside their
+components. Editors own presets in dev, and code owns them in prod.
+
+## The road to production
+
+The schemas were the interesting part, but the frontend still had to ship.
+
+- **The deploy.** Container builds, release configuration and workflows, in one change of 207 files.
+- **Previews.** Deployments for draft content in both dev and prod, so editors see unpublished
+  changes in the real app instead of through a developer's tunnel.
+- **Routing.** The routes that publish Storyblok pages under bbb.org, a generic same-origin
+  passthrough and an asset prefix.
+- **Consolidation.** Before growing the component library I consolidated the schemas, which removed
+  3,065 lines of duplication.
+
+Running two sites under one domain also leaves a gap. I diagnosed and documented an edge case that
+turns a working page into a 404: publishing a CMS page whose old URL still exists on the previous
+site, without a matching edge-routing entry.
+
+## Where it ended up
+
+The new frontend now serves bbb.org's CMS-driven pages: local bureau pages, IABBB pages and archived
+pages from AEM. A change to a component travels the way code does. It's reviewed in a pull request,
+synced on merge and promoted on release.
+
+I don't have a before-and-after number for this one, and I'd rather not invent a proxy for it. What
+changed is that a schema has a history now, and prod has one way in.
+
+This site has no CMS at all: [MDX in git does the job](/notes/how-this-site-is-built/). That's easy
+when there are no editors to account for. The presets were the reminder that a CMS is a place where
+people are working while you deploy to it.
+
+<Notes>
+  <p>
+    The work ran from February to August 2026: 30 commits, four design docs and a package README.
+    The repository squash-merges, so one commit is about one pull request. Line and file totals
+    include docs and generated files, so treat them as size, not effort. The code above is a
+    sketch, and its names are invented.
+  </p>
+</Notes>

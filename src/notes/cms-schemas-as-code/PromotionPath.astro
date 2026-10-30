@@ -1,0 +1,40 @@
+---
+// The path a component takes, as a list rather than an SVG so the text stays
+// readable at phone width. From the evidence export and Sean's account.
+const steps: [stage: string, happens: string][] = [
+  ['Define', 'A developer defines the component in the Storyblok UI and pulls its schema down as JSON.'],
+  ['Commit', 'The schema and the React component that implements it go into one commit.'],
+  ['Pull request', 'Checks cover format, sync and guardrails, and rate the schema diff for risk. Breaking changes need a migration script.'],
+  ['Merge to main', 'The dev space syncs with the committed schemas, ready to test in the preview environment.'],
+  ['Tag and release', 'The same release pipeline as every other app deploys the code and promotes its schemas to the prod space.'],
+];
+---
+
+<ol class="path">
+  {steps.map(([stage, happens]) => (
+    <li class="step">
+      <span class="label stage">{stage}</span>
+      <p class="happens">{happens}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .path { display: grid; margin: 0; padding: var(--space-4); list-style: none; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .step {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+  .step:first-child { padding-top: 0; }
+  .step:last-child { padding-bottom: 0; border-bottom: 0; }
+  .stage { color: var(--accent); }
+  .happens { margin: 0; font-size: var(--step--1); line-height: 1.4; }
+  @media (max-width: 34rem) {
+    .path { padding: var(--space-3); }
+    .step { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  }
+</style>
