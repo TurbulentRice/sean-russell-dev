@@ -72,11 +72,12 @@ As built:
   downloads (99 KB, three quarters fonts, zero React). No island exists yet, so
   the note says that instead of the plan's "islands where they earn it", and it
   points at slice 4 as the first. The chart's numbers are a dated snapshot.
-- **CMS schemas as code** (2026-10-30) opens on the first sync wiping editors'
-  presets, with the promotion path as Fig. 01. The export gives no before/after
-  metric, and the note says so. Its code is a labeled sketch with invented names.
-  How the first sync wiped the presets isn't in the export, so the note doesn't
-  explain it.
+- **CMS schemas as code** (2026-10-30) rests on the export plus Sean's own
+  account of the AEM migration, the pipeline and the presets. Where they differ,
+  his account wins: developers still define components in the Storyblok UI and
+  pull them into git, and the preset wipe was a small hiccup in dev, not a big
+  first-sync failure. The export gives no before/after metric, and the note says
+  so. Its code is a labeled sketch with invented names.
 - **The operator's seat** wasn't planned: Sean published it (PR #14) as a third
   post. It owns the workflow side; this note owns the stack, and they link. A
   source check afterward corrected 300 writers to 293 and restored a clipped

@@ -1,38 +1,40 @@
 ---
-// The path a schema change takes, as rows rather than an SVG so the text stays
-// readable at phone width. From the evidence export, case study 5.
-const rows: [trigger: string, happens: string, schemas: string, presets: string][] = [
-  ['Pull request', 'The schema change is reviewed like code', 'Nothing moves yet', 'Nothing moves yet'],
-  ['Merge to main', 'Deploys dev and syncs the schemas', 'Pushed to the dev space', "Dev's own, re-seeded by the sync"],
-  ['Production release', 'Deploys prod and promotes the schemas', 'Exactly what is committed', 'The committed ones, mirrored in'],
+// The path a component takes, as a list rather than an SVG so the text stays
+// readable at phone width. From the evidence export and Sean's account.
+const steps: [stage: string, happens: string][] = [
+  ['Define', 'A developer defines the component in the Storyblok UI and pulls its schema down as JSON.'],
+  ['Commit', 'The schema and the React component that implements it go into one commit.'],
+  ['Pull request', 'Checks cover format, sync and guardrails, and rate the schema diff for risk. Breaking changes need a migration script.'],
+  ['Merge to main', 'The dev space syncs with the committed schemas, ready to test in the preview environment.'],
+  ['Tag and release', 'The same release pipeline as every other app deploys the code and promotes its schemas to the prod space.'],
 ];
 ---
 
 <ol class="path">
-  {rows.map(([trigger, happens, schemas, presets]) => (
+  {steps.map(([stage, happens]) => (
     <li class="step">
-      <span class="trigger label">{trigger}</span>
+      <span class="label stage">{stage}</span>
       <p class="happens">{happens}</p>
-      <dl class="owned">
-        <div><dt>Schemas</dt><dd>{schemas}</dd></div>
-        <div><dt>Presets</dt><dd>{presets}</dd></div>
-      </dl>
     </li>
   ))}
 </ol>
 
 <style>
   .path { display: grid; margin: 0; padding: var(--space-4); list-style: none; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-  .step { display: grid; gap: var(--space-1); padding-block: var(--space-3); border-bottom: 1px solid var(--line); }
+  .step {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
   .step:first-child { padding-top: 0; }
   .step:last-child { padding-bottom: 0; border-bottom: 0; }
-  .trigger { color: var(--accent); }
+  .stage { color: var(--accent); }
   .happens { margin: 0; font-size: var(--step--1); line-height: 1.4; }
-  .owned { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-1) 0 0; }
-  dt { font: 500 var(--step--2)/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-  dd { margin: 0; font-size: var(--step--1); line-height: 1.3; color: var(--muted); }
   @media (max-width: 34rem) {
     .path { padding: var(--space-3); }
-    .owned { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+    .step { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
   }
 </style>
