@@ -1,25 +1,26 @@
 ---
 title: The operator's seat
-summary: Coding agents now do most of the typing. What's left for the person is wanting something, judging whether it's good, and answering for it. That turns out to be the job.
+summary: Coding agents now do most of the typing. What's left for the person is wanting something, judging whether it's good, and answering for it.
 date: 2026-10-12
-draft: true
+draft: false
 ---
 
 import Notes from '../../components/case/Notes.astro';
 
-{/* Sources are listed in <Notes> at the end; every quote was checked against its original.
-    Repo numbers come from `git log` on main, 2026-10-12. Spots marked SEAN need your own words. */}
+{/* Sources are listed in <Notes> at the end. Every quote was checked against its source; the
+    IBM slide's original is lost, and the text says so. Repo numbers come from `git log` on main,
+    2026-10-12. */}
 
-This site is ten days old. Its repository has 43 commits, and 27 of them carry a co-author line
-for Claude, the coding agent I work with. Fourteen pull requests have merged. I didn't write most
-of the CSS, name most of the variables, or type most of the build scripts.
+This site is a week old. Its repository has 29 commits and 27 of them carry a co-author line
+for Anthropic's Claude coding agent. I didn't write most of the CSS, name most of the variables,
+or type most of the build scripts.
 
 So what did I do?
 
-It's a fair question, and everyone who works with agents is going to have to answer it. Not to
+It's a fair question, and everyone who works with agents will eventually have to answer it. Not to
 defend themselves, but because the answer is where the leverage is. If you know which part of the
-work is yours, you can get better at it. If you don't, you'll spend your days competing with the
-agent on the parts it's already better at.
+work is yours, you can get better at it. If you don't, you'll spend your time competing with a tool
+at the things it's already better at.
 
 ## We've been here before
 
@@ -37,35 +38,43 @@ too. The line keeps moving, which is why I don't think the usual question is the
 
 ## Don't ask what it can't do
 
-The tempting move is to list what AI can't do. I started there myself: an agent won't have a great
+The tempting first move is to list what AI can't do. That's where I started: an agent won't have a great
 idea in the middle of the night, and it won't fix a bug unless someone tells it to.
 
-The trouble is that list shrinks every few months. Agents already run on schedules, watch CI and
-open their own pull requests. A list of things AI can't do *yet* is a list of things to wait out.
+The trouble is that list is shrinking faster and faster. It's not uncommon as of writing this for
+agents to run on schedules, watch CI, open their own pull requests, even manage their own
+asynchronous teams. My list of things AI can't do quickly became a list of things it probably
+will do soon.
 
-A sturdier question is what only means something when a person does it. J.C.R. Licklider answered
+A sturdier question is: what only means something when a person does it? J.C.R. Licklider answered
 it in 1960, in a paper about how people and computers might work together: "men will set the
 goals, formulate the hypotheses, determine the criteria, and perform the evaluations," while
 "computing machines will do the routinizable work that must be done to prepare the way for
 insights." Sixty-six years later, the routinizable share has grown beyond anything he could have
-pictured. His list for the human side still holds. I'd boil it down to three things: wanting,
+pictured. His list for the humans still holds, and I'd boil it down to three things: wanting,
 judging and answering.
 
 ## Wanting
 
-A crane does all of the lifting on a job site and none of the deciding. It isn't missing strength.
+A crane does all of the lifting on a job site, but none of the deciding. It isn't missing strength.
 It's missing a reason to lift. That's what the operator brings.
 
 Agents are the same, and that holds even for the ones that run on their own. A scheduled agent is
 running because someone wanted it to. Initiative isn't a feature you can bolt on; it comes from
 caring how something turns out.
 
-{/* SEAN: one or two sentences in your own words. Why did you want this site, or what's an idea
-    that arrived sideways (a shower, a walk, 2am) that an agent then built? The lab section, the
-    résumé-as-data pipeline and the /inside/ page are all candidates. */}
+Humans are uniquely gifted at wanting things. Like it or not, it's one of the hard differentiators
+between human intelligence and artificial intelligence. Desire is fundamentally emotional, chaotic,
+illogical, spontaneous. It justifies itself, and so cannot be wrong or right. An agent that displayed
+those properties would be written off as inconsistent, unreliable, unpredictable: no one would use a
+crane that decides mid-lift it wants to drop the load somewhere else.
 
-No agent decided this site needed a lab, or that the résumé should be rendered from data. That
-isn't a capability gap. There was no one on the other side who wanted a lab.
+Nothing told me to make this site - I just *wanted* to. It came out of a curiosity to ship a site
+as simply as possible; a need for a personal portfolio with a URL; a craving to host and share my
+own lab experiments.
+
+No agent wanted any of this at all, and nothing could have been built without my human impetus.
+That isn't a capability gap. There simply was no one on the other side to want those things.
 
 ## Judging
 
@@ -81,23 +90,35 @@ writer did better, and the group as a whole got more alike.
 
 That isn't a bug so much as a choice. A coding agent that improvises is a liability, so we build
 these systems to be consistent, correct and never weird. It's a little like making them in the
-image of who we'd like to be. Which leaves the weird to us.
+image of who we'd like to be. Which leaves the weird all to us.
 
 Judging is the person deciding whether *correct* is also *good*, and sometimes that the strange
-option is the right one.
+option is the right one. Similar to a desire, a judgement is self-justifying: it may be based on
+something measurable, or it may be based on arbitrary taste - neither is necessarily wrong.
 
 ## Answering
 
 In 1985, Peter Naur argued that programming is really "an activity by which the programmers form
 or achieve a certain kind of insight," a theory of the problem and its solution. The code is only
-a trace of that theory. He took it to an uncomfortable conclusion: "The death of a program happens
+a trace of that theory. He arrived at an uncomfortable conclusion: "The death of a program happens
 when the programmer team possessing its theory is dissolved," and rebuilding the theory "merely from
 the documentation, is strictly impossible."
 
 Agents make this sharper. An agent starts each session knowing only what it can read. The theory
-has to live somewhere, and the only place it can live in full is the person. When I merge a pull
-request, I'm saying I understand the change well enough to answer for it. The agent can't be on the
-hook for that. Someone has to be.
+has to live somewhere, and the only place it can live in full is the person.
+
+There's a slide, said to come from an IBM training session in 1979, that has been making the rounds
+for years:
+
+> A computer can never be held accountable. Therefore a computer must never make a management
+> decision.
+
+No one has found the original. IBM's archivists looked and came up empty, and the only known copy
+was lost in a flood. People keep passing it along anyway, because it names something everyone who
+has worked in software development already knows.
+
+When I merge a pull request, I'm saying I understand the change well enough to answer for it. The
+agent can't be on the hook for that. Someone has to be.
 
 ## The catch
 
@@ -115,11 +136,12 @@ We're also bad at noticing when it happens. In an early-2025 study by METR, expe
 developers expected AI tools to speed them up by 24%. With the tools, they took 19% *longer*. Even
 afterward, they believed the tools had made them 20% faster. METR has since said that newer tools
 probably do speed developers up, so the slowdown is dated. The gap between how it felt and what
-happened is the part worth keeping. You can't tell whether the arrangement is working by how it
+happened is the important part. You can't tell whether the arrangement is working by how it
 feels.
 
 So I'm not sure "manager" is the right word. "Editor" is closer: someone who doesn't type most of
-the words but is still inside the text, reading every line that ships.
+the words but is still inside the text, reading every line with a sense of responsibility and,
+to a degree, ownership.
 
 ## The shape of the work
 
@@ -152,7 +174,8 @@ and keep the whole change in my head. The agent opens the pull request without a
 sees, and it's the one the agent doesn't take.
 
 **Claims trace to sources.** It's a principle in the file, and it applies to this essay too. Every
-quote above is checked against its original, and the sources are listed below.
+quote above is checked against its source, the one whose original is lost says so, and the sources
+are listed below.
 
 ## Tool or coworker?
 
@@ -177,6 +200,7 @@ For now, that's my seat.
     A. R. Doshi and O. P. Hauser, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11244532/">Generative AI enhances individual creativity but reduces the collective diversity of novel content</a> (Science Advances, 2024).
     P. Naur, <a href="https://neonvagabond.xyz/mirrors/naur1985programming.html">Programming as Theory Building</a> (1985).
     L. Bainbridge, <a href="https://en.wikipedia.org/wiki/Ironies_of_Automation">Ironies of Automation</a> (Automatica, 1983).
+    The IBM slide (1979, attributed), as surfaced in 2017 and traced by <a href="https://simonwillison.net/b/8470">Simon Willison</a> (2024).
     METR, <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity</a> (2025) and its <a href="https://metr.org/blog/2026-02-24-uplift-update/">February 2026 update</a>.
   </p>
 </Notes>
