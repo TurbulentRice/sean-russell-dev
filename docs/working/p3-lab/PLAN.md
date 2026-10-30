@@ -1,7 +1,7 @@
 # P3: Lab and Notes
 
-**Status: in progress.** Drafted 2026-10-12, after P2's launch pass. Slice 1
-done; slice 2 in review.
+**Status: in progress.** Drafted 2026-10-12, after P2's launch pass. Slices 1
+and 2 done; slice 3 in progress.
 
 Goal: the lab stops being empty, and Notes gets a steady second and third
 post. The lab's first real tool is the résumé exporter, in the browser.
@@ -33,7 +33,7 @@ As built:
   in the first screen (522px down on a phone).
 - `island-check` is gone.
 
-### 2. "Signal", the design system, as a lab entry (in review, 2026-10-12)
+### 2. "Signal", the design system, as a lab entry ✅ (2026-10-12)
 
 The draft specimen (`/lab/design-system/`) becomes a published entry: the
 tokens, type, components and the decisions behind them (why Verdigris, why
@@ -48,7 +48,7 @@ index, the figure is a real link-preview card, the code block is the real
 pre-paint theme script, and the contrast table uses the shipped tokens. The
 draft's placeholders (invented before/after numbers, a fake diagram, fake
 index rows) are gone. The closing blockquote paraphrases Sean's brief rather
-than quoting it word for word; Sean to confirm.
+than quoting it word for word; Sean confirmed it 2026-10-30.
 
 ### 3. Notes: how this site is built, and CMS schemas as code
 
@@ -66,6 +66,16 @@ Two posts.
   named, internal names generic, numbers from the export.
 
 *Done when:* both publish.
+
+As built, so far:
+- **How this site is built** (2026-10-30) leads with what the home page really
+  downloads (99 KB, three quarters fonts, zero React). No island exists yet, so
+  the note says that instead of the plan's "islands where they earn it", and it
+  points at slice 4 as the first. The chart's numbers are a dated snapshot.
+- **The operator's seat** wasn't planned: Sean published it (PR #14) as a third
+  post. It owns the workflow side; this note owns the stack, and they link. A
+  source check afterward corrected 300 writers to 293 and restored a clipped
+  Licklider quote.
 
 ### 4. The résumé tool, in the browser
 
